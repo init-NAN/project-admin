@@ -30,7 +30,7 @@
         <el-table-column prop="managerAria" label="管理区"></el-table-column>
         <el-table-column prop="houseName" label="楼宇"></el-table-column>
         <el-table-column prop="roomCode" label="房间代码"></el-table-column>
-        <el-table-column prop="buildUpArea" label="建筑面积"></el-table-column>
+        <el-table-column prop="buildUpArea" label="建筑面积(m²)"></el-table-column>
         <el-table-column prop="customerName" label="客户名称"></el-table-column>
         <el-table-column prop="customerName" label="房间状态"></el-table-column>
         <el-table-column prop="recieveDate" label="接房日期"></el-table-column>
@@ -121,6 +121,9 @@ export default {
           recieveDate: "2020/04/17"
         }
       ],
+      total: 0,
+      page: 1,				
+      pageSize: 10,
       inputSearch:'',//搜索框内容
       listLoading: false,
       currentRow: null,
@@ -131,7 +134,15 @@ export default {
   methods: {
     handleCurrentSelection(val) {
       this.currentRow = val;
-    }
+    },
+    handleSizeChange(size) {
+			this.pageSize = size				
+			this.handleCurrentChange(1)
+    },
+    handleCurrentChange(val) {
+      this.page = val				
+      this.getDeviceList()
+		}
   },
   watch: {
       currentRow: function(newLen, oldLen) {
@@ -145,33 +156,62 @@ export default {
 }
 </script>
 
-<style lang="css" scope>
-.left {
-  display: flex;
-  justify-content: flex-start;
+<style lang="less" scope>
+.main-content {
+  .grid-content {
+    .buttonHead {
+      .left {
+        display: flex;
+        justify-content: flex-start;
+      }
+      .right {
+        display: flex;
+        justify-content: flex-end;
+        .searchInput {
+          width: 40%;
+        }
+        #dropdown {
+          margin-left: 0;
+          background: rgb(211, 220, 230);
+        }
+      }
+    }
+  }
 }
-.right {
-  display: flex;
-  justify-content: flex-end;
-}
-.searchInput {
-  width: 40%;
-}
-#dropdown {
-  margin-left: 0;
-  background: rgb(211, 220, 230);
-}
+
 @media only screen and (min-width: 768px) {
-  .searchInput {
-    width: 40%;
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          .searchInput {
+            width: 40%;
+          }
+       }
+      }
+    }
   }
 }
 @media only screen and (max-width: 768px) {
-  .searchInput {
-    width: 100%;
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          .searchInput {
+            width: 100%;
+          }
+       }
+      }
+    }
   }
-  .right {
-    margin-top: 10px;
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          margin-top: 10px;
+       }
+      }
+    }
   }
 }
 </style>

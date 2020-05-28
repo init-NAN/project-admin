@@ -347,7 +347,7 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="isEquipment = false">取 消</el-button>
         <el-button type="primary">确 定</el-button>
       </div>
     </el-dialog>
@@ -436,7 +436,6 @@ export default {
     handleSelectionChange: function (sels) {
       window.console.log(sels)
       this.checkedBox = sels;
-
       //console.log(this.ids);
     },
     handleSortChange (col) {
@@ -513,74 +512,7 @@ export default {
 //模态框
 .equipmentFiles {
   .el-dialog {
-    background-color: rgba(10, 13, 51, 0.7);
-    transform-origin: 141px 134.563px;
     width: 1200px;
-
-    .el-dialog__title {
-      color: #fff;
-    }
-
-    /deep/ .el-input__inner,
-    .el-textarea__inner {
-      background-color: transparent;
-      border: 1px solid rgba(158, 162, 192, 1);
-      color: #fff;
-    }
-
-    .el-input-number__decrease,
-    .el-input-number__increase {
-      background-color: transparent;
-      color: #fff !important;
-    }
-    .el-input-number__decrease.is-disabled,
-    .el-input-number__increase.is-disabled {
-      color: #c0c4cc !important;
-    }
-  }
-
-  .add-files {
-    .el-select {
-      width: 100%;
-    }
-    .el-input-number {
-      width: 100%;
-    }
-    .el-radio-group {
-      width: 100%;
-    }
-
-    /deep/ .el-card__header {
-      border: none;
-      color: #fff;
-      text-align: left;
-    }
-    /deep/ .el-card {
-      background-color: rgba(0, 0, 0, 0.3);
-      border: none;
-      font-size: 16px;
-      font-family: PingFangSC-Medium, PingFang SC;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 1);
-      line-height: 16px;
-      .el-form {
-        .el-form-item__label {
-          font-size: 14px;
-          font-family: PingFangSC-Regular, PingFang SC;
-          font-weight: 400;
-          color: rgba(255, 255, 255, 1);
-        }
-      }
-    }
-  }
-
-  /deep/ .el-dialog__header {
-    background: url("./../../assets/comment/type(1).png") no-repeat;
-    padding: 10px 20px 10px;
-  }
-  /deep/ .el-dialog__footer {
-    background: url("./../../assets/comment/type(2).png") no-repeat right;
-    padding: 50px 20px 20px;
   }
 }
 </style>

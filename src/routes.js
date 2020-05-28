@@ -8,12 +8,6 @@ import groupMgt from './components/group/GroupManagement.vue';
 import DeviceStat from './components/device/DeviceStat.vue';
 import Overview from './components/overview/Overview.vue';
 import BaseTabs from './components/basestation/basetabs.vue';
-import index from './components/ownerService/index.vue'
-import handoverHouse from './components/ownerService/handoverHouse.vue'
-import receiveHouse from './components/ownerService/receiveHouse.vue'
-import checkIn from './components/ownerService/checkIn.vue'
-import decorate from './components/ownerService/decorate.vue'
-import repairApplication from './components/ownerService/repairApplication.vue'
 
 
 
@@ -29,17 +23,45 @@ const contract = () => import('./components/attractInvestment/contract.vue')
 const customer = () => import('./components/attractInvestment/customer.vue')
 //合同模板
 const contractTemplate = () => import('./components/attractInvestment/contractTemplate.vue')
+
+
+
+//业主服务路由
+const ownerService = () => import('./components/ownerService/index.vue')
+//交房登记
+const handoverHouse = () => import('./components/ownerService/handoverHouse.vue')
+//接房登记
+const receiveHouse = () => import('./components/ownerService/receiveHouse.vue')
+//入住登记
+const checkIn = () => import('./components/ownerService/checkIn.vue')
+//装修登记
+const decorate = () => import('./components/ownerService/decorate.vue')
+//报修管理
+const repairApplication = () => import('./components/ownerService/repairApplication.vue')
+
+
+
+
+
+
 //物业管理
 const estateManagement = () => import('./components/estateManagement/estateManagement.vue')
 //设备档案
 const equipmentFiles = () => import('./components/estateManagement/equipmentFiles.vue')
-//检查巡检计划
+//保养巡检计划
 const inspectionPlan = () => import('./components/estateManagement/inspectionPlan.vue')
+//保养巡检任务
+const inspectionTask = () => import('./components/estateManagement/inspectionTask.vue')
+//保养巡检核查
+const maintenanceInspection = () => import('./components/estateManagement/maintenanceInspection.vue')
+//保养巡检问题
+const inspectionProblems = () => import('./components/estateManagement/inspectionProblems.vue')
+
 let routes = [{
     path: '/',
     component: Main,
     name: '',
-    redirect:'/attractInvestment/resources',
+    redirect: '/attractInvestment/resources',
     children: [
 
       {
@@ -80,8 +102,8 @@ let routes = [{
       },
 
       {
-        path: 'index',
-        component: index,
+        path: 'ownerService',
+        component: ownerService,
         name: '',
         title: '业主服务',
         iconCls: 'el-icon-data-analysis',
@@ -130,6 +152,21 @@ let routes = [{
             path: 'inspectionPlan',
             component: inspectionPlan,
             title: '保养巡检计划',
+          },
+          {
+            path: 'inspectionTask',
+            component: inspectionTask,
+            title: '保养巡检任务',
+          },
+          {
+            path: 'maintenanceInspection',
+            component: maintenanceInspection,
+            title: '保养巡检核查',
+          },
+          {
+            path: 'inspectionProblems',
+            component: inspectionProblems,
+            title: '保养巡检问题',
           },
         ]
       },

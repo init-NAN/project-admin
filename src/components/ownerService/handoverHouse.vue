@@ -350,13 +350,13 @@ export default {
         margin-right: 25px;
       }
     }
-    // .line {
-    //   height: 1px;
-    //   width: 80%;
-    //   background-color: red;
-    //   margin: 0 auto;
-    //   // background-color: rgb(211, 220, 230);
-    // }
+    .line {
+      height: 1px;
+      width: 80%;
+      background-color: red;
+      margin: 0 auto;
+      // background-color: rgb(211, 220, 230);
+    }
     .buttonHead {
       .left {
         display: flex;

@@ -56,6 +56,11 @@ const inspectionTask = () => import('./components/estateManagement/inspectionTas
 const maintenanceInspection = () => import('./components/estateManagement/maintenanceInspection.vue')
 //保养巡检问题
 const inspectionProblems = () => import('./components/estateManagement/inspectionProblems.vue')
+//巡查任务
+const  patrolTask = () => import('./components/estateManagement/patrolTask.vue')
+//巡查问题
+const  patrolProblems  = () => import('./components/estateManagement/patrolProblems.vue')
+
 
 let routes = [{
     path: '/',
@@ -167,6 +172,16 @@ let routes = [{
             path: 'inspectionProblems',
             component: inspectionProblems,
             title: '保养巡检问题',
+          },
+          {
+            path: 'patrolTask',
+            component: patrolTask,
+            title: '巡查任务',
+          },
+          {
+            path: 'patrolProblems',
+            component: patrolProblems,
+            title: '巡查问题',
           },
         ]
       }

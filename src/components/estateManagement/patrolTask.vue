@@ -1,13 +1,422 @@
 <template>
-  <div>123123</div>
+  <div class="patrolTask">
+    <el-row>
+      <ul class="ul-list">
+        <span class="type-title">状态:</span>
+        <li :class="activeClass == index ? 'active':''"
+            v-for="(itme,index) in itmeList"
+            :key="index"
+            @click="getItme(index)">
+          {{itme}}
+        </li>
+      </ul>
+    </el-row>
+    <el-form :model="form"
+             :rules="rules"
+             hide-required-asterisk
+             label-width="auto"
+             label-position="left"
+             ref="form">
+      <el-row :gutter="30"
+              class="margin-bottom">
+        <el-col :span="6">
+          <el-form-item label="管理区:">
+            <el-select v-model="form.tpye"
+                       placeholder="请选择区域">
+              <el-option label="明珠城"
+                         value="shanghai"></el-option>
+              <el-option label="绿岛物业"
+                         value="beijing"></el-option>
+              <el-option label="其他"
+                         value="out"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="经办人:">
+            <el-select v-model="form.who"
+                       placeholder="请选择核查人">
+              <el-option label="维修工岗位"
+                         value="shanghai"></el-option>
+              <el-option label="投诉处理岗位"
+                         value="beijing"></el-option>
+              <el-option label="测试岗位"
+                         value="out"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="计划开始日期:">
+            <el-date-picker v-model="value1"
+                            type="daterange"
+                            range-separator="~"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5"
+                v-if="isMore">
+          <el-button class="btn-addmore">查询</el-button>
+          <el-button class="btn-addmore">重置</el-button>
+          <el-button type="text"
+                     @click="isMore = false">更多 <i class="el-icon-arrow-down"></i></el-button>
+        </el-col>
+      </el-row>
+      <el-row :gutter="30"
+              class="margin-bottom"
+              v-if="!isMore">
+        <el-col :span="6">
+          <el-form-item label="任务批次:">
+            <el-input v-model="form.person"
+                      autocomplete="off"
+                      placeholder="请输入任务批次"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="任务名称:">
+            <el-input v-model="form.person"
+                      autocomplete="off"
+                      placeholder="请输入任务名称"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5"
+                :offset="7">
+          <el-button class="btn-addmore">查询</el-button>
+          <el-button class="btn-addmore">重置</el-button>
+          <el-button type="text"
+                     @click="isMore = true">更多 <i class="el-icon-arrow-up"></i></el-button>
+        </el-col>
+      </el-row>
+
+    </el-form>
+
+    <el-row class="margin-bottom">
+      <el-col :span="6">
+        <el-button class="btn-addmore"
+                   @click="isTask = true">新建</el-button>
+        <el-button class="btn-trans">导出Excel</el-button>
+      </el-col>
+    </el-row>
+
+    <section class="grid-content">
+      <el-table :data="tableData"
+                v-loading="listLoading"
+                ref="table"
+                @selection-change="handleSelectionChange"
+                @sort-change="handleSortChange"
+                :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+        <el-table-column prop="management"
+                         label="管理区"
+                         width="150"></el-table-column>
+        <el-table-column prop="tag"
+                         label="任务批次"
+                         width="250"></el-table-column>
+        <el-table-column prop="num"
+                         label="任务编号"
+                         width="250"></el-table-column>
+        <el-table-column prop="name"
+                         label="任务名称"
+                         width="150"></el-table-column>
+        <el-table-column prop="peo"
+                         label="经办人"
+                         width="150"></el-table-column>
+        <el-table-column prop="pStart"
+                         label="计划开始时间"
+                         width="150"></el-table-column>
+        <el-table-column prop="pEnd"
+                         label="计划结束时间"
+                         width="150"></el-table-column>
+        <el-table-column prop="doStart"
+                         label="实际开始时间"
+                         width="150"></el-table-column>
+        <el-table-column prop="doEnd"
+                         label="实际结束时间"
+                         width="150"></el-table-column>
+        <el-table-column prop="score"
+                         label="巡查得分"
+                         width="150"></el-table-column>
+        <el-table-column prop="pType"
+                         label="状态"
+                         width="150"></el-table-column>
+        <el-table-column fixed="right"
+                         label="操作"
+                         width="80">
+          <template slot-scope="scope">
+            <el-button type="text"
+                       class="table-del"
+                       @click="handleDelete(scope.row)"
+                       size="small">删除</el-button>
+          </template>
+        </el-table-column>
+
+      </el-table>
+    </section>
+
+    <el-col class="toolbar">
+      <el-pagination @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :current-page="page"
+                     :page-sizes="[10, 20, 30, 40, 50, 100]"
+                     :page-size="pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="total">
+      </el-pagination>
+    </el-col>
+
+    <el-dialog title="新建保养巡检计划"
+               :visible.sync="isTask">
+      <div class="add-files">
+        <el-card class="box-card margin-bottom">
+
+          <el-form :model="form"
+                   :rules="rules"
+                   hide-required-asterisk
+                   label-position='left'
+                   label-width="auto"
+                   ref="form">
+            <el-row :gutter="30">
+              <el-col :span="24">
+                <el-form-item label="管理区:">
+                  <el-select v-model="form.tpye"
+                             placeholder="请选择区域">
+                    <el-option label="明珠城"
+                               value="shanghai"></el-option>
+                    <el-option label="绿岛物业"
+                               value="beijing"></el-option>
+                    <el-option label="其他"
+                               value="out"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="24">
+                <el-form-item label="任务计划时间:">
+                  <el-date-picker v-model="value1"
+                                  type="daterange"
+                                  range-separator="~"
+                                  start-placeholder="开始日期"
+                                  end-placeholder="结束日期">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="24">
+                <el-form-item label="经办人:">
+                  <el-select v-model="form.name"
+                             placeholder="请选择经办人">
+                    <el-option label="暂无数据"
+                               value="out"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="24">
+
+                <el-form-item label="巡查事项:">
+                  <el-cascader :options="options"
+                               :props="{ multiple: true, checkStrictly: true }"
+                               clearable
+                               placeholder="请选择巡查事项"></el-cascader>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="24">
+                <el-form-item label="巡查说明:">
+                  <el-input type="textarea"
+                            v-model="form.desc"
+                            placeholder="请输入巡查说明"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-card>
+      </div>
+      <div slot="footer"
+           class="dialog-footer">
+        <el-button @click="isTask = false"
+                   class="btn-trans">取 消</el-button>
+        <el-button class="btn-addmore">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      isTask: false,
+      activeClass: 0, // 0为默认选择第一个，-1为不选择
+      itmeList: ['全部', '未开始', '待处理', '处理中', '正常完成', '超时完成'],
+      listLoading: false,
+      total: 0,
+      page: 1,
+      pageSize: 10,
+      form: {
+        username: "",
+        password: "",
+        email: "",
+        mobile: ""
+      },
+      rules: {
+        mobile: [
+          { required: true, message: "手机号不能为空", trigger: "blur" },
+          {
+            pattern: "0?(13|14|15|18|17)[0-9]{9}",
+            message: "请输入正确的手机号",
+            trigger: "blur"
+          }
+        ],
+        code: [
+          { required: true, message: "验证码不能为空", trigger: "blur" },
+          { len: 6, message: "验证码必须为6位", trigger: "blur" }
+        ]
+      },
+      value1: '',
+      isMore: true,
+      tableData: [{
+        management: '绿岛物业',
+        tag: '工程进展检查计划20200529',
+        num: 'QUAI20200529P3R6203O1',
+        name: '工程检查',
+        peo: '赵敏',
+        date: '2016-05-02',
+        doPer: '',
+        link: '	水泵保养2',
+        inName: '	水泵机',
+        type: '日常保养',
+        address: '1栋',
+        pStart: '2020/05/28 14:45',
+        pEnd: '2020/05/28 17:50',
+        pType: '未开始'
+      }, {
+        management: '绿岛物业',
+        tag: '工程进展检查计划20200529',
+        num: 'QUAI20200529P3R6203O1',
+        name: '工程检查',
+        peo: '赵敏',
+        date: '2016-05-02',
+        doPer: '',
+        link: '	水泵保养2',
+        inName: '	水泵机',
+        type: '日常保养',
+        address: '1栋',
+        pStart: '2020/05/28 14:45',
+        pEnd: '2020/05/28 17:50',
+        pType: '未开始'
+      }],
+      //级联数据
+      options: [{
+        value: 'zhinan',
+        label: '工程检查',
+        children: [{
+          value: 'shejiyuanze',
+          label: '工程检查',
+        }, {
+          value: 'daohang',
+          label: '锦园'
+        }, {
+          value: 'daohang',
+          label: '工程进展检查'
+        }]
+      },]
+    }
+  },
+  methods: {
+    // context menu
+    handleSelectionChange: function (sels) {
+      window.console.log(sels)
+      this.checkedBox = sels;
+      //console.log(this.ids);
+    },
+    handleSortChange (col) {
+      if (col.prop == null) {
+        return;
+      }
+      this.order = (col.order === 'ascending') ? 'asc' : 'desc';
+      this.sort = col.prop;
+      this.searchDevice();
+    },
+    searchDevice () {
+      this.page = 1;
+      this.getDeviceList();
+    },
+    getDeviceList () {
 
+      var searchParams = _.omitBy(this.searchForm, (item) => item == "" || _.isNil(item));
+      searchParams.page = this.page - 1;
+      searchParams.size = this.pageSize;
+      searchParams.sort = this.sort;//"deviceNo";
+      searchParams.order = this.order;//"asc";
+
+      this.listLoading = true;
+      AdminAPI.searchDevice(searchParams).then(({
+        data: jsonData
+      }) => {
+        if (jsonData.status === 0) {
+          this.total = jsonData.data.total;
+          this.devices = jsonData.data.content;
+          this.total = jsonData.data.totalElements;
+          this.listLoading = false;
+        } else {
+          this.$message({
+            messsage: `获取设备列表失败:${data.msg}`,
+            type: 'error'
+          })
+        }
+      });
+    },
+
+    //biaodan 
+    handleDelete (index, row) {
+      // 设置类似于console类型的功能
+      window.console.log(row)
+      this.$confirm("永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+          this.tableData.splice(index, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+
+
+    handleSizeChange (size) {
+      this.pageSize = size;
+      this.handleCurrentChange(1);
+    },
+    handleCurrentChange (val) {
+      this.page = val;
+      this.getDeviceList();
+    },
+  },
 }
 </script>
 
-<style>
-
+<style lang="less" scope>
+.patrolTask {
+  .el-cascader {
+    width: 100%;
+    /deep/ .el-input__inner {
+      width: 100%;
+    }
+  }
+}
 </style>

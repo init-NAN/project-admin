@@ -47,7 +47,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="7">
-          <el-form-item label="设备编码:">
+          <el-form-item label="计划日期:">
             <el-date-picker v-model="value1"
                             type="daterange"
                             range-separator="~"

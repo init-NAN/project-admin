@@ -230,5 +230,11 @@ export default {
     color: #49a9ff !important;
     text-decoration: underline;
   }
+  .el-date-editor--daterange.el-input__inner {
+    width: 100%;
+  }
+  .el-range-input {
+    color: #fff;
+  }
 }
 </style>

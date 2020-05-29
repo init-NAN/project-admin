@@ -169,24 +169,6 @@ let routes = [{
             title: '保养巡检问题',
           },
         ]
-      },
-      {
-        path: '/moveout',
-        component: Usermgt,
-        title: '物品放行',
-        iconCls: 'el-icon-user',
-        admin: 1,
-        children: [{
-            path: 'business',
-            component: DeviceList,
-            title: '申请记录',
-          },
-          {
-            path: 'business',
-            component: DeviceList,
-            title: '统计分析',
-          }
-        ]
       }
     ]
   },

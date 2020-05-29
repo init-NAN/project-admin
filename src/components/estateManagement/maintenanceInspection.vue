@@ -35,7 +35,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="核查人:">
-            <el-select v-model="form.tpye"
+            <el-select v-model="form.who"
                        placeholder="请选择核查人">
               <el-option label="维修工岗位"
                          value="shanghai"></el-option>
@@ -243,8 +243,9 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isVisit = false">取 消</el-button>
-        <el-button type="primary"
+        <el-button @click="isVisit = false"
+                   class="btn-trans">取 消</el-button>
+        <el-button class="btn-addmore"
                    @click="isVisit = false">确 定</el-button>
       </span>
     </el-dialog>
@@ -261,6 +262,32 @@ export default {
       itmeList: ['全部', '未核查', '核查通过', '核查未通过'],
       listLoading: false,
       tableData: [{
+        management: '绿岛物业',
+        name: '水泵保养2-20200528-1',
+        peo: '企业版',
+        date: '2016-05-02',
+        doPer: '',
+        link: '	水泵保养2',
+        inName: '	水泵机',
+        type: '日常保养',
+        address: '1栋',
+        pStart: '2020/05/28 14:45',
+        pEnd: '2020/05/28 17:50',
+        pType: '未分配'
+      },{
+        management: '绿岛物业',
+        name: '水泵保养2-20200528-1',
+        peo: '企业版',
+        date: '2016-05-02',
+        doPer: '',
+        link: '	水泵保养2',
+        inName: '	水泵机',
+        type: '日常保养',
+        address: '1栋',
+        pStart: '2020/05/28 14:45',
+        pEnd: '2020/05/28 17:50',
+        pType: '未分配'
+      },{
         management: '绿岛物业',
         name: '水泵保养2-20200528-1',
         peo: '企业版',

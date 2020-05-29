@@ -4,15 +4,15 @@
       <el-row class="buttonHead">
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
           <div class="left">
-            <el-button size="small" type="primary" class="el-icon-plus">   交房登记</el-button>
-            <el-button size="small" type="primary" :disabled="isDisabled">更改交房日期</el-button>
+            <el-button size="small" type="primary" class="el-icon-plus btn-addmore">   交房登记</el-button>
+            <el-button size="small" type="primary" :disabled="isDisabled" class="btn-addmore">更改交房日期</el-button>
           </div>
         </el-col>
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
           <div class="right" v-show="!isShowDetail">
             <el-input v-model="inputSearch" size="small" placeholder="搜索..." class="searchInput"></el-input>
-            <el-button size="small" type="primary" icon="el-icon-search"></el-button>
-            <el-button size="small" icon="el-icon-arrow-down" id="dropdown" @click="showDetailSearch"></el-button>
+            <el-button size="small" type="primary" class="el-icon-search btn-addmore"></el-button>
+            <el-button size="small" class="el-icon-arrow-down btn-trans" id="dropdown" @click="showDetailSearch"></el-button>
           </div>
         </el-col>
       </el-row>
@@ -113,46 +113,6 @@ export default {
           buildUpArea: "892.6",
           customerName: "王浩光",
           handoverDate: "2020/04/17"
-        },
-        {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王浩光",
-          handoverDate: "2020/04/17"
-        },
-        {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王浩光",
-          handoverDate: "2020/04/17"
-        },
-        {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王浩光",
-          handoverDate: "2020/04/17"
-        },
-        {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王浩光",
-          handoverDate: "2020/04/17"
-        },
-        {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王浩光",
-          handoverDate: "2020/04/17"
         }
       ],
       total: 0,
@@ -208,9 +168,9 @@ export default {
       this.getDeviceList()
     },
     //展示详细的搜索盒子
-    showDetailSearch() {
-      this.isShowDetail = !this.isShowDetail
-    }
+    // showDetailSearch() {
+    //   this.isShowDetail = !this.isShowDetail
+    // }
   },
   watch: {
     selectionLengh: function(newLen, oldLen) {
@@ -350,13 +310,13 @@ export default {
         margin-right: 25px;
       }
     }
-    .line {
-      height: 1px;
-      width: 80%;
-      background-color: red;
-      margin: 0 auto;
-      // background-color: rgb(211, 220, 230);
-    }
+    // .line {
+    //   height: 1px;
+    //   width: 80%;
+    //   background-color: red;
+    //   margin: 0 auto;
+    //   // background-color: rgb(211, 220, 230);
+    // }
     .buttonHead {
       .left {
         display: flex;
@@ -366,11 +326,11 @@ export default {
         display: flex;
         justify-content: flex-end;
         .searchInput {
+          .el-input__inner {
+            background-color: transparent;
+            border:1px solid #9ea2c0;
+          }
           width: 40%;
-        }
-        #dropdown {
-          margin-left: 0;
-          background: rgb(211, 220, 230);
         }
       }
     }

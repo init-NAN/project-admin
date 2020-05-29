@@ -2,20 +2,28 @@
   <div class="main-content">
     <section class="grid-content">
       <div class="state">
-        <span class="stateTxt">状态:</span>
-        <el-button :type="type == index ? 'primary' : ''"
-        v-for="(item, index) in typeList"
-        :key="index"
-        @click="getItem(index)">
-          {{item}}
-        </el-button>
+        <ul class="ul-list">
+          <span class="stateTxt">状态:</span>
+          <li :class="activeClass == index ? 'active':''"
+              v-for="(itme,index) in typeList"
+              :key="index"
+              @click="getItem(index)">
+            {{itme}}
+          </li>
+        </ul>
       </div>
       <div class="searchArea">
-        <span class="numTxt txt">报修单号:</span>
+        <el-tooltip class="item" effect="dark" content="报修单号" placement="bottom">
+          <span class="numTxt txt">报修单号:</span>
+        </el-tooltip>
         <el-input v-model="repaireNum" placeholder="请输入报修单号" class="repaireNumInput input"></el-input>
-        <span class="repairerTxt txt">报修人:</span>
+        <el-tooltip class="item" effect="dark" content="报修人" placement="bottom">
+          <span class="repairerTxt txt">报修人:</span>
+        </el-tooltip>
         <el-input v-model="repairePhone" placeholder="请输入报修人/电话" class="repairePhoneInput input"></el-input>
-        <span class="bigCategoryTxt txt">工单大类:</span>
+        <el-tooltip class="item" effect="dark" content="工单大类" placement="bottom">
+          <span class="bigCategoryTxt txt">工单大类:</span>
+        </el-tooltip>
         <el-select v-model="bigCategory" clearable placeholder="所选工单大类" class="input bigCategorySelect">
           <el-option
             v-for="item in bigCategoryOptions"
@@ -24,13 +32,13 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-button size="small" type="primary">查询</el-button>
-        <el-button size="small">重置</el-button>
-        <el-button size="small">更多<i class="el-icon-arrow-down"></i></el-button>
+        <el-button size="small" type="primary" class="btn-addmore">查询</el-button>
+        <el-button size="small" type="primary" class="btn-addmore">重置</el-button>
+        <el-button size="small" class="more" type="text" >更多<i class="el-icon-arrow-down"></i></el-button>
       </div>
       <div class="newExport">
-        <el-button size="small" type="primary" class="el-icon-plus">   新建报修</el-button>
-        <el-button size="small" type="primary" class="el-icon-download">导出EXCEL</el-button>
+        <el-button size="small" type="primary" class="el-icon-plus btn-addmore">   新建报修</el-button>
+        <el-button size="small" type="primary" class="el-icon-download btn-addmore">导出EXCEL</el-button>
       </div>
       
       <el-table
@@ -60,9 +68,9 @@
         <el-table-column prop="commentContent" label="评价" width="140"></el-table-column>
         <el-table-column prop="commentContent" label="操作" width="200" fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" size="small" >编辑</el-button>
-            <el-button type="text" size="small">删除</el-button>
-            <el-button type="text" size="small">派工</el-button>&nbsp;&nbsp;
+            <el-button type="text" size="small" class="table-show">编辑</el-button>
+            <el-button type="text" size="small" class="table-del">删除</el-button>
+            <el-button type="text" size="small" class="table-show">派工</el-button>&nbsp;&nbsp;
             <el-dropdown>
               <span class="el-dropdown-link moreOperation">
                 更多<i class="el-icon-arrow-down el-icon--right"></i>
@@ -207,7 +215,7 @@ export default {
       total: 0,
       page: 1,				
       pageSize: 10,
-      type:0,//查询条件类型默认为0
+      activeClass: 0, // 0为默认选择第一个，-1为不选择
       repaireNum:'',//报修单号
       repairePhone:'',//报修人电话
       bigCategoryOptions: [{
@@ -237,7 +245,7 @@ export default {
   },
   methods: {
     getItem(index) {
-      this.type = index
+      this.activeClass = index
     },
     handleSizeChange(size) {
 			this.pageSize = size				
@@ -256,25 +264,20 @@ export default {
 .main-content {
   .grid-content {
     .state {
-      .el-button {
-        height: 32px;
-        padding:8px 20px;
-        margin-bottom: 5px;
-      }
       .stateTxt {
         color: @font-color;
         line-height: 32px;
         margin-right: 5px;
       }
-      display: flex;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
     }
     .searchArea {
       display: flex;
       justify-content: flex-start;
       margin-bottom: 10px;
+      .more {
+        background: transparent !important;
+        border-color: transparent;
+      }
       .txt {
         color: @font-color;
         line-height: 32px;

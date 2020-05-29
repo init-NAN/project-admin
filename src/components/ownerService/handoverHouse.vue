@@ -9,19 +9,19 @@
           </div>
         </el-col>
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
-          <div class="right" v-show="!isShowDetail">
+          <div class="right" v-if="!isShowDetail">
             <el-input v-model="inputSearch" size="small" placeholder="搜索..." class="searchInput"></el-input>
             <el-button size="small" type="primary" class="el-icon-search btn-addmore"></el-button>
             <el-button
               size="small"
-              class="el-icon-arrow-down btn-trans"
+              class="el-icon-arrow-down btn-addmore"
               id="dropdown"
               @click="showDetailSearch"
             ></el-button>
           </div>
         </el-col>
       </el-row>
-      <div class="searchDetail" v-show="isShowDetail">
+      <div class="searchDetail" v-if="isShowDetail">
         <div class="top">
           <el-row>
             <el-col :span="12">
@@ -40,8 +40,8 @@
             <el-col :span="12">
               <div class="floorHouse">
                 <span>楼宇</span>
-                <el-select v-model="selectedFloor" placeholder="请选择楼宇" :disabled="isFloorDisabled">
-                  <el-input class="searchFloorHouse" v-model="searchFloorContent"></el-input>
+                <el-select v-model="selectedFloor" filterable placeholder="请选择楼宇" :disabled="isFloorDisabled">
+                  <!-- <el-input class="searchFloorHouse" v-model="searchFloorContent"></el-input> -->
                   <el-option
                     v-for="item in floorHouseList"
                     :key="item.value"
@@ -56,13 +56,13 @@
         <div class="down">
           <el-row>
             <el-col :span="12">
-              <div class="item">
+              <div class="item roomCode">
                 <span>房间代码</span>
                 <el-input v-model="roomCode" placeholder="请输入房间代码"></el-input>
               </div>
             </el-col>
             <el-col :span="12">
-              <div class="item">
+              <div class="item customerName">
                 <span>客户名称</span>
                 <el-input v-model="customerName" placeholder="请输入客户名称"></el-input>
               </div>
@@ -73,9 +73,11 @@
         <div class="searchContent">
           <el-row>
             <el-col :span="12" :offset="12">
-              <el-button size="small" class="el-icon-search btn-addmore">搜索</el-button>
-              <el-button class="el-icon-refresh-left btn-addmore" size="small"></el-button>
-              <el-button class="el-icon-arrow-up btn-addmore" size="small" @click="showDetailSearch"></el-button>
+              <div class="btns">
+                <el-button size="small" class="el-icon-search btn-addmore">搜索</el-button>
+                <el-button class="el-icon-refresh-left btn-addmore" size="small"></el-button>
+                <el-button class="el-icon-arrow-up btn-addmore" size="small" @click="showDetailSearch"></el-button>
+              </div>
             </el-col>
           </el-row>
         </div>
@@ -312,7 +314,13 @@ export default {
         .managerAira,
         .floorHouse {
           display: flex;
-          justify-content: center;
+        }
+        .managerAira {
+          padding-left: 20%;
+        }
+        .floorHouse {
+          justify-content: flex-end;
+          padding-right: 20%;
         }
       }
       .down {
@@ -320,22 +328,34 @@ export default {
         margin-bottom: 20px;
         .el-col {
           .item {
-            justify-content: center;
             display: flex;
             .el-input {
               width: 215px;
             }
           }
+          .roomCode {
+            padding-left: 20%;
+          }
+          .customerName {
+            justify-content: flex-end;
+            padding-right: 20%;
+          }
         }
       }
       .line {
         height: 1px;
-        width: 90%;
+        width: 80%;
+        margin-right: 20%;
         margin: 0 auto;
         background-color: rgb(211, 220, 230);
       }
       .searchContent {
         margin-top: 20px;
+        .btns {
+          display: flex;
+          justify-content: flex-end;
+          padding-right: 20%;
+        }
       }
     }
     .buttonHead {

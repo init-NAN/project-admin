@@ -12,7 +12,7 @@
           <div class="right">
             <el-input v-model="inputSearch" size="small" placeholder="搜索..." class="searchInput"></el-input>
             <el-button size="small" type="primary" class="el-icon-search btn-addmore"></el-button>
-            <el-button size="small"  class="el-icon-arrow-down btn-trans" id="dropdown"></el-button>
+            <el-button size="small"  class="el-icon-arrow-down btn-addmore" id="dropdown"></el-button>
           </div>
         </el-col>
       </el-row>

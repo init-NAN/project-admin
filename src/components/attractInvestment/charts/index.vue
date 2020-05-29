@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-button class="backList"
-               type="primary"
+    <el-button class="backList btn-addmore"
+               
                @click="$router.push('/attractInvestment/resources')">返回</el-button>
     <div ref="box"
          style="height:300px;">

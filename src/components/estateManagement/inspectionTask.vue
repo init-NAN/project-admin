@@ -57,8 +57,8 @@
         </el-col>
         <el-col :span="5"
                 v-if="isMore">
-          <el-button type="primary">查询</el-button>
-          <el-button type="primary">重置</el-button>
+          <el-button class="btn-addmore">查询</el-button>
+          <el-button class="btn-addmore">重置</el-button>
           <el-button type="text"
                      @click="isMore = false">更多 <i class="el-icon-arrow-down"></i></el-button>
         </el-col>
@@ -102,8 +102,8 @@
         </el-col>
         <el-col :span="5"
                 :offset="13">
-          <el-button type="primary">查询</el-button>
-          <el-button type="primary">重置</el-button>
+          <el-button class="btn-addmore">查询</el-button>
+          <el-button class="btn-addmore">重置</el-button>
           <el-button type="text"
                      @click="isMore = true">更多 <i class="el-icon-arrow-up"></i></el-button>
         </el-col>
@@ -162,12 +162,15 @@
           <template slot-scope="scope">
             <el-button type="text"
                        size="small"
+                       class="table-change"
                        @click="isInscection = true">分派</el-button>
             <el-button type="text"
+                       class="table-del"
                        @click="handleDelete(scope.row)"
                        size="small">删除</el-button>
             <el-button type="text"
                        size="small"
+                       class="table-change"
                        @click="isVisit = true">添加备注</el-button>
           </template>
         </el-table-column>
@@ -203,8 +206,9 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isInscection = false">取 消</el-button>
-        <el-button type="primary"
+        <el-button @click="isInscection = false"
+                   class="btn-trans">取 消</el-button>
+        <el-button class="btn-addmore"
                    @click="isInscection = false">确 定</el-button>
       </span>
     </el-dialog>
@@ -220,8 +224,9 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isVisit = false">取 消</el-button>
-        <el-button type="primary"
+        <el-button @click="isVisit = false"
+                   class="btn-trans">取 消</el-button>
+        <el-button class="btn-addmore"
                    @click="isVisit = false">确 定</el-button>
       </span>
     </el-dialog>
@@ -290,7 +295,7 @@ export default {
       value1: '',
       isMore: true,
       isInscection: false,
-      isVisit:false,
+      isVisit: false,
     }
   },
   methods: {
@@ -380,5 +385,4 @@ export default {
 </script>
 
 <style lang="less" scope>
-
 </style>

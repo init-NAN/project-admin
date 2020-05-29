@@ -23,12 +23,15 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-link type="primary"
-                   @click="handleDelete(scope.$index, scope.row)">删除</el-link>
-          <el-link type="primary"
-                   @click="filerightDown(index,fileName1)">
-            下载
-          </el-link>
+
+          <el-button type="text"
+                     size="small"
+                     class="table-del"
+                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button type="text"
+                     size="small"
+                     class="table-show"
+                     @click="filerightDown(index,fileName1)">下载</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -42,11 +45,10 @@
                      :total="total">
       </el-pagination>
     </el-col>
-    <el-button type="primary"
-               class="addList"
+    <el-button class="addList btn-addmore"
                @click="dialogAddList = true">新建</el-button>
     <el-button type="primary"
-               class="del-btn"
+               class="del-btn btn-trans"
                :disabled="this.multipleSelection.length == 0">批量删除</el-button>
     <el-dialog title="新建合同模板"
                :visible.sync="dialogAddList">
@@ -98,9 +100,11 @@
 
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="dialogAddList = false">取 消</el-button>
+        <el-button @click="dialogAddList = false"
+                   class="btn-trans">取 消</el-button>
         <el-button type="primary"
-                   @click="dialogAddList = false">确 定</el-button>
+                   @click="dialogAddList = false"
+                   class="btn-addmore">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -159,7 +163,7 @@ export default {
       total: 4,
       page: 1,
       pageSize: 10,
-      multipleSelection:[],
+      multipleSelection: [],
     }
   },
   methods: {
@@ -201,7 +205,7 @@ export default {
     handleSelectionChange: function (sels) {
       window.console.log(sels)
       this.multipleSelection = sels;
-      
+
       this.sels = sels;
       this.ids = _.map(this.sels, (device) => device.deviceNo);
       //console.log(this.ids);

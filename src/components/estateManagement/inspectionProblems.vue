@@ -49,8 +49,8 @@
         </el-col>
         <el-col :span="5"
                 v-if="isMore">
-          <el-button type="primary">查询</el-button>
-          <el-button type="primary">重置</el-button>
+          <el-button class="btn-addmore">查询</el-button>
+          <el-button class="btn-addmore">重置</el-button>
           <el-button type="text"
                      @click="isMore = false">更多 <i class="el-icon-arrow-down"></i></el-button>
         </el-col>
@@ -89,8 +89,8 @@
         </el-col>
         <el-col :span="5"
                 :offset="3">
-          <el-button type="primary">查询</el-button>
-          <el-button type="primary">重置</el-button>
+          <el-button class="btn-addmore">查询</el-button>
+          <el-button class="btn-addmore">重置</el-button>
           <el-button type="text"
                      @click="isMore = true">更多 <i class="el-icon-arrow-up"></i></el-button>
         </el-col>
@@ -351,7 +351,7 @@ export default {
 <style lang="less" scope>
 .el-popover {
   img {
-    width: 150px;
+    width: 250px;
   }
 }
 </style>

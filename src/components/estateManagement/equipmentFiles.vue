@@ -2,14 +2,15 @@
   <div class="equipmentFiles">
     <el-row class="margin-bottom">
       <el-col :span="2">
-        <el-button type="primary"
+        <el-button class="btn-addmore "
                    @click="isEquipment = true">新建</el-button>
       </el-col>
       <el-col :span="3">
-        <el-button>导入Excel</el-button>
+        <el-button class="btn-addmore ">导入Excel</el-button>
       </el-col>
       <el-col :span="3">
-        <el-button :disabled='this.checkedBox.length===0'>批量删除</el-button>
+        <el-button :disabled='this.checkedBox.length===0'
+                   class="btn-trans">批量删除</el-button>
       </el-col>
       <el-col :span="6"
               :offset="7">
@@ -66,14 +67,18 @@
           <template slot-scope="scope">
             <el-button type="text"
                        size="small"
+                       class="table-show"
                        @click="isEquipment = true">编辑</el-button>
             <el-button type="text"
+                       class="table-del"
                        @click="handleDelete(scope.row)"
                        size="small">删除</el-button>
             <el-button type="text"
                        size="small"
+                       class="table-show"
                        @click="isEquipment = true">复制</el-button>
             <el-button type="text"
+                       class="table-show"
                        size="small">查看二维码</el-button>
           </template>
         </el-table-column>
@@ -347,8 +352,9 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="isEquipment = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button @click="isEquipment = false"
+                   class="btn-trans">取 消</el-button>
+        <el-button class="btn-addmore">确 定</el-button>
       </div>
     </el-dialog>
   </div>

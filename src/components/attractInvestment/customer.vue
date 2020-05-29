@@ -43,10 +43,14 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-link type="primary"
-                   @click="showRole(scope.row)">编辑</el-link>
-          <el-link type="primary"
-                   @click="handleDelete(scope.$index, scope.row)">删除</el-link>
+          <el-button type="text"
+                     size="small"
+                     class="table-show"
+                     @click="showRole(scope.row)">编辑</el-button>
+          <el-button type="text"
+                     size="small"
+                     class="table-del"
+                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -60,8 +64,7 @@
                      :total="total">
       </el-pagination>
     </el-col>
-    <el-button type="primary"
-               class="add-customer"
+    <el-button class="add-customer btn-addmore"
                @click="dialogFormVisible=true">新建用户</el-button>
     <el-dialog title="新建/编辑用户"
                :visible.sync="dialogFormVisible">
@@ -217,8 +220,9 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button @click="dialogFormVisible = false"
+                   class="btn-trans">取 消</el-button>
+        <el-button class="btn-addmore">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -245,7 +249,7 @@ export default {
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
       }],
-      listLoading:false,
+      listLoading: false,
       page1: 1,
       dialogFormVisible: false,
       form: {
@@ -435,9 +439,9 @@ export default {
     background: url("./../../assets/comment/type(1).png") no-repeat;
     padding: 10px 20px 10px;
   }
-   /deep/ .el-dialog__footer {
-     background: url('./../../assets/comment/type(2).png') no-repeat right;
-     padding: 50px 20px 20px;
+  /deep/ .el-dialog__footer {
+    background: url("./../../assets/comment/type(2).png") no-repeat right;
+    padding: 50px 20px 20px;
   }
 }
 </style>

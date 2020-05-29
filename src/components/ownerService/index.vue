@@ -62,7 +62,7 @@ export default {};
       background-color: rgba(0, 0, 0, 0.7);
     }
   }
-  /deep/ .el-input__inner {
+  /deep/ .el-input__inner,.el-input.is-disabled .el-input__inner {
     background-color: transparent;
     border: 1px solid rgba(158, 162, 192, 1);
     color: #fff;

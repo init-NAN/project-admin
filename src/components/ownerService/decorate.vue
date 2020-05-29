@@ -4,19 +4,19 @@
       <el-row class="buttonHead">
         <el-col :span="12" :xs="24" :sm="24" :lg="12" :xl="12">
           <div class="left">
-            <el-button size="small" type="primary" class="el-icon-plus">   装修申请</el-button>
-            <el-button size="small" type="primary" class="el-icon-edit" :disabled="isDisabled">编辑</el-button>
-            <el-button size="small" type="primary" class="el-icon-delete" :disabled="isDisabled">删除</el-button>
-            <el-button size="small" type="primary" class="el-icon-edit" :disabled="isDisabled">收费</el-button>
-            <el-button size="small" type="primary" class="el-icon-check" :disabled="isDisabled">完成验收</el-button>
-            <el-button size="small" type="primary" class="el-icon-download">导出EXCEL表</el-button>
+            <el-button size="small" type="primary" class="el-icon-plus btn-addmore">   装修申请</el-button>
+            <el-button size="small" type="primary" class="el-icon-edit btn-addmore" :disabled="isDisabled">编辑</el-button>
+            <el-button size="small" type="primary" class="el-icon-delete btn-addmore" :disabled="isDisabled">删除</el-button>
+            <el-button size="small" type="primary" class="el-icon-edit btn-addmore" :disabled="isDisabled">收费</el-button>
+            <el-button size="small" type="primary" class="el-icon-check btn-addmore" :disabled="isDisabled">完成验收</el-button>
+            <el-button size="small" type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
           </div>
         </el-col>
         <el-col :span="12" :xs="24" :sm="24"  :lg="12" :xl="12">
           <div class="right">
             <el-input v-model="inputSearch" size="small" placeholder="搜索..." class="searchInput"></el-input>
-            <el-button size="small" type="primary" icon="el-icon-search"></el-button>
-            <el-button size="small"  icon="el-icon-arrow-down" id="dropdown"></el-button>
+            <el-button size="small" type="primary" class="el-icon-search btn-addmore"></el-button>
+            <el-button size="small"  class="el-icon-arrow-down btn-trans" id="dropdown"></el-button>
           </div>
         </el-col>
       </el-row>
@@ -190,10 +190,6 @@ export default {
         justify-content: flex-end;
         .searchInput {
           width: 40%;
-        }
-        #dropdown {
-          margin-left: 0;
-          background: rgb(211, 220, 230);
         }
       }
     }

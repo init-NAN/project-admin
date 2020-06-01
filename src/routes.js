@@ -38,6 +38,8 @@ const checkIn = () => import('./components/ownerService/checkIn.vue')
 const decorate = () => import('./components/ownerService/decorate.vue')
 //报修管理
 const repairApplication = () => import('./components/ownerService/repairApplication.vue')
+//登记导向
+const registrationOrientation = () => import('./components/ownerService/registrationOrientation.vue')
 
 
 
@@ -68,7 +70,6 @@ let routes = [{
     name: '',
     redirect: '/attractInvestment/resources',
     children: [
-
       {
         path: 'attractInvestment',
         component: attractInvestment,
@@ -105,7 +106,6 @@ let routes = [{
         ]
 
       },
-
       {
         path: 'ownerService',
         component: ownerService,
@@ -139,9 +139,6 @@ let routes = [{
           }
         ]
       },
-
-
-
       {
         path: 'estateManagement',
         component: estateManagement,

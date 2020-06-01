@@ -31,18 +31,6 @@ export default {};
   #dropdown {
     margin-left: 0;
   }
-  // .searchInput,
-  // .input {
-  //   .el-input__inner {
-  //     background-color: transparent;
-  //     border: 1px solid #9ea2c0;
-  //   }
-  // }
-  // .is-disabled,
-  // #dropdown {
-  //   background-color: transparent !important;
-  // }
-  // 状态选择样式
   .ul-list {
     display: flex;
     flex-wrap: wrap;
@@ -106,6 +94,121 @@ export default {};
   /deep/ .table-change {
     color: #49a9ff !important;
     text-decoration: underline;
+  }
+  .el-dialog {
+    background-color: rgba(10, 13, 51, 0.7);
+    transform-origin: 141px 134.563px;
+    .el-form {
+      .superiorOrganization {
+        .el-select {
+          width: 100%;
+        }
+      }
+      .el-form-item__label {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+    /deep/ .el-dialog__header  {
+      background: url("../../assets/comment/type(1).png") no-repeat;
+      .el-dialog__title {
+        color: #FFF;
+      }
+    }
+    /deep/ .el-dialog__footer {
+      background: url("../../assets/comment/type(2).png") no-repeat right;
+      padding: 50px 20px 20px;
+    }
+    /deep/ .el-card {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: none;
+      font-size: 16px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      line-height: 16px;
+      .el-form {
+        .el-form-item__label {
+          font-size: 14px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+    }
+  }
+  .el-drawer {
+    background-color: rgba(10, 13, 51, 0.7);
+    transform-origin: 141px 134.563px;
+    min-width: 820px;
+    overflow-y: auto;
+    :focus {
+      outline: 0;
+    }
+    /deep/ .el-drawer__header {
+      background: url("../../assets/comment/type(1).png") no-repeat;
+      padding: 10px 20px 10px;
+      :first-child {
+        color: #fff;
+        font-size: 18px;
+      }
+    }
+    /deep/ .el-drawer__body {
+      .roomCodeDetail {
+        .simpData {
+          .el-card__body {
+            justify-content: space-between;
+            display: flex;
+            .simpleRoomData {
+              span {
+                height: 40px;
+                line-height: 40px;
+              }
+            }
+          }
+        }
+        .baseData {
+          .el-card__header {
+            text-align: left;
+          }
+          .el-row {
+            .item {
+              text-align: left;
+              margin-bottom: 23px;
+            }
+          }
+        }
+        .ownerTab {
+          #tab-owner, #tab-currentMember {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    /deep/ .el-drawer__footer {
+      background: url("../../assets/comment/type(2).png") no-repeat right;
+      padding: 50px 20px 20px;
+    }
+    /deep/ .el-card {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: none;
+      font-size: 16px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      line-height: 16px;
+      margin-bottom: 15px;
+      .el-form {
+        .el-form-item__label {
+          font-size: 14px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+    }
   }
 }
 </style>

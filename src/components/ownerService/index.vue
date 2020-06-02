@@ -181,6 +181,16 @@ export default {};
           }
         }
         .ownerTab {
+          position: relative;
+          .el-tabs /deep/ .el-tabs__nav-wrap::after {
+            background-color: transparent;
+          }
+          .tabBtn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 1;
+          }
           #tab-owner, #tab-currentMember {
             font-size: 18px;
           }

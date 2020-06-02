@@ -1,10 +1,10 @@
 <template>
   <div class="main-content">
-    <section class="grid-content">
+    <section class="grid-content" v-if="!isShowrRegistation">
       <el-row class="buttonHead">
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
           <div class="left">
-            <el-button size="small" class="el-icon-plus btn-addmore">交房登记</el-button>
+            <el-button size="small" class="el-icon-plus btn-addmore" @click="showRegistration">交房登记</el-button>
             <el-button size="small" :disabled="isDisabled" class="btn-addmore">更改交房日期</el-button>
           </div>
         </el-col>
@@ -22,12 +22,11 @@
         </el-col>
       </el-row>
       <div class="searchDetail" v-if="isShowDetail">
-        <div class="top">
-          <el-row>
-            <el-col :span="12">
-              <div class="managerAira">
-                <span>管理区</span>
-                <el-select v-model="selectedAria" placeholder="请选择管理区" @change="chooseAria">
+        <el-form :model="searchDetailForm" ref="searchDetailForm" label-width="auto">
+          <el-row type="flex" justify="space-around">
+            <el-col :span="10" :offset="2">
+              <el-form-item label="管理区">
+                <el-select v-model="searchDetailForm.selectedAria" placeholder="请选择管理区" @change="chooseAria" >
                   <el-option
                     v-for="item in managerAriaList"
                     :key="item.value"
@@ -35,13 +34,11 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </div>
+              </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <div class="floorHouse">
-                <span>楼宇</span>
-                <el-select v-model="selectedFloor" filterable placeholder="请选择楼宇" :disabled="isFloorDisabled">
-                  <!-- <el-input class="searchFloorHouse" v-model="searchFloorContent"></el-input> -->
+            <el-col :span="10" :offset="2">
+              <el-form-item label="楼宇">
+                <el-select v-model="searchDetailForm.selectedFloor" filterable placeholder="请选择楼宇" :disabled="isFloorDisabled">
                   <el-option
                     v-for="item in floorHouseList"
                     :key="item.value"
@@ -49,33 +46,33 @@
                     :value="item.value"
                   ></el-option>
                 </el-select>
-              </div>
+              </el-form-item>
             </el-col>
           </el-row>
-        </div>
-        <div class="down">
-          <el-row>
-            <el-col :span="12">
-              <div class="item roomCode">
-                <span>房间代码</span>
-                <el-input v-model="roomCode" placeholder="请输入房间代码"></el-input>
-              </div>
+          <el-row type="flex" justify="space-around">
+            <el-col :span="10" :offset="2">
+              <el-form-item label="房间代码">
+                <el-input v-model="searchDetailForm.roomCodeSearch" placeholder="请输入房间代码" class="roomCodeInput"></el-input>
+              </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <div class="item customerName">
-                <span>客户名称</span>
-                <el-input v-model="customerName" placeholder="请输入客户名称"></el-input>
-              </div>
+            <el-col :span="10" :offset="2">
+              <el-form-item label="客户名称">
+                <el-input v-model="searchDetailForm.customerNameSearch" placeholder="请输入客户名称" class="customerInput"></el-input>
+              </el-form-item>
             </el-col>
           </el-row>
-        </div>
-        <div class="line"></div>
+        </el-form>
+        <el-row>
+          <el-col :span="23" :offset="1">
+            <div class="line"></div>
+          </el-col>
+        </el-row>
         <div class="searchContent">
           <el-row>
             <el-col :span="12" :offset="12">
               <div class="btns">
                 <el-button size="small" class="el-icon-search btn-addmore">搜索</el-button>
-                <el-button class="el-icon-refresh-left btn-addmore" size="small">重置</el-button>
+                <el-button class="el-icon-refresh-left btn-addmore" size="small" @click="reSetting()">重置</el-button>
                 <el-button class="el-icon-arrow-up btn-addmore" size="small" @click="showDetailSearch"></el-button>
               </div>
             </el-col>
@@ -103,8 +100,34 @@
         <el-table-column prop="handoverDate" label="交房日期"></el-table-column>
       </el-table>
     </section>
-
-    <el-col class="toolbar">
+    <section class="registration-content" v-else-if="isShowrRegistation">
+      <div class="back">
+        <el-button class="btn-trans el-icon-arrow-left" size="small" @click="goBack">返回</el-button>
+      </div>
+      <div class="content">
+        <el-form :model="registrationForm" :rules="registrationRules" ref="registrationForm" label-width="auto" class="registrationForm">
+          <el-form-item label="房间" prop="roomName">
+            <el-input v-model="registrationForm.roomName" placeholder="房间代码/车位号/业主姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="客户" prop="customer">
+            <el-input v-model="registrationForm.customer" placeholder="房间代码/车位号/业主姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="交房日期" class="handoverDate" prop="handoverDate">
+            <el-date-picker
+              v-model="registrationForm.handoverDate"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="" class="operation">
+            <el-button size="small" class="btn-addmore" @click="savaAndContinue">保存并继续</el-button>
+            <el-button size="small" class="btn-addmore" @click="savaAndBack">保存并返回</el-button>
+            <el-button size="small" class="btn-trans" @click="cancel()">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </section>
+    <el-col class="toolbar" v-if="!isShowrRegistation">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -115,7 +138,6 @@
         :total="total"
       ></el-pagination>
     </el-col>
-
     <el-drawer
       title="房间详情"
       :visible.sync="isShowRoomCodeDialog"
@@ -195,7 +217,8 @@
           </el-row>
         </el-card>
         <el-card class="ownerTab">
-          <!-- <el-button>按钮</el-button> -->
+          <el-button size="small" class="btn-trans tabBtn" v-if="activeOwnerTab=='owner'">业主管理</el-button>
+          <el-button size="small" class="btn-trans tabBtn" v-else-if="activeOwnerTab=='currentMember'">成员管理</el-button>
           <el-tabs v-model="activeOwnerTab" @tab-click="changeOwnerTab">
             <el-tab-pane label="业主" name="owner">
               <el-table
@@ -302,7 +325,7 @@
       title="编辑房间"
       :visible.sync="isShowRoomEditDialog"
       width="85%">
-      <el-form ref="form" :model="editRoomForm" :rules="eDitRoomRules"
+      <el-form ref="editRoomForm" :model="editRoomForm" :rules="eDitRoomRules"
       label-width="auto">
         <el-row>
           <el-col>
@@ -334,14 +357,21 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="房间类型：" prop="roomType">
-              <el-input v-model="editRoomForm.roomType" placeholder="请输入房间类型"></el-input>
+              <el-select v-model="selectedRoomType" placeholder="请选择房间类型" style="width:100%">
+                  <el-option
+                    v-for="item in roomTypeList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div slot="footer"
-          class="dialog-footer">
-        <el-button @click="isShowRoomCodeDialog = false" class="btn-trans">取 消</el-button>
+          class="dialog-footer"> 
+        <el-button @click="isShowRoomEditDialog = false" class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore">确 定</el-button>
       </div>
       </el-dialog>
@@ -413,12 +443,48 @@ export default {
           { required: true, message: '请输入楼层', trigger: 'blur' },
         ],
         roomNum:[
-          // { required: true, message: '请输入序号！', trigger: 'blur' },
+          { required: true, message: '请输入序号！', trigger: 'blur' },
         ],
         roomCode:[
           { required: true, max:30, message: '请正确输入房间代码，最大长度为30', trigger: 'blur' }
+        ],
+        roomType:[
+          { required: true, message: '请选择房间类型！', trigger: 'blur' },
         ]
       },
+      roomTypeList:[
+        {
+          value:'0',
+          label:'商用'
+        },
+        {
+          value:'1',
+          label:'住宅'
+
+        },
+        {
+          value:'2',
+          label:'办公'
+        }
+      ],
+      //登记导向的表单数据
+      registrationForm:{
+        roomName:'',
+        customer:'',
+        handoverDate:''
+      },
+      registrationRules:{
+        roomName:[
+          {required: true, message: '请输入房间', trigger: 'blur'}
+        ],
+        customer:[
+          {required: true, message: '请输入客户名称', trigger: 'blur'}
+        ],
+        handoverDate: [
+          {required: true, message: '请选择交房日期', trigger: 'blur'}
+        ]
+      },
+      selectedRoomType:'',
       total: 0,
       page: 1,
       pageSize: 10,
@@ -450,15 +516,18 @@ export default {
           label: "筑业物业"
         }
       ],
-      selectedAria: "",
+      //搜索详情表单数据
+      searchDetailForm:{
+        selectedAria: "",
+        selectedFloor: "",
+        roomCodeSearch: "", //搜索框的房间代码
+        customerNameSearch: "" //搜索框的客户名称
+      },
       isFloorDisabled: true, //楼宇下拉框默认不可选
       floorHouseList: [],
-      selectedFloor: "",
-      searchFloorContent: "", //楼宇下拉框里的搜索框内容
-      roomCode: "", //搜索框的房间代码
-      customerName: "", //搜索框的客户名称
       isShowRoomCodeDialog:false,//是否展示抽屉弹窗（房间代码）
       isShowRoomEditDialog:false,//是否展示编辑房间的弹窗
+      isShowrRegistation:false,//是否展示登记导向
       direction: 'rtl',
       currentRow:'',//点击的当前行
       activeOwnerTab:'owner',
@@ -481,6 +550,35 @@ export default {
     // 展示详细的搜索盒子
     showDetailSearch() {
       this.isShowDetail = !this.isShowDetail;
+    },
+    // 展示登记导向
+    showRegistration() {
+      this.isShowrRegistation = true
+    },
+    goBack() {
+      this.isShowrRegistation = false
+    },
+    //保存并继续
+    savaAndContinue() {
+      //取到form的数据并发送接口保存设置操作
+    },
+    //保存并返回
+    savaAndBack() {
+      //取到form的数据并发送接口保存设置操作（待写...）
+      this.isShowrRegistation = false
+    },
+    // 取消
+    cancel() {
+      //将form的数据清空
+      for(let key in this.registrationForm) {
+        this.registrationForm[key] = ''
+      }
+      this.isShowrRegistation = false
+    },
+    reSetting() {
+      for(let key in this.searchDetailForm) {
+        this.searchDetailForm[key] = ''
+      }
     },
     chooseAria(item) {
       //当管理区发生变化时候，给楼宇赋值
@@ -584,6 +682,7 @@ export default {
     },
     //切换业主Tab
     changeOwnerTab(tab, event) {
+      console.log(this.activeOwnerTab,'activeOwnerTab')
       console.log(tab.paneName, event)
     }
   },
@@ -596,7 +695,7 @@ export default {
       }
     }
   }
-};
+}
 </script>
 
 <style lang="less" scope>
@@ -616,53 +715,24 @@ export default {
       border: 1px solid rgb(211, 220, 230);
       padding: 20px 0;
       border-radius: 3px;
-      .top,
-      .down {
-        span {
-          color: @font-color;
-          width: 64px;
-          text-align: right;
-          margin-right: 25px;
-          line-height: 40px;
-        }
-      }
-
-      .top {
-        .managerAira,
-        .floorHouse {
-          display: flex;
-        }
-        .managerAira {
-          padding-left: 20%;
-        }
-        .floorHouse {
-          justify-content: flex-end;
-          padding-right: 20%;
-        }
-      }
-      .down {
-        margin-top: 10px;
-        margin-bottom: 20px;
-        .el-col {
-          .item {
-            display: flex;
-            .el-input {
-              width: 215px;
+      .el-form {
+        .el-form-item {
+          .el-form-item__content {
+            .el-select ,.roomCodeInput, .customerInput{
+              width:50%;
+              display:flex;
             }
           }
-          .roomCode {
-            padding-left: 20%;
-          }
-          .customerName {
-            justify-content: flex-end;
-            padding-right: 20%;
+          .el-form-item__label-wrap {
+            .el-form-item__label {
+              color:#fff;
+            }
           }
         }
       }
       .line {
         height: 1px;
         width: 80%;
-        margin-right: 20%;
         margin: 0 auto;
         background-color: rgb(211, 220, 230);
       }
@@ -690,6 +760,28 @@ export default {
           }
           width: 40%;
         }
+      }
+    }
+  }
+  .registration-content {
+    .back {
+      display: flex;
+      justify-content: flex-start;
+    }
+    .el-form {
+      margin-top: 20px;
+      padding-left: 120px;
+      padding-right: 120px;
+      .handoverDate,.operation {
+        .el-form-item__content {
+          display: flex;
+        }
+      } 
+      .el-form-item__label {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
       }
     }
   }

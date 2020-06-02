@@ -82,7 +82,6 @@ let routes = [{
             component: resources,
             title: '资源',
           },
-
           {
             path: 'contract',
             component: contract,

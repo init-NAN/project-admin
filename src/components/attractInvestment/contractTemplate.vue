@@ -11,8 +11,9 @@
       <el-table-column type="selection"
                        width="55">
       </el-table-column>
-      <el-table-column label="适用管理区">
-        <template slot-scope="scope">{{ scope.row.date }}</template>
+      <el-table-column label="适用管理区"
+                       prop="date">
+        <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
       </el-table-column>
       <el-table-column prop="name"
                        label="模板名称">
@@ -53,15 +54,19 @@
     <el-dialog title="新建合同模板"
                :visible.sync="dialogAddList">
       <div class="todolist">
-        <el-form :model="form">
+        <el-form :model="form"
+                 :rules="rules"
+                 ref="form">
           <el-form-item label="模板名称:"
-                        :label-width="formLabelWidth">
+                        :label-width="formLabelWidth"
+                        prop="name">
             <el-input v-model="form.name"
                       autocomplete="off"
-                      placeholder="请输入"></el-input>
+                      placeholder="请输入模板名称"></el-input>
           </el-form-item>
           <el-form-item label="上传模板文本:"
-                        :label-width="formLabelWidth">
+                        :label-width="formLabelWidth"
+                        prop="upload">
             <el-upload ref="upload"
                        :show-upload-list="false"
                        :default-file-list="defaultList"
@@ -78,15 +83,15 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="适用管理区:"
-                        :label-width="formLabelWidth">
+                        :label-width="formLabelWidth" prop="region">
             <el-select v-model="form.region"
                        placeholder="请选择适用管理区">
               <el-option label="明珠城"
-                         value="shanghai"></el-option>
+                         value="明珠城"></el-option>
               <el-option label="明珠城"
-                         value="beijing"></el-option>
+                         value="明珠城"></el-option>
               <el-option label="明珠城"
-                         value="out"></el-option>
+                         value="明珠城"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="备注:"
@@ -136,22 +141,18 @@ export default {
       page1: 1,
       dialogAddList: false,
       form: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
+        name: '',
+
       }, rules: {
-        mobile: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          {
-            pattern: "0?(13|14|15|18|17)[0-9]{9}",
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          }
+        name: [
+          { required: true, message: "请输入模板名称", trigger: "blur" },
+          { min: 1, message: "模板名称不能为空", trigger: "blur" }
         ],
-        code: [
-          { required: true, message: "验证码不能为空", trigger: "blur" },
-          { len: 6, message: "验证码必须为6位", trigger: "blur" }
+        upload: [
+          { required: true, message: "请上传文件", trigger: "change" }
+        ],
+        region: [
+          { required: true, message: '请选择地区', trigger: 'change' }
         ]
       },
       formLabelWidth: '120px',
@@ -202,12 +203,9 @@ export default {
       this.getDeviceList();
     },
     // context menu
-    handleSelectionChange: function (sels) {
+    handleSelectionChange (sels) {
       window.console.log(sels)
       this.multipleSelection = sels;
-
-      this.sels = sels;
-      this.ids = _.map(this.sels, (device) => device.deviceNo);
       //console.log(this.ids);
     },
     handleSortChange (col) {

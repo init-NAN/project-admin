@@ -138,6 +138,9 @@ export default {
     }
   },
   methods: {
+    getItme (index) {
+      this.activeClass = index;  // 把当前点击元素的index，赋值给activeClass
+    },
     // context menu
     handleSelectionChange: function (sels) {
       window.console.log(sels)

@@ -8,13 +8,17 @@
               @selection-change="handleSelectionChange"
               @sort-change="handleSortChange"
               :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+
+      <el-table-column type="selection"
+                       width="55">
+      </el-table-column>
       <el-table-column prop="name"
                        label="客户名称">
       </el-table-column>
-      <el-table-column prop="tip"
+      <el-table-column prop="industry"
                        label="所属行业">
       </el-table-column>
-      <el-table-column prop="people"
+      <el-table-column prop="contacts"
                        label="联系人">
       </el-table-column>
       <el-table-column prop="tel"
@@ -23,22 +27,23 @@
       <el-table-column prop="date"
                        label="来访时间">
       </el-table-column>
-      <el-table-column prop="help"
+      <el-table-column prop="demand"
                        label="客户需求">
       </el-table-column>
-      <el-table-column prop="where"
-                       label="意向房源">
+      <el-table-column prop="intended"
+                       label="意向房源"
+                       show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="from"
+      <el-table-column prop="source"
                        label="来源">
       </el-table-column>
-      <el-table-column prop="what"
+      <el-table-column prop="status"
                        label="客户状态">
       </el-table-column>
-      <el-table-column prop="from"
+      <el-table-column prop="stage"
                        label="销售阶段">
       </el-table-column>
-      <el-table-column prop="from"
+      <el-table-column prop="remarks"
                        label="备注">
       </el-table-column>
       <el-table-column label="操作">
@@ -46,7 +51,7 @@
           <el-button type="text"
                      size="small"
                      class="table-show"
-                     @click="showRole(scope.row)">编辑</el-button>
+                     @click="showRole(scope.$index, scope.row)">编辑</el-button>
           <el-button type="text"
                      size="small"
                      class="table-del"
@@ -65,9 +70,15 @@
       </el-pagination>
     </el-col>
     <el-button class="add-customer btn-addmore"
-               @click="dialogFormVisible=true">新建用户</el-button>
-    <el-dialog title="新建/编辑用户"
-               :visible.sync="dialogFormVisible">
+               @click="addCustomerVisibel = true, form={},addDialogTitle='新增客户'">新建用户</el-button>
+    <el-button type="primary"
+               class="del-btn btn-trans"
+               :disabled="this.multipleSelection.length == 0"
+               @click="removeList(multipleSelection)">批量删除</el-button>
+
+    <el-dialog :title="addDialogTitle"
+               :visible.sync="addCustomerVisibel"
+               :before-close="closeForm">
       <div class="flex-space-between____c">
         <el-card class="box-card">
           <div slot="header"
@@ -76,44 +87,46 @@
           </div>
           <el-form :model="form"
                    :rules="rules"
-                   hide-required-asterisk
                    ref="form">
             <el-row :gutter="30">
               <el-col :span="11">
-                <el-form-item label="客户名称:">
+                <el-form-item label="客户名称:"
+                              prop="name">
                   <el-input v-model="form.name"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="11">
-                <el-form-item label="所属行业:">
-                  <el-select v-model="form.region">
+                <el-form-item label="所属行业:"
+                              prop="industry">
+                  <el-select v-model="form.industry">
                     <el-option label="餐饮"
-                               value="shanghai"
+                               value="餐饮"
                                selected></el-option>
                     <el-option label="IT"
-                               value="beijing"></el-option>
+                               value="IT"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="30">
               <el-col :span="11">
-                <el-form-item label="客户状态:">
-                  <el-select v-model="form.tpye"
-                             placeholder="请选择活动区域">
+                <el-form-item label="客户状态:"
+                              prop="status">
+                  <el-select v-model="form.status"
+                             placeholder="请选择客户状态">
                     <el-option label="潜在客户"
-                               value="shanghai"></el-option>
+                               value="潜在客户"></el-option>
                     <el-option label="签约客户"
-                               value="beijing"></el-option>
+                               value="签约客户"></el-option>
                     <el-option label="流失客户"
-                               value="out"></el-option>
+                               value="流失客户"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="11">
                 <el-form-item label="联系人:">
-                  <el-input v-model="form.name"
+                  <el-input v-model="form.contacts"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
@@ -129,7 +142,9 @@
                 <el-form-item label="来访时间:">
                   <el-date-picker type="date"
                                   placeholder="选择时间"
-                                  v-model="form.date1"
+                                  v-model="form.date"
+                                  format="yyyy-MM-dd"
+                                  value-format="yyyy-MM-dd"
                                   style="width: 100%;"></el-date-picker>
                 </el-form-item>
               </el-col>
@@ -137,35 +152,37 @@
             <el-row :gutter="30">
               <el-col :span="11">
                 <el-form-item label="来源渠道:">
-                  <el-select v-model="form.region"
-                             placeholder="请选择活动区域">
+                  <el-select v-model="form.source"
+                             placeholder="请选择来源渠道">
                     <el-option label="上门"
-                               value="shanghai"></el-option>
+                               value="上门"></el-option>
                     <el-option label="电话"
-                               value="beijing"></el-option>
+                               value="电话"></el-option>
                     <el-option label="网络"
-                               value="out"></el-option>
+                               value="网络"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="11">
                 <el-form-item label="销售阶段:">
-                  <el-select v-model="form.region"
-                             placeholder="请选择活动区域">
+                  <el-select v-model="form.stage"
+                             placeholder="请选择销售阶段">
                     <el-option label="初期沟通"
-                               value="shanghai"></el-option>
+                               value="初期沟通"></el-option>
                     <el-option label="房源选择"
-                               value="beijing"></el-option>
+                               value="房源选择"></el-option>
                     <el-option label="价格谈判"
-                               value="out"></el-option>
+                               value="价格谈判"></el-option>
+                    <el-option label="合同签约"
+                               value="合同签约"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="30">
               <el-col :span="22">
-                <el-form-item label="联系电话:">
-                  <el-input v-model="form.name"
+                <el-form-item label="客户需求:">
+                  <el-input v-model="form.demand"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
@@ -174,7 +191,7 @@
               <el-col :span="22">
                 <el-form-item label="备注:">
                   <el-input type="textarea"
-                            v-model="form.desc"
+                            v-model="form.remarks"
                             placeholder="请输入备注"></el-input>
                 </el-form-item>
               </el-col>
@@ -193,7 +210,7 @@
                       resizable
                       ref="table"
                       :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
-              <el-table-column prop="date"
+              <el-table-column prop="num"
                                label="楼栋/房号">
               </el-table-column>
               <el-table-column prop="name"
@@ -220,9 +237,10 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="dialogFormVisible = false"
+        <el-button @click="resetForm('form')"
                    class="btn-trans">取 消</el-button>
-        <el-button class="btn-addmore">确 定</el-button>
+        <el-button class="btn-addmore"
+                   @click="submitForm('form')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -232,54 +250,70 @@
 export default {
   data () {
     return {
+      addDialogTitle: '',
       tableData: [{
-        date: '2016-05-02',
         name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        industry: 'IT',
+        contacts: '',
+        tel: '',
+        date: '',
+        demand: '',
+        intended: 'FA101、201',
+        source: '电话',
+        status: '潜在客户',
+        stage: '合同签约',
+        remarks: '',
+        id: 1
       }, {
-        date: '2016-05-04',
         name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
+        industry: 'IT',
+        contacts: '',
+        tel: '',
+        date: '',
+        demand: '',
+        intended: 'FA101、201',
+        source: '电话',
+        status: '潜在客户',
+        stage: '合同签约',
+        remarks: '',
+        id: 2
       }, {
-        date: '2016-05-01',
         name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
+        industry: 'IT',
+        contacts: '',
+        tel: '',
+        date: '',
+        demand: '',
+        intended: 'FA101、201',
+        source: '电话',
+        status: '潜在客户',
+        stage: '合同签约',
+        remarks: '',
+        id: 3
+      },],
       listLoading: false,
       page1: 1,
-      dialogFormVisible: false,
-      form: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
-      }, rules: {
-        mobile: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          {
-            pattern: "0?(13|14|15|18|17)[0-9]{9}",
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          }
+      addCustomerVisibel: false,
+      form: {},
+      rules: {
+        name: [
+          { required: true, message: "请输入客户名称，不超过30个字符！", trigger: "blur" },
+          { max: 30, message: "请输入客户名称，不超过30个字符！", trigger: "blur" }
         ],
-        code: [
-          { required: true, message: "验证码不能为空", trigger: "blur" },
-          { len: 6, message: "验证码必须为6位", trigger: "blur" }
+        industry: [
+          { required: true, message: '请选择职业', trigger: 'change' }
+        ],
+        status: [
+          { required: true, message: '请选择客户状态', trigger: 'change' }
         ]
       },
       total: 4,
       page: 1,
       pageSize: 10,
+      multipleSelection: [],
     }
   },
   methods: {
-    handleEdit (index, row) {
-      window.console.log(index, row);
-    },
     handleDelete (index, row) {
       // 设置类似于console类型的功能
       window.console.log(row)
@@ -312,10 +346,14 @@ export default {
       this.getDeviceList();
     },
     // context menu
-    handleSelectionChange: function (sels) {
-      this.sels = sels;
-      this.ids = _.map(this.sels, (device) => device.deviceNo);
+    handleSelectionChange (sels) {
+      // window.console.log(sels)
+      this.multipleSelection = sels;
       //console.log(this.ids);
+    },
+    removeList (rows) {
+      window.console.log(rows);
+
     },
     handleSortChange (col) {
       if (col.prop == null) {
@@ -355,12 +393,46 @@ export default {
       });
     },
 
-    showRole (item) {
+    showRole (index, item) {
       window.console.log(item);
-
-      this.dialogFormVisible = true;
+      this.addDialogTitle = '编辑客户';
+      this.addCustomerVisibel = true;
+      this.form = { ...item }
+      // window.console.log(Object.assign({}, item));
+      // window.console.log(index);
+      // var  dataobj = this.tableData.splice(index,1)
+      // window.console.log(dataobj);
     },
 
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (this.addDialogTitle == '新增客户') {
+            window.console.log(this.form.date)
+            this.tableData.push(this.form);
+            this.addCustomerVisibel = false;
+            this.resetForm(formName);
+          }
+          // else if (this.addDialogTitle == '编辑客户') {
+
+          // }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm (formName) {
+      if (this.$refs[formName] !== undefined) {
+        this.$refs[formName].resetFields();
+      }
+      this.addCustomerVisibel = false
+    },
+    closeForm(done) {
+      this.$refs['form'].resetFields();
+      
+      done();
+    }
   }
 }
 
@@ -434,6 +506,11 @@ export default {
   //   right: 0;
   // }
 
+  .el-table .cell {
+    white-space: nowrap; //强制不换行
+    overflow: hidden; //溢出隐藏
+    text-overflow: ellipsis; //替换为省略号
+  }
   //dialog 页眉页脚
   /deep/ .el-dialog__header {
     background: url("./../../assets/comment/type(1).png") no-repeat;

@@ -3,7 +3,7 @@
     <el-row class="margin-bottom">
       <el-col :span="2">
         <el-button class="btn-addmore "
-                   @click="isEquipment = true">新建</el-button>
+                   @click="addEquipment('form')">新建</el-button>
       </el-col>
       <el-col :span="3">
         <el-button class="btn-addmore ">导入Excel</el-button>
@@ -40,16 +40,16 @@
                          label="设备名称"
                          width="150"></el-table-column>
 
-        <el-table-column prop="num"
+        <el-table-column prop="eCode"
                          label="设备编码"
                          width="150"></el-table-column>
-        <el-table-column prop="type"
+        <el-table-column prop="eType"
                          label="设备类型"
                          width="150"></el-table-column>
-        <el-table-column prop="good"
+        <el-table-column prop="status"
                          label="设备状态"
                          width="150"></el-table-column>
-        <el-table-column prop="how"
+        <el-table-column prop="specification "
                          label="规格型号"
                          width="150"></el-table-column>
         <el-table-column prop="mounth"
@@ -68,15 +68,15 @@
             <el-button type="text"
                        size="small"
                        class="table-show"
-                       @click="isEquipment = true">编辑</el-button>
+                       @click.native.prevent="editList(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text"
                        class="table-del"
-                       @click="handleDelete(scope.row)"
+                       @click.native.prevent="handleDelete(scope.row)"
                        size="small">删除</el-button>
             <el-button type="text"
                        size="small"
                        class="table-show"
-                       @click="isEquipment = true">复制</el-button>
+                       @click="editList(scope.$index, scope.row)">复制</el-button>
             <el-button type="text"
                        class="table-show"
                        size="small">查看二维码</el-button>
@@ -109,54 +109,58 @@
       </el-pagination>
     </el-col>
 
-    <el-dialog title="新建设备档案"
-               :visible.sync="isEquipment">
+    <el-dialog :title="addEquipFiles"
+               :visible.sync="isEquipment"
+               :before-close="closeEquipment">
       <div class="add-files">
-        <el-card class="box-card margin-bottom">
-          <div slot="header"
-               class="clearfix">
-            <span>基本信息</span>
-          </div>
-          <el-form :model="form"
-                   :rules="rules"
-                   hide-required-asterisk
-                   ref="form">
+        <el-form :model="form"
+                 :rules="rules"
+                 ref="form">
+          <el-card class="box-card margin-bottom">
+            <div slot="header"
+                 class="clearfix">
+              <span>基本信息</span>
+            </div>
             <el-row :gutter="30">
               <el-col :span="6">
-                <el-form-item label="管理区:">
-                  <el-select v-model="form.tpye"
+                <el-form-item label="管理区:"
+                              prop="management">
+                  <el-select v-model="form.management"
                              placeholder="请选择区域">
                     <el-option label="明珠城"
-                               value="shanghai"></el-option>
+                               value="明珠城"></el-option>
                     <el-option label="绿岛物业"
-                               value="beijing"></el-option>
+                               value="绿岛物业"></el-option>
                     <el-option label="其他"
-                               value="out"></el-option>
+                               value="其他"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="设备名称:">
-                  <el-input v-model="form.name"
+                <el-form-item label="设备名称:"
+                              prop="eName">
+                  <el-input v-model="form.eName"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="设备编码:">
-                  <el-input v-model="form.num"
+                <el-form-item label="设备编码:"
+                              prop="eCode">
+                  <el-input v-model="form.eCode"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="设备类型:">
-                  <el-select v-model="form.tpye"
+                <el-form-item label="设备类型:"
+                              prop="eType">
+                  <el-select v-model="form.eType"
                              placeholder="请选择活动区域">
                     <el-option label="供电"
-                               value="shanghai"></el-option>
+                               value="供电"></el-option>
                     <el-option label="消防"
-                               value="beijing"></el-option>
+                               value="消防"></el-option>
                     <el-option label="空调"
-                               value="out"></el-option>
+                               value="空调"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -179,7 +183,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="预计保养周期:">
-                  <el-select v-model="form.tpye"
+                  <el-select v-model="form.intervals"
                              placeholder="请选择保养周期">
                     <el-option label="日"
                                value="shanghai"></el-option>
@@ -192,7 +196,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="材料:">
-                  <el-input v-model="form.liao"
+                  <el-input v-model="form.material "
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
@@ -200,7 +204,7 @@
             <el-row :gutter="30">
               <el-col :span="6">
                 <el-form-item label="重量(Kg):">
-                  <el-input-number v-model="num"
+                  <el-input-number v-model="form.weight"
                                    controls-position="right"
                                    @change="handleChange"
                                    :min="1"
@@ -209,43 +213,43 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="安装地点:">
-                  <el-input v-model="form.dat"
+                  <el-input v-model="form.installation "
                             autocomplete="off"
                             placeholder="请输入安装地点"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
 
-          </el-form>
-        </el-card>
-        <el-card class="box-card margin-bottom">
-          <div slot="header"
-               class="clearfix">
-            <span>使用情况</span>
-          </div>
-          <el-form :model="form"
-                   hide-required-asterisk
-                   ref="form">
+          </el-card>
+          <el-card class="box-card margin-bottom">
+            <div slot="header"
+                 class="clearfix">
+              <span>使用情况</span>
+            </div>
             <el-row :gutter="30">
               <el-col :span="6">
                 <el-form-item label="安装日期:">
-                  <el-date-picker type="date"
+                  <el-date-picker type="iDate"
                                   placeholder="请选择日期"
-                                  v-model="form.date1"
+                                  v-model="form.iDate"
+                                  format="yyyy-MM-dd"
+                                  value-format="yyyy-MM-dd"
                                   style="width: 100%;"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="报废日期:">
-                  <el-date-picker type="date"
+                  <el-date-picker type="sDate"
                                   placeholder="请选择日期"
-                                  v-model="form.date2"
+                                  v-model="form.sDate"
+                                  format="yyyy-MM-dd"
+                                  value-format="yyyy-MM-dd"
                                   style="width: 100%;"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="使用年限:">
-                  <el-input v-model="form.years"
+                  <el-input v-model="form.serviceLife"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
@@ -266,13 +270,13 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="已有保养次数:">
-                  <el-input v-model="form.help"
+                  <el-input v-model="form.maintenance"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="设备原值:">
-                  <el-input v-model="form.ogher"
+                  <el-input v-model="form.original"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
@@ -286,25 +290,22 @@
             <el-row :gutter="30">
               <el-col :span="6">
                 <el-form-item label="设备净值:">
-                  <el-input v-model="form.ower"
+                  <el-input v-model="form.net"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-          </el-form>
-        </el-card>
-        <el-card class="box-card">
-          <div slot="header"
-               class="clearfix">
-            <span>维保单位</span>
-          </div>
-          <el-form :model="form"
-                   hide-required-asterisk
-                   ref="form">
+
+          </el-card>
+          <el-card class="box-card">
+            <div slot="header"
+                 class="clearfix">
+              <span>维保单位</span>
+            </div>
             <el-row :gutter="30">
               <el-col :span="6">
                 <el-form-item label="维保单位:">
-                  <el-input v-model="form.work"
+                  <el-input v-model="form.unit"
                             autocomplete="off"
                             placeholder="请输入维保单位"></el-input>
                 </el-form-item>
@@ -327,7 +328,7 @@
             <el-row :gutter="30">
               <el-col :span="6">
                 <el-form-item label="设备维保人:">
-                  <el-input v-model="form.peo"
+                  <el-input v-model="form.personnel"
                             autocomplete="off"
                             placeholder="请输入设备维保人"></el-input>
                 </el-form-item>
@@ -347,14 +348,15 @@
                 </el-form-item>
               </el-col>
             </el-row>
-          </el-form>
-        </el-card>
+          </el-card>
+        </el-form>
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="isEquipment = false"
-                   class="btn-trans">取 消</el-button>
-        <el-button class="btn-addmore">确 定</el-button>
+        <el-button class="btn-trans"
+                   @click="resetForm('form')">取 消</el-button>
+        <el-button class="btn-addmore"
+                   @click="submitForm ('form')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -371,12 +373,24 @@ export default {
       listLoading: false,
       isDisabled: true,
       num: 1,
+      addEquipFiles: '',
       tableData: [{
         management: '绿岛物业',
-        num: '1#',
+        eCode: '1#',
         date: '2016-05-02',
         name: '曳引驱动乘客电梯1',
-        type: '乘客电梯',
+        eType: '乘客电梯',
+        status: '正常',
+        specification: 'dec2',
+        mounth: '0',
+        dat: 0,
+        deviceNo: 0
+      }, {
+        management: '绿岛物业',
+        eCode: '1#',
+        date: '2016-05-02',
+        name: '曳引驱动乘客电梯1',
+        eType: '乘客电梯',
         good: '正常',
         how: 'dec2',
         mounth: '0',
@@ -384,21 +398,10 @@ export default {
         deviceNo: 0
       }, {
         management: '绿岛物业',
-        num: '1#',
+        eCode: '1#',
         date: '2016-05-02',
         name: '曳引驱动乘客电梯1',
-        type: '乘客电梯',
-        good: '正常',
-        how: 'dec2',
-        mounth: '0',
-        dat: 0,
-        deviceNo: 0
-      }, {
-        management: '绿岛物业',
-        num: '1#',
-        date: '2016-05-02',
-        name: '曳引驱动乘客电梯1',
-        type: '乘客电梯',
+        eType: '乘客电梯',
         good: '正常',
         how: 'dec2',
         mounth: '0',
@@ -407,26 +410,24 @@ export default {
       },],
       isEquipment: false,
       checkedBox: [],
-      form: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
-      },
+      form: {},
       rules: {
-        mobile: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          {
-            pattern: "0?(13|14|15|18|17)[0-9]{9}",
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          }
+        management: [
+          { required: true, message: "请选择管理区!", trigger: "change" }
         ],
-        code: [
-          { required: true, message: "验证码不能为空", trigger: "blur" },
-          { len: 6, message: "验证码必须为6位", trigger: "blur" }
+        eName: [
+          { required: true, message: "设备名称不能为空", trigger: "blur" },
+          { min: 1, max: 30, message: "设备名称不能为空", trigger: "blur" }
+        ],
+        eCode: [
+          { required: true, message: "请输入设备编号", trigger: "blur" },
+          { min: 1, max: 30, message: "设备编号不能为空", trigger: "blur" }
+        ],
+        eType: [
+          { required: true, message: "请选择设备类型!", trigger: "change" }
         ]
       },
+
     }
   },
   methods: {
@@ -509,7 +510,49 @@ export default {
     //计数器
     handleChange (value) {
       console.log(value);
-    }
+    },
+    resetForm (formName) {
+      this.isEquipment = false
+      if (this.$refs[formName] !== undefined) {
+        this.$refs[formName].resetFields();
+      }
+    },
+
+    addEquipment () {
+      this.from = {}
+      // this.resetForm(formName);
+      this.addEquipFiles = '新增设备档案'
+      this.isEquipment = true
+
+    },
+    closeEquipment(done) {
+      this.$refs['form'].resetFields();
+      done();
+    },
+    editList (index, item) {
+      window.console.log(item)
+      window.console.log(index)
+      this.isEquipment = true
+      this.form = { ...item }
+      window.console.log(this.form)
+      this.addEquipFiles = '编辑设备档案'
+    },
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert('submit')
+          if (this.addEquipFiles == '新增设备档案') {
+            this.tableData.push(this.form);
+            this.isEquipment = false
+            this.resetForm(formName);
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+
   }
 }
 </script>

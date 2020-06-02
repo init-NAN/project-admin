@@ -84,7 +84,7 @@ export default {
     width: 100%;
   }
   .el-dialog {
-    background-color: rgba(10, 13, 51, 0.7);
+    background-color: rgba(19,24,55,1);;
     transform-origin: 141px 134.563px;
 
     /deep/ .el-input-group__append {

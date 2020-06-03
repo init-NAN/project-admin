@@ -36,19 +36,19 @@
                          label="计划名称"
                          width="150"></el-table-column>
 
-        <el-table-column prop="date"
+        <el-table-column prop="dateValidity"
                          label="计划有效期"
                          width="150"></el-table-column>
         <el-table-column prop="insName"
                          label="设备名称"
                          width="150"></el-table-column>
-        <el-table-column prop="how"
+        <el-table-column prop="status"
                          label="设备类型"
                          width="150"></el-table-column>
         <el-table-column prop="insType"
                          label="规格型号"
                          width="150"></el-table-column>
-        <el-table-column prop="once"
+        <el-table-column prop="frequency"
                          label="保养频率"
                          width="150"></el-table-column>
         <el-table-column prop="dat"
@@ -61,7 +61,7 @@
                          label="保养地点"
                          width="150"></el-table-column>
         <el-table-column prop="crDate"
-                         label="保养地点"
+                         label="创建日期"
                          width="150"></el-table-column>
         <el-table-column prop="label"
                          label="状态"
@@ -98,8 +98,9 @@
       </el-pagination>
     </el-col>
 
-    <el-dialog title="新建保养巡检计划"
-               :visible.sync="isInspection">
+    <el-dialog :title="inspectionTitle"
+               :visible.sync="isInspection" 
+               :before-close="closeInspection">
       <!-- <el-dialog title="添加"
                  :visible.sync="addPerson"
                  class="addPerson">
@@ -115,36 +116,35 @@
 
           <el-form :model="form"
                    :rules="rules"
-                   hide-required-asterisk
                    label-position='left'
                    label-width="auto"
                    ref="form">
             <el-row :gutter="30">
               <el-col :span="11">
-                <el-form-item label="管理区:">
-                  <el-select v-model="form.tpye"
+                <el-form-item label="管理区:" prop="management">
+                  <el-select v-model="form.management"
                              placeholder="请选择区域">
                     <el-option label="明珠城"
-                               value="shanghai"></el-option>
+                               value="明珠城"></el-option>
                     <el-option label="绿岛物业"
-                               value="beijing"></el-option>
+                               value="绿岛物业"></el-option>
                     <el-option label="其他"
-                               value="out"></el-option>
+                               value="其他"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="30">
               <el-col :span="11">
-                <el-form-item label="计划名称:">
-                  <el-input v-model="form.wornum"
+                <el-form-item label="计划名称:" prop="name">
+                  <el-input v-model="form.name"
                             placeholder="请输入名称"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="11">
+              <el-col :span="13">
                 <el-form-item label="计划有效期:">
-                  <el-date-picker v-model="value1"
+                  <el-date-picker v-model="form.dateValidity"
                                   type="daterange"
                                   range-separator="~"
                                   start-placeholder="开始日期"
@@ -156,16 +156,16 @@
             <el-row :gutter="30">
               <el-col :span="11">
                 <el-form-item label="设备名称:">
-                  <el-select v-model="form.name"
+                  <el-select v-model="form.insName"
                              placeholder="">
                     <el-option label="暂无数据"
-                               value="out"></el-option>
+                               value="暂无数据"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="13">
                 <el-form-item label="设备类型:">
-                  <el-input v-model="form.dat"
+                  <el-input v-model="form.status"
                             autocomplete="off"
                             disabled></el-input>
                 </el-form-item>
@@ -177,15 +177,15 @@
                   <el-select v-model="form.type"
                              placeholder="">
                     <el-option label="日常保养"
-                               value="shanghai"></el-option>
+                               value="日常保养"></el-option>
                     <el-option label="设备巡检"
-                               value="beijing"></el-option>
+                               value="设备巡检"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="保养频率:">
-                  <el-select v-model="form.type"
+                  <el-select v-model="form.frequency"
                              placeholder="">
                     <el-option label="每日"
                                value="shanghai"></el-option>
@@ -200,7 +200,7 @@
               </el-col>
               <el-col :span="7">
                 <el-form-item label="保养:">
-                  <el-input v-model="form.mounth"
+                  <el-input v-model="form.dat"
                             placeholder="请输入"
                             autocomplete="off">
                     <template slot="append">次</template>
@@ -211,14 +211,14 @@
             <el-row :gutter="30">
               <el-col :span="11">
                 <el-form-item label="经办人:">
-                  <el-input v-model="form.dat"
+                  <el-input v-model="form.people"
                             autocomplete="off"
                             @focus="addPerson=true"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="13">
                 <el-form-item label="预算费用:">
-                  <el-input v-model="form.mounth"
+                  <el-input v-model="form.money"
                             placeholder="请输入"
                             autocomplete="off">
                     <template slot="append">元</template>
@@ -229,14 +229,14 @@
             <el-row :gutter="30">
               <el-col :span="11">
                 <el-form-item label="核查人:">
-                  <el-input v-model="form.dat"
+                  <el-input v-model="form.verifier"
                             autocomplete="off"
                             @focus="addPerson=true"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="13">
                 <el-form-item label="创建人:">
-                  <el-select v-model="form.type"
+                  <el-select v-model="form.created"
                              placeholder="">
                     <el-option label="企业版"
                                value="shanghai"></el-option>
@@ -247,14 +247,14 @@
             <el-row :gutter="30">
               <el-col :span="24">
                 <el-form-item label="保养地点:">
-                  <el-input v-model="form.dat"
+                  <el-input v-model="form.where"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="30">
               <el-col :span="24">
-                <el-form-item label="核查人:">
+                <el-form-item label="备注:">
                   <el-input type="textarea"
                             v-model="form.desc"></el-input>
                 </el-form-item>
@@ -296,8 +296,7 @@ export default {
       //   return item.pinyin.indexOf(query) > -1;
       // },
 
-
-      value1: '',
+      inspectionTitle:'',
       checkedBox: [],
       input: '',
       isInspection: false,
@@ -306,12 +305,12 @@ export default {
       tableData: [{
         management: '绿岛物业',
         insName: '水泵机',
-        date: '2016-05-02',
+        dateValidity: '2016-05-02',
         name: '水泵机',
-        type: '保养类型',
+        status: '保养类型',
         insType: '日常保养',
         how: '排水设备',
-        once:'每日',
+        frequency:'每日',
         people:'企业版',
         mounth: '0',
         dat: 1,
@@ -321,55 +320,31 @@ export default {
       },{
         management: '绿岛物业',
         insName: '水泵机',
-        date: '2016-05-02',
+        dateValidity: '2016-05-02',
         name: '水泵机',
-        type: '保养类型',
+        status: '保养类型',
         insType: '日常保养',
         how: '排水设备',
-        once:'每日',
+        frequency:'每日',
         people:'企业版',
         mounth: '0',
         dat: 1,
         where: '1栋',
         crDate:'2016-05-02',
         label:'	已启用'
-      },{
-        management: '绿岛物业',
-        insName: '水泵机',
-        date: '2016-05-02',
-        name: '水泵机',
-        type: '保养类型',
-        insType: '日常保养',
-        how: '排水设备',
-        once:'每日',
-        people:'企业版',
-        mounth: '0',
-        dat: 1,
-        where: '1栋',
-        crDate:'2016-05-02',
-        label:'	已启用'
-      }],
+      },],
       total: 0,
       page: 1,
       pageSize: 10,
-      form: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
-      },
+      form: {},
       rules: {
-        mobile: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          {
-            pattern: "0?(13|14|15|18|17)[0-9]{9}",
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          }
+        management: [
+          { required: true, message: "请选择管理区", trigger: "change" },
+          
         ],
-        code: [
-          { required: true, message: "验证码不能为空", trigger: "blur" },
-          { len: 6, message: "验证码必须为6位", trigger: "blur" }
+        name: [
+          { required: true, message: "名称不能为空", trigger: "blur" },
+          { min: 1, message: "名称不能为空", trigger: "blur" }
         ]
       },
 
@@ -429,8 +404,12 @@ export default {
       this.getDeviceList();
     },
     //计数器
-    handleChange (value) {
-      console.log(value);
+    // handleChange (value) {
+    //   console.log(value);
+    // },
+    closeInspection(done) {
+      this.$refs['form'].resetFields();
+      done();
     }
   }
 }

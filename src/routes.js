@@ -25,6 +25,7 @@ const customer = () => import('./components/attractInvestment/customer.vue')
 const contractTemplate = () => import('./components/attractInvestment/contractTemplate.vue')
 
 
+const overviewAttractInvestment = () => import('./components/attractInvestment/overviewAttractInvestment.vue')
 
 //业主服务路由
 const ownerService = () => import('./components/ownerService/index.vue')
@@ -59,22 +60,20 @@ const maintenanceInspection = () => import('./components/estateManagement/mainte
 //保养巡检问题
 const inspectionProblems = () => import('./components/estateManagement/inspectionProblems.vue')
 //巡查任务
-const  patrolTask = () => import('./components/estateManagement/patrolTask.vue')
+const patrolTask = () => import('./components/estateManagement/patrolTask.vue')
 //巡查问题
-const  patrolProblems  = () => import('./components/estateManagement/patrolProblems.vue')
-
+const patrolProblems = () => import('./components/estateManagement/patrolProblems.vue')
 
 let routes = [{
     path: '/',
     component: Main,
     name: '',
-    redirect: '/attractInvestment/resources',
-    children: [
-      {
+    // redirect: '/attractInvestment/resources',
+    children: [{
         path: 'attractInvestment',
         component: attractInvestment,
         name: '',
-        redirect: '/attractInvestment/resources',
+        redirect: '/attractInvestment/overviewAttractInvestment',
         title: '招商管理',
         iconCls: 'el-icon-help',
         children: [{
@@ -98,11 +97,11 @@ let routes = [{
             component: contractTemplate,
             title: '合同模板',
           },
-          {
-            path: 'charts',
-            component: charts,
-            title: '资源图示'
-          }
+          // {
+          //   path: 'charts',
+          //   component: charts,
+          //   title: '资源图示'
+          // }
         ]
 
       },
@@ -188,8 +187,20 @@ let routes = [{
     // 会匹配所有路径
     path: '*',
     component: Main,
+  },
+  {
+    path: '/',
+    component: Main,
+    name: '',
+    children: [{
+      path: '/attractInvestment',
+      component: attractInvestment,
+      children:[
+        {path:'/attractInvestment/charts',component:charts},
+        {path:'/attractInvestment/overviewAttractInvestment', component:overviewAttractInvestment}
+      ]
+    }]
   }
-
 ];
 
 

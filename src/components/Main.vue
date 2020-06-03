@@ -11,7 +11,7 @@
 						
 						<template v-for="(item,index) in sideMenuRouter">
 							
-							<el-submenu :index="index+''" v-if="item.children" popper-class="sub-menu-popup" tabindex=-1>
+							<el-submenu :index="index+''" v-if="item.children" popper-class="sub-menu-popup" tabindex=-1 @click.native="nav(item.path)">
 								<template slot="title">
 									<i :class="item.iconCls" class="menu-icon-1">
 										<div class="menu-text">{{item.title}}</div>

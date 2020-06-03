@@ -6,11 +6,17 @@ import App from './App.vue'
 import routes from './routes';
 import store from './store';
 
+
+import '@/assets/css/base.css'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 const router = new VueRouter({
   routes
 });

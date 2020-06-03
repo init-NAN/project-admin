@@ -1,0 +1,62 @@
+/* 初始化代码 */
+body,
+div,
+span,
+img,
+input,
+a,
+strong,
+em,
+ins,
+del,
+ul,
+li,
+p,
+h1,
+h2,
+h3,
+h4,
+i {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+li {
+  list-style: none;
+}
+input {
+  border: none;
+  outline: none;
+}
+img {
+  border: none;
+  /* 在低版本的浏览器中,img自带边框 */
+  /* vertical-align: middle; */
+  /* 控制行内块元素与文字中线对齐 */
+}
+i {
+  font-style: normal;
+}
+body {
+  font-size: 16px;
+  line-height: 1;
+  background-color: #f5f5f5;
+}
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: block;
+}
+.clearfix::after {
+  clear: both;
+}
+.clearfix {
+  *zoom: 1;
+}
+html,body {
+  height: 100%;
+}

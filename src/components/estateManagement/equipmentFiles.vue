@@ -229,7 +229,7 @@
             <el-row :gutter="30">
               <el-col :span="6">
                 <el-form-item label="安装日期:">
-                  <el-date-picker type="iDate"
+                  <el-date-picker type="date"
                                   placeholder="请选择日期"
                                   v-model="form.iDate"
                                   format="yyyy-MM-dd"
@@ -239,7 +239,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="报废日期:">
-                  <el-date-picker type="sDate"
+                  <el-date-picker type="date"
                                   placeholder="请选择日期"
                                   v-model="form.sDate"
                                   format="yyyy-MM-dd"

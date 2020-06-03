@@ -25,6 +25,7 @@ const customer = () => import('./components/attractInvestment/customer.vue')
 const contractTemplate = () => import('./components/attractInvestment/contractTemplate.vue')
 
 
+
 const overviewAttractInvestment = () => import('./components/attractInvestment/overviewAttractInvestment.vue')
 
 //业主服务路由
@@ -40,8 +41,7 @@ const decorate = () => import('./components/ownerService/decorate.vue')
 //报修管理
 const repairApplication = () => import('./components/ownerService/repairApplication.vue')
 //登记导向
-const registrationOrientation = () => import('./components/ownerService/registrationOrientation.vue')
-
+const ownerEcharts = () => import('./components/ownerService/ownerEcharts.vue')
 
 
 
@@ -109,6 +109,7 @@ let routes = [{
         path: 'ownerService',
         component: ownerService,
         name: '',
+        redirect: '/ownerService/ownerEcharts',
         title: '业主服务',
         iconCls: 'el-icon-data-analysis',
         children: [{
@@ -193,13 +194,28 @@ let routes = [{
     component: Main,
     name: '',
     children: [{
-      path: '/attractInvestment',
-      component: attractInvestment,
-      children:[
-        {path:'/attractInvestment/charts',component:charts},
-        {path:'/attractInvestment/overviewAttractInvestment', component:overviewAttractInvestment}
-      ]
-    }]
+        path: '/attractInvestment',
+        component: attractInvestment,
+        children: [{
+            path: '/attractInvestment/charts',
+            component: charts
+          },
+          {
+            path: '/attractInvestment/overviewAttractInvestment',
+            component: overviewAttractInvestment
+          }
+
+        ]
+      }, {
+        path: '/ownerService',
+        component: ownerService,
+        children: [{
+          path: '/ownerService/ownerEcharts',
+          component: ownerEcharts
+        }]
+      }
+
+    ]
   }
 ];
 

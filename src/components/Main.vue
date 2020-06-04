@@ -10,7 +10,6 @@
 					<el-menu default-active="100" :collapse="isCollapse">
 						
 						<template v-for="(item,index) in sideMenuRouter">
-							
 							<el-submenu :index="index+''" v-if="item.children" popper-class="sub-menu-popup" tabindex=-1 @click.native="nav(item.path)">
 								<template slot="title">
 									<i :class="item.iconCls" class="menu-icon-1">
@@ -21,7 +20,6 @@
 									<span>{{child.title}}</span>
 								</el-menu-item>
 							</el-submenu>
-
 							<el-menu-item v-else :tabindex="index+''" @click.native="nav(item.path)" >
 								<i :class="item.iconCls" class="menu-icon-1">
 									<div class="menu-text">{{item.title}}</div>

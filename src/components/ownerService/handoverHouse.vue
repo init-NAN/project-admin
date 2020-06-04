@@ -26,7 +26,11 @@
           <el-row type="flex" justify="space-around">
             <el-col :span="10" :offset="2">
               <el-form-item label="管理区">
-                <el-select v-model="searchDetailForm.selectedAria" placeholder="请选择管理区" @change="chooseAria" >
+                <el-select
+                  v-model="searchDetailForm.selectedAria"
+                  placeholder="请选择管理区"
+                  @change="chooseAria"
+                >
                   <el-option
                     v-for="item in managerAriaList"
                     :key="item.value"
@@ -38,7 +42,12 @@
             </el-col>
             <el-col :span="10" :offset="2">
               <el-form-item label="楼宇">
-                <el-select v-model="searchDetailForm.selectedFloor" filterable placeholder="请选择楼宇" :disabled="isFloorDisabled">
+                <el-select
+                  v-model="searchDetailForm.selectedFloor"
+                  filterable
+                  placeholder="请选择楼宇"
+                  :disabled="isFloorDisabled"
+                >
                   <el-option
                     v-for="item in floorHouseList"
                     :key="item.value"
@@ -52,12 +61,20 @@
           <el-row type="flex" justify="space-around">
             <el-col :span="10" :offset="2">
               <el-form-item label="房间代码">
-                <el-input v-model="searchDetailForm.roomCodeSearch" placeholder="请输入房间代码" class="roomCodeInput"></el-input>
+                <el-input
+                  v-model="searchDetailForm.roomCodeSearch"
+                  placeholder="请输入房间代码"
+                  class="roomCodeInput"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10" :offset="2">
               <el-form-item label="客户名称">
-                <el-input v-model="searchDetailForm.customerNameSearch" placeholder="请输入客户名称" class="customerInput"></el-input>
+                <el-input
+                  v-model="searchDetailForm.customerNameSearch"
+                  placeholder="请输入客户名称"
+                  class="customerInput"
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -72,8 +89,16 @@
             <el-col :span="12" :offset="12">
               <div class="btns">
                 <el-button size="small" class="el-icon-search btn-addmore">搜索</el-button>
-                <el-button class="el-icon-refresh-left btn-addmore" size="small" @click="reSetting()">重置</el-button>
-                <el-button class="el-icon-arrow-up btn-addmore" size="small" @click="showDetailSearch"></el-button>
+                <el-button
+                  class="el-icon-refresh-left btn-addmore"
+                  size="small"
+                  @click="reSetting()"
+                >重置</el-button>
+                <el-button
+                  class="el-icon-arrow-up btn-addmore"
+                  size="small"
+                  @click="showDetailSearch"
+                ></el-button>
               </div>
             </el-col>
           </el-row>
@@ -85,18 +110,31 @@
         ref="multipleTable"
         @selection-change="handleSelectionChange"
         style="width: 100%"
-        :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}"
-      >
+        :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="managerAria" label="管理区"></el-table-column>
         <el-table-column prop="houseName" label="楼宇名称"></el-table-column>
         <el-table-column prop="roomCode" label="房间代码">
           <template slot-scope="scope">
-            <el-button type="text" size="small" class="table-show" @click="showRoomCodeDialog(scope.row)">{{scope.row.roomCode}}</el-button>
+            <el-button
+              type="text"
+              size="small"
+              class="table-show"
+              @click="showRoomCodeDialog(scope.row)"
+            >{{scope.row.roomCode}}</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="buildUpArea" label="建筑面积(m²)"></el-table-column>
-        <el-table-column prop="customerName" label="客户名称"></el-table-column>
+        <el-table-column prop="customerName" label="客户名称">
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              size="small"
+              class="table-show"
+              @click="showCustomerDetail(scope.row)"
+            >{{scope.row.customerName}}</el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="handoverDate" label="交房日期"></el-table-column>
       </el-table>
     </section>
@@ -105,7 +143,13 @@
         <el-button class="btn-trans el-icon-arrow-left" size="small" @click="goBack">返回</el-button>
       </div>
       <div class="content">
-        <el-form :model="registrationForm" :rules="registrationRules" ref="registrationForm" label-width="auto" class="registrationForm">
+        <el-form
+          :model="registrationForm"
+          :rules="registrationRules"
+          ref="registrationForm"
+          label-width="auto"
+          class="registrationForm"
+        >
           <el-form-item label="房间" prop="roomName">
             <el-input v-model="registrationForm.roomName" placeholder="房间代码/车位号/业主姓名"></el-input>
           </el-form-item>
@@ -113,13 +157,9 @@
             <el-input v-model="registrationForm.customer" placeholder="房间代码/车位号/业主姓名"></el-input>
           </el-form-item>
           <el-form-item label="交房日期" class="handoverDate" prop="handoverDate">
-            <el-date-picker
-              v-model="registrationForm.handoverDate"
-              type="date"
-              placeholder="选择日期">
-            </el-date-picker>
+            <el-date-picker v-model="registrationForm.handoverDate" type="date" placeholder="选择日期"></el-date-picker>
           </el-form-item>
-          <el-form-item label="" class="operation">
+          <el-form-item label class="operation">
             <el-button size="small" class="btn-addmore" @click="savaAndContinue">保存并继续</el-button>
             <el-button size="small" class="btn-addmore" @click="savaAndBack">保存并返回</el-button>
             <el-button size="small" class="btn-trans" @click="cancel()">取消</el-button>
@@ -138,11 +178,7 @@
         :total="total"
       ></el-pagination>
     </el-col>
-    <el-drawer
-      title="房间详情"
-      :visible.sync="isShowRoomCodeDialog"
-      size="60%"
-      :direction="direction">
+    <el-drawer title="房间详情" :visible.sync="isShowRoomCodeDialog" size="60%" :direction="direction">
       <div class="roomCodeDetail">
         <el-card class="simpData">
           <div class="simpleRoomData">
@@ -218,115 +254,44 @@
         </el-card>
         <el-card class="ownerTab">
           <el-button size="small" class="btn-trans tabBtn" v-if="activeOwnerTab=='owner'">业主管理</el-button>
-          <el-button size="small" class="btn-trans tabBtn" v-else-if="activeOwnerTab=='currentMember'">成员管理</el-button>
+          <el-button
+            size="small"
+            class="btn-trans tabBtn"
+            v-else-if="activeOwnerTab=='currentMember'"
+          >成员管理</el-button>
           <el-tabs v-model="activeOwnerTab" @tab-click="changeOwnerTab">
             <el-tab-pane label="业主" name="owner">
-              <el-table
-              :data="ownerTable"
-              stripe
-              style="width: 100%">
-                <el-table-column
-                  prop="ownerName"
-                  label="业主姓名">
-                    <template slot-scope="scope">
-                      <el-button type="text" size="small" class="table-show">
-                        {{scope.row.ownerName}}
-                      </el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                  prop="concatPhone"
-                  label="联系电话">
-                </el-table-column>
-                <el-table-column
-                  prop="MovingInDate"
-                  label="迁入日期">
-                </el-table-column>
-                <el-table-column
-                  prop="status"
-                  label="状态">
-                </el-table-column>
+              <el-table :data="ownerTable" stripe style="width: 100%">
+                <el-table-column prop="ownerName" label="业主姓名"></el-table-column>
+                <el-table-column prop="concatPhone" label="联系电话"></el-table-column>
+                <el-table-column prop="MovingInDate" label="迁入日期"></el-table-column>
+                <el-table-column prop="status" label="状态"></el-table-column>
               </el-table>
             </el-tab-pane>
             <el-tab-pane label="当前居住成员" name="currentMember">
-              <el-table
-              :data="currentMemberTable"
-              stripe
-              style="width: 100%">
-                <el-table-column
-                  prop="memberName"
-                  label="成员姓名"
-                  width="150">
-                    <template slot-scope="scope">
-                      <el-button type="text" size="small" class="table-show">
-                        {{scope.row.memberName}}
-                      </el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                  prop="owner"
-                  label="业主"
-                  width="150">
-                </el-table-column>
-                <el-table-column
-                  prop="relation"
-                  label="与业主关系"
-                  width="150">
-                </el-table-column>
-                <el-table-column
-                  prop="concatPhone"
-                  width="150"
-                  label="联系电话">
-                </el-table-column>
-                <el-table-column
-                  prop="limitDate"
-                  label="居住期限"
-                  width="240">
-                </el-table-column>
+              <el-table :data="currentMemberTable" stripe style="width: 100%">
+                <el-table-column prop="memberName" label="成员姓名" width="150"></el-table-column>
+                <el-table-column prop="owner" label="业主" width="150"></el-table-column>
+                <el-table-column prop="relation" label="与业主关系" width="150"></el-table-column>
+                <el-table-column prop="concatPhone" width="150" label="联系电话"></el-table-column>
+                <el-table-column prop="limitDate" label="居住期限" width="240"></el-table-column>
               </el-table>
             </el-tab-pane>
           </el-tabs>
         </el-card>
         <el-card class="contract">
-          <el-table
-          :data="contractTable"
-          stripe
-          style="width: 100%">
-            <el-table-column
-              prop="contractNum"
-              label="合同编号">
-            </el-table-column>
-            <el-table-column
-              prop="tenantName"
-              label="租户姓名">
-            </el-table-column>
-            <el-table-column
-              prop="contractStartDate"
-              label="合同起始日期">
-            </el-table-column>
-            <el-table-column
-              prop="contractEndDate"
-              label="合同结束日期">
-            </el-table-column>
-            <el-table-column
-              prop="status"
-              label="合同状态">
-            </el-table-column>
+          <el-table :data="contractTable" stripe style="width: 100%">
+            <el-table-column prop="contractNum" label="合同编号"></el-table-column>
+            <el-table-column prop="tenantName" label="租户姓名"></el-table-column>
+            <el-table-column prop="contractStartDate" label="合同起始日期"></el-table-column>
+            <el-table-column prop="contractEndDate" label="合同结束日期"></el-table-column>
+            <el-table-column prop="status" label="合同状态"></el-table-column>
           </el-table>
         </el-card>
       </div>
-      <div slot="footer"
-          class="dialog-footer">
-        <el-button @click="isShowRoomCodeDialog = false" class="btn-trans">取 消</el-button>
-        <el-button class="btn-addmore">确 定</el-button>
-      </div>
     </el-drawer>
-    <el-dialog
-      title="编辑房间"
-      :visible.sync="isShowRoomEditDialog"
-      width="85%">
-      <el-form ref="editRoomForm" :model="editRoomForm" :rules="eDitRoomRules"
-      label-width="auto">
+    <el-dialog title="编辑房间" :visible.sync="isShowRoomEditDialog" width="85%">
+      <el-form ref="editRoomForm" :model="editRoomForm" :rules="eDitRoomRules" label-width="auto">
         <el-row>
           <el-col>
             <el-form-item label="上级机构：" class="superiorOrganization" prop="higherAuthorities">
@@ -338,7 +303,7 @@
           </el-col>
         </el-row>
         <el-row type="flex" justify="space-between">
-          <el-col :span="10" >
+          <el-col :span="10">
             <el-form-item label="楼层：" prop="floor">
               <el-input v-model="editRoomForm.floor" placeholder="请输入楼层"></el-input>
             </el-form-item>
@@ -350,7 +315,7 @@
           </el-col>
         </el-row>
         <el-row type="flex" justify="space-between">
-          <el-col :span="10" >
+          <el-col :span="10">
             <el-form-item label="房间代码：" prop="roomCode">
               <el-input v-model="editRoomForm.roomCode" placeholder="请输入房间代码"></el-input>
             </el-form-item>
@@ -358,23 +323,54 @@
           <el-col :span="10">
             <el-form-item label="房间类型：" prop="roomType">
               <el-select v-model="selectedRoomType" placeholder="请选择房间类型" style="width:100%">
-                  <el-option
-                    v-for="item in roomTypeList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
+                <el-option
+                  v-for="item in roomTypeList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <div slot="footer"
-          class="dialog-footer"> 
+      <div slot="footer" class="dialog-footer">
         <el-button @click="isShowRoomEditDialog = false" class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore">确 定</el-button>
       </div>
-      </el-dialog>
+    </el-dialog>
+    <el-dialog title="客户详情" :visible.sync="isShowCustomerDetail" width="85%">
+      <el-form ref="customerDetailForm" :model="customerDetailForm" label-width="auto">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="姓名：">
+              <el-input v-model="customerDetailForm.customerName" placeholder="请输客户姓名"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="身份证号：">
+              <el-input v-model="customerDetailForm.identifyNum" placeholder="请输身份证号"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="电话号码：">
+              <el-input v-model="customerDetailForm.telPhone" placeholder="请输客户电话"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="管理区：">
+              <el-input v-model="customerDetailForm.managerAria" placeholder="请输入管理区"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="isShowCustomerDetail = false" class="btn-trans">取 消</el-button>
+        <el-button type="primary" @click="isShowCustomerDetail = false" class="btn-addmore">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -408,83 +404,87 @@ export default {
           handoverDate: "2020/04/17"
         }
       ],
-      ownerTable:[
+      ownerTable: [
         {
-          ownerName:'王志远（费用承担人）',
-          concatPhone:'15797706475',
-          MovingInDate:'2020/5/25',
-          status:'当前'
+          ownerName: "王志远（费用承担人）",
+          concatPhone: "15797706475",
+          MovingInDate: "2020/5/25",
+          status: "当前"
         }
       ],
-      currentMemberTable:[
+      currentMemberTable: [
         {
-          memberName:'王志远',
-          owner:'王志远',
-          relation:'租户',
-          concatPhone:'',
-          limitDate:'2020/01/11-2020/10/01'
+          memberName: "王志远",
+          owner: "王志远",
+          relation: "租户",
+          concatPhone: "",
+          limitDate: "2020/01/11-2020/10/01"
         }
       ],
-      contractTable:[],
+      contractTable: [],
       //编辑房间的表单数据
       editRoomForm: {
-        higherAuthorities:'',
-        floor:2,
-        roomNum:4,
-        roomCode:'',
-        roomType:'商用'
+        higherAuthorities: "",
+        floor: 2,
+        roomNum: 4,
+        roomCode: "",
+        roomType: "商用"
       },
       eDitRoomRules: {
         higherAuthorities: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: "请输入活动名称", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ],
-        floor: [
-          { required: true, message: '请输入楼层', trigger: 'blur' },
+        floor: [{ required: true, message: "请输入楼层", trigger: "blur" }],
+        roomNum: [{ required: true, message: "请输入序号！", trigger: "blur" }],
+        roomCode: [
+          {
+            required: true,
+            max: 30,
+            message: "请正确输入房间代码，最大长度为30",
+            trigger: "blur"
+          }
         ],
-        roomNum:[
-          { required: true, message: '请输入序号！', trigger: 'blur' },
-        ],
-        roomCode:[
-          { required: true, max:30, message: '请正确输入房间代码，最大长度为30', trigger: 'blur' }
-        ],
-        roomType:[
-          { required: true, message: '请选择房间类型！', trigger: 'blur' },
+        roomType: [
+          { required: true, message: "请选择房间类型！", trigger: "blur" }
         ]
       },
-      roomTypeList:[
+      roomTypeList: [
         {
-          value:'0',
-          label:'商用'
+          value: "0",
+          label: "商用"
         },
         {
-          value:'1',
-          label:'住宅'
-
+          value: "1",
+          label: "住宅"
         },
         {
-          value:'2',
-          label:'办公'
+          value: "2",
+          label: "办公"
         }
       ],
       //登记导向的表单数据
-      registrationForm:{
-        roomName:'',
-        customer:'',
-        handoverDate:''
+      registrationForm: {
+        roomName: "",
+        customer: "",
+        handoverDate: ""
       },
-      registrationRules:{
-        roomName:[
-          {required: true, message: '请输入房间', trigger: 'blur'}
-        ],
-        customer:[
-          {required: true, message: '请输入客户名称', trigger: 'blur'}
+      registrationRules: {
+        roomName: [{ required: true, message: "请输入房间", trigger: "blur" }],
+        customer: [
+          { required: true, message: "请输入客户名称", trigger: "blur" }
         ],
         handoverDate: [
-          {required: true, message: '请选择交房日期', trigger: 'blur'}
+          { required: true, message: "请选择交房日期", trigger: "blur" }
         ]
       },
-      selectedRoomType:'',
+      customerDetailForm:{
+         customerName:'',
+         identifyNum:223123123123123,
+         telPhone:15797706475,
+         managerAria:''
+      },
+      selectedRoomType: "",
       total: 0,
       page: 1,
       pageSize: 10,
@@ -517,7 +517,7 @@ export default {
         }
       ],
       //搜索详情表单数据
-      searchDetailForm:{
+      searchDetailForm: {
         selectedAria: "",
         selectedFloor: "",
         roomCodeSearch: "", //搜索框的房间代码
@@ -525,15 +525,15 @@ export default {
       },
       isFloorDisabled: true, //楼宇下拉框默认不可选
       floorHouseList: [],
-      isShowRoomCodeDialog:false,//是否展示抽屉弹窗（房间代码）
-      isShowRoomEditDialog:false,//是否展示编辑房间的弹窗
-      isShowrRegistation:false,//是否展示登记导向
-      direction: 'rtl',
-      currentRow:'',//点击的当前行
-      activeOwnerTab:'owner',
+      isShowRoomCodeDialog: false, //是否展示抽屉弹窗（房间代码）
+      isShowRoomEditDialog: false, //是否展示编辑房间的弹窗
+      isShowrRegistation: false, //是否展示登记导向
+      isShowCustomerDetail:false,//是否展示客户详情
+      direction: "rtl",
+      currentRow: "", //点击的当前行
+      activeOwnerTab: "owner"
     };
   },
-
   methods: {
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -553,10 +553,10 @@ export default {
     },
     // 展示登记导向
     showRegistration() {
-      this.isShowrRegistation = true
+      this.isShowrRegistation = true;
     },
     goBack() {
-      this.isShowrRegistation = false
+      this.isShowrRegistation = false;
     },
     //保存并继续
     savaAndContinue() {
@@ -565,19 +565,19 @@ export default {
     //保存并返回
     savaAndBack() {
       //取到form的数据并发送接口保存设置操作（待写...）
-      this.isShowrRegistation = false
+      this.isShowrRegistation = false;
     },
     // 取消
     cancel() {
       //将form的数据清空
-      for(let key in this.registrationForm) {
-        this.registrationForm[key] = ''
+      for (let key in this.registrationForm) {
+        this.registrationForm[key] = "";
       }
-      this.isShowrRegistation = false
+      this.isShowrRegistation = false;
     },
     reSetting() {
-      for(let key in this.searchDetailForm) {
-        this.searchDetailForm[key] = ''
+      for (let key in this.searchDetailForm) {
+        this.searchDetailForm[key] = "";
       }
     },
     chooseAria(item) {
@@ -650,14 +650,20 @@ export default {
     },
     // 展示编辑房间信息弹窗
     showEditRoom() {
-      this.isShowRoomEditDialog = true
-      this.isShowRoomCodeDialog = false
-      this.editRoomForm.roomCode = this.currentRow.roomCode
+      this.isShowRoomEditDialog = true;
+      this.isShowRoomCodeDialog = false;
+      this.editRoomForm.roomCode = this.currentRow.roomCode;
     },
     // 展示抽屉弹窗
     showRoomCodeDialog(row) {
-      this.isShowRoomCodeDialog = true
-      this.currentRow = row
+      this.isShowRoomCodeDialog = true;
+      this.currentRow = row;
+    },
+    //展示客户信息弹窗
+    showCustomerDetail(row) {
+      this.customerDetailForm.customerName = row.customerName
+      this.customerDetailForm.managerAria = row.managerAria
+      this.isShowCustomerDetail = true
     },
     //删除当前房间
     deleteCurrentRoom(row) {
@@ -665,7 +671,8 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(() => {
+      })
+        .then(() => {
           // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
           this.tableData.splice(index, 1);
           this.$message({
@@ -682,8 +689,8 @@ export default {
     },
     //切换业主Tab
     changeOwnerTab(tab, event) {
-      console.log(this.activeOwnerTab,'activeOwnerTab')
-      console.log(tab.paneName, event)
+      console.log(this.activeOwnerTab, "activeOwnerTab");
+      console.log(tab.paneName, event);
     }
   },
   watch: {
@@ -695,7 +702,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
 <style lang="less" scope>
@@ -708,7 +715,7 @@ export default {
 .main-content {
   .grid-content {
     .searchDetail {
-      min-width:800px;
+      min-width: 800px;
       width: 100%;
       margin-top: 10px;
       margin-bottom: 10px;
@@ -718,14 +725,16 @@ export default {
       .el-form {
         .el-form-item {
           .el-form-item__content {
-            .el-select ,.roomCodeInput, .customerInput{
-              width:50%;
-              display:flex;
+            .el-select,
+            .roomCodeInput,
+            .customerInput {
+              width: 50%;
+              display: flex;
             }
           }
           .el-form-item__label-wrap {
             .el-form-item__label {
-              color:#fff;
+              color: #fff;
             }
           }
         }
@@ -772,11 +781,12 @@ export default {
       margin-top: 20px;
       padding-left: 120px;
       padding-right: 120px;
-      .handoverDate,.operation {
+      .handoverDate,
+      .operation {
         .el-form-item__content {
           display: flex;
         }
-      } 
+      }
       .el-form-item__label {
         font-size: 14px;
         font-family: PingFangSC-Regular, PingFang SC;

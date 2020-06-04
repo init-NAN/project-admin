@@ -112,6 +112,7 @@ export default {};
       }
     }
     /deep/ .el-dialog__header  {
+      padding: 10px 20px 10px;
       background: url("../../assets/comment/type(1).png") no-repeat;
       .el-dialog__title {
         color: #FFF;

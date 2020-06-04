@@ -40,7 +40,7 @@ const checkIn = () => import('./components/ownerService/checkIn.vue')
 const decorate = () => import('./components/ownerService/decorate.vue')
 //报修管理
 const repairApplication = () => import('./components/ownerService/repairApplication.vue')
-//登记导向
+//业主echarts
 const ownerEcharts = () => import('./components/ownerService/ownerEcharts.vue')
 
 
@@ -68,7 +68,7 @@ let routes = [{
     path: '/',
     component: Main,
     name: '',
-    // redirect: '/attractInvestment/resources',
+    redirect: '/attractInvestment/overviewAttractInvestment',
     children: [{
         path: 'attractInvestment',
         component: attractInvestment,
@@ -204,7 +204,6 @@ let routes = [{
             path: '/attractInvestment/overviewAttractInvestment',
             component: overviewAttractInvestment
           }
-
         ]
       }, {
         path: '/ownerService',

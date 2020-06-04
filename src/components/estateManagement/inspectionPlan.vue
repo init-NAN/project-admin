@@ -3,7 +3,7 @@
     <el-row class="margin-bottom">
       <el-col :span="2">
         <el-button class="btn-addmore"
-                   @click="isInspection = true">新建</el-button>
+                   @click="isInspection = true,form = {},inspectionTitle = '新建巡检计划',resetForm ('form')">新建</el-button>
       </el-col>
       <el-col :span="3">
         <el-button :disabled='this.checkedBox.length===0' class="btn-trans">批量删除</el-button>
@@ -66,6 +66,7 @@
         <el-table-column prop="label"
                          label="状态"
                          width="150"></el-table-column>
+                         
         <el-table-column fixed="right"
                          label="操作"
                          width="130">
@@ -73,15 +74,15 @@
             <el-button type="text"
                        size="small"
                        class="table-change"
-                       @click="isInspection = true">编辑</el-button>
+                       @click.native.prevent="editList(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text"
             class="table-del"
-                       @click="handleDelete(scope.row)"
+                       @click="handleDelete(scope.$index,scope.row)"
                        size="small">停用</el-button>
             <el-button type="text"
                        size="small"
                        class="table-change"
-                       @click="isInspection = true">复制</el-button>
+                       @click.native.prevent="editList(scope.$index, scope.row)">复制</el-button>
           </template>
         </el-table-column>
 
@@ -239,7 +240,7 @@
                   <el-select v-model="form.created"
                              placeholder="">
                     <el-option label="企业版"
-                               value="shanghai"></el-option>
+                               value="企业版"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -392,7 +393,6 @@ export default {
     handleSelectionChange: function (sels) {
       window.console.log(sels)
       this.checkedBox = sels;
-
       //console.log(this.ids);
     },
     handleSizeChange (size) {
@@ -407,10 +407,47 @@ export default {
     // handleChange (value) {
     //   console.log(value);
     // },
+    resetForm (formName) {
+      this.isEquipment = false
+      if (this.$refs[formName] !== undefined) {
+        this.$refs[formName].resetFields();
+      }
+    },
     closeInspection(done) {
       this.$refs['form'].resetFields();
       done();
-    }
+    },
+    editList (index, item) {
+      window.console.log(item)
+      window.console.log(index)
+      this.isInspection = true
+      this.form = { ...item }
+      window.console.log(this.form)
+      this.inspectionTitle = '编辑巡检计划'
+    },
+    handleDelete (index, row) {
+      window.console.log('row'+row)
+      window.console.log(index)
+      this.$confirm("永久停用该计划, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+          this.tableData[index].label = '已停用';
+          this.$message({
+            type: "success",
+            message: "停用成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消停用"
+          });
+        });
+    },
   }
 }
 </script>

@@ -23,9 +23,6 @@ const contract = () => import('./components/attractInvestment/contract.vue')
 const customer = () => import('./components/attractInvestment/customer.vue')
 //合同模板
 const contractTemplate = () => import('./components/attractInvestment/contractTemplate.vue')
-
-
-
 const overviewAttractInvestment = () => import('./components/attractInvestment/overviewAttractInvestment.vue')
 
 //业主服务路由
@@ -63,12 +60,14 @@ const inspectionProblems = () => import('./components/estateManagement/inspectio
 const patrolTask = () => import('./components/estateManagement/patrolTask.vue')
 //巡查问题
 const patrolProblems = () => import('./components/estateManagement/patrolProblems.vue')
+const overviewEstate = () => import('./components/estateManagement/overviewsEstate.vue')
+
 
 let routes = [{
     path: '/',
     component: Main,
     name: '',
-    // redirect: '/attractInvestment/resources',
+    redirect: '/attractInvestment/overviewAttractInvestment',
     children: [{
         path: 'attractInvestment',
         component: attractInvestment,
@@ -142,6 +141,7 @@ let routes = [{
       {
         path: 'estateManagement',
         component: estateManagement,
+        redirect: '/estateManagement/overviewEstate',
         name: '',
         title: '物业报修',
         iconCls: 'el-icon-video-play',
@@ -204,17 +204,24 @@ let routes = [{
             path: '/attractInvestment/overviewAttractInvestment',
             component: overviewAttractInvestment
           }
-
         ]
-      }, {
+      },
+      {
         path: '/ownerService',
         component: ownerService,
         children: [{
           path: '/ownerService/ownerEcharts',
           component: ownerEcharts
         }]
-      }
-
+      },
+      {
+        path: '/estateManagement',
+        component: estateManagement,
+        children: [{
+          path: '/estateManagement/overviewEstate',
+          component: overviewEstate
+        }, ]
+      },
     ]
   }
 ];

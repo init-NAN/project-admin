@@ -36,10 +36,9 @@
                          label="管理区"
                          width="200"></el-table-column>
 
-        <el-table-column prop="name"
+        <el-table-column prop="eName"
                          label="设备名称"
                          width="150"></el-table-column>
-
         <el-table-column prop="eCode"
                          label="设备编码"
                          width="150"></el-table-column>
@@ -71,7 +70,7 @@
                        @click.native.prevent="editList(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text"
                        class="table-del"
-                       @click.native.prevent="handleDelete(scope.row)"
+                       @click.native.prevent="handleDelete(scope.$index,scope.row)"
                        size="small">删除</el-button>
             <el-button type="text"
                        size="small"
@@ -167,9 +166,9 @@
             </el-row>
             <el-row :gutter="30">
               <el-col :span="6">
-                <el-form-item label="特殊资源"
-                              prop="resource">
-                  <el-radio-group v-model="form.resource">
+                <el-form-item label="设备状态"
+                              prop="status">
+                  <el-radio-group v-model="form.status">
                     <el-radio label="正常"></el-radio>
                     <el-radio label="故障"></el-radio>
                   </el-radio-group>
@@ -177,7 +176,7 @@
               </el-col>
               <el-col :span="6">
                 <el-form-item label="规格型号:">
-                  <el-input v-model="form.wornum"
+                  <el-input v-model="form.specification"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
@@ -378,7 +377,7 @@ export default {
         management: '绿岛物业',
         eCode: '1#',
         date: '2016-05-02',
-        name: '曳引驱动乘客电梯1',
+        eName: '曳引驱动乘客电梯1',
         eType: '乘客电梯',
         status: '正常',
         specification: 'dec2',
@@ -389,7 +388,7 @@ export default {
         management: '绿岛物业',
         eCode: '1#',
         date: '2016-05-02',
-        name: '曳引驱动乘客电梯1',
+        eName: '曳引驱动乘客电梯1',
         eType: '乘客电梯',
         good: '正常',
         how: 'dec2',
@@ -400,7 +399,7 @@ export default {
         management: '绿岛物业',
         eCode: '1#',
         date: '2016-05-02',
-        name: '曳引驱动乘客电梯1',
+        eName: '曳引驱动乘客电梯1',
         eType: '乘客电梯',
         good: '正常',
         how: 'dec2',
@@ -425,7 +424,8 @@ export default {
         ],
         eType: [
           { required: true, message: "请选择设备类型!", trigger: "change" }
-        ]
+        ],
+
       },
 
     }
@@ -486,7 +486,9 @@ export default {
     //biaodan 
     handleDelete (index, row) {
       // 设置类似于console类型的功能
-      window.console.log(row)
+      window.console.log('row'+ row)
+      window.console.log(index)
+
       this.$confirm("永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -519,22 +521,21 @@ export default {
     },
 
     addEquipment () {
-      this.from = {}
-      // this.resetForm(formName);
+      this.form = {}
       this.addEquipFiles = '新增设备档案'
       this.isEquipment = true
-
+      this.resetForm('form');
     },
-    closeEquipment(done) {
+    closeEquipment (done) {
       this.$refs['form'].resetFields();
       done();
     },
     editList (index, item) {
-      window.console.log(item)
-      window.console.log(index)
+      // window.console.log(item)
+      // window.console.log(index)
       this.isEquipment = true
       this.form = { ...item }
-      window.console.log(this.form)
+      // window.console.log(this.form)
       this.addEquipFiles = '编辑设备档案'
     },
     submitForm (formName) {
@@ -544,13 +545,14 @@ export default {
           if (this.addEquipFiles == '新增设备档案') {
             this.tableData.push(this.form);
             this.isEquipment = false
-            this.resetForm(formName);
           }
         } else {
           console.log('error submit!!');
           return false;
         }
       });
+
+      // this.resetForm(formName);
     },
 
   }

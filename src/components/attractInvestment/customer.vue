@@ -411,7 +411,7 @@ export default {
             window.console.log(this.form.date)
             this.tableData.push(this.form);
             this.addCustomerVisibel = false;
-            this.resetForm(formName);
+
           }
           // else if (this.addDialogTitle == '编辑客户') {
 
@@ -421,6 +421,7 @@ export default {
           return false;
         }
       });
+      // this.resetForm(formName);
     },
     resetForm (formName) {
       if (this.$refs[formName] !== undefined) {
@@ -428,9 +429,8 @@ export default {
       }
       this.addCustomerVisibel = false
     },
-    closeForm(done) {
+    closeForm (done) {
       this.$refs['form'].resetFields();
-      
       done();
     }
   }

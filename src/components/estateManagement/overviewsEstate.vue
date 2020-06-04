@@ -1,13 +1,12 @@
 <template>
-  <div class="overview-attr">
-
+  <div class="overviewsEstate">
     <el-col class="overview-card"
             :sm="22"
             :md="7"
             :offset="1">
       <div class="header">
         <p class="title">
-          招商项目总览
+          物业总览
         </p>
         <i class="el-icon-refresh-right refresh"></i>
       </div>
@@ -51,45 +50,44 @@
             :sm="22"
             :md="7"
             :offset="1">
-
       <div class="header">
         <p class="title">
-          产业总览
+          巡查计划
         </p>
         <i class="el-icon-refresh-right refresh"></i>
       </div>
       <div class="cCard">
         <div class="content">
           <div class="content-card">
-            <p class="content-title">今年入驻</p>
+            <p class="content-title">完成情况</p>
             <p class="content-num">0</p>
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">同比</p>
-            <p class="content-num">0%</p>
+            <p class="content-title">本年意向</p>
+            <p class="content-num">1</p>
           </div>
         </div>
         <div class="content">
           <div class="content-card">
-            <p class="content-title">今年产值/万元</p>
+            <p class="content-title">本月签约</p>
             <p class="content-num">0</p>
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">同比</p>
-            <p class="content-num">%</p>
+            <p class="content-title">本年签约</p>
+            <p class="content-num">0</p>
           </div>
         </div>
         <div class="content">
           <div class="content-card">
-            <p class="content-title">今年退园</p>
-            <p class="content-num">0</p>
+            <p class="content-title">正在跟进</p>
+            <p class="content-num">2</p>
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">同比</p>
-            <p class="content-num">0%</p>
+            <p class="content-title">本年转化率</p>
+            <p class="content-num">0.00%</p>
           </div>
         </div>
       </div>
@@ -98,129 +96,55 @@
             :sm="22"
             :md="7"
             :offset="1">
-
       <div class="header">
         <p class="title">
-          我的关注
+          设备损耗
         </p>
         <i class="el-icon-refresh-right refresh"></i>
       </div>
-      <div class="img-box">
-        <img src="../../assets/img/login-poto.gif"
-             alt="">
-      </div>
-    </el-col>
-    <el-col class="overview-card"
-            :sm="22"
-            :md="7"
-            :offset="1">
+      <div class="echarts">
 
-      <div class="header">
-        <p class="title">
-          项目最新动态
-        </p>
-        <i class="el-icon-refresh-right refresh"></i>
-      </div>
-      <div class="img-box">
-        <img src="../../assets/img/login-poto.gif"
-             alt="">
-      </div>
-    </el-col>
-    <el-col class="overview-card"
-            :sm="22"
-            :md="15"
-            :offset="1">
-
-      <div class="header">
-        <p class="title">
-          招商负责人项目情况
-        </p>
-        <i class="el-icon-refresh-right refresh"></i>
       </div>
     </el-col>
     <el-col class="overview-card"
             :sm="22"
             :md="23"
             :offset="1">
-
       <div class="header">
         <p class="title">
-          近3年签约情况
+          保养巡检核查
         </p>
         <i class="el-icon-refresh-right refresh"></i>
       </div>
       <div class="table">
         <el-table :data="tableData"
-                  style="width: 100%"
-                  tooltip-effect="dark"
+                  ref="table"
                   :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
-          <el-table-column prop="date"
-                           label="年份"
-                           width="180">
-          </el-table-column>
+          <el-table-column prop="management"
+                           label="管理区"></el-table-column>
           <el-table-column prop="name"
-                           label="软件行业类型"
-                           width="180">
-          </el-table-column>
+                           label="任务名称"></el-table-column>
+          <el-table-column prop="peo"
+                           label="核查人"></el-table-column>
+          <el-table-column prop="doPer"
+                           label="执行人"></el-table-column>
+          <el-table-column prop="link"
+                           label="关联计划"></el-table-column>
+          <el-table-column prop="inName"
+                           label="设备名称"></el-table-column>
+          <el-table-column prop="type"
+                           label="保养类型"></el-table-column>
           <el-table-column prop="address"
-                           label="当年总计">
-          </el-table-column>
-          <el-table-column prop="name"
-                           label="同比">
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-col>
-    <el-col class="overview-card"
-            :sm="22"
-            :md="7"
-            :offset="1">
+                           label="保养地点"></el-table-column>
+          <el-table-column prop="pStart"
+                           label="计划开始时间"></el-table-column>
+          <el-table-column prop="pEnd"
+                           label="计划结束时间"></el-table-column>
+          <el-table-column prop="pType"
+                           label="任务状态"></el-table-column>
+          <el-table-column prop="pType"
+                           label="核查状态"></el-table-column>
 
-      <div class="header">
-        <p class="title">
-          意向来源分析
-        </p>
-        <i class="el-icon-refresh-right refresh"></i>
-      </div>
-    </el-col>
-    <el-col class="overview-card"
-            :sm="22"
-            :md="15"
-            :offset="1">
-
-      <div class="header">
-        <p class="title">
-          招商负责人动向
-        </p>
-        <i class="el-icon-refresh-right refresh"></i>
-      </div>
-      <div class="table">
-        <el-table :data="tableData"
-                  style="width: 100%"
-                  tooltip-effect="dark"
-                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
-
-          <el-table-column prop="name"
-                           label="负责人">
-          </el-table-column>
-          <el-table-column prop="date"
-                           label="电话">
-          </el-table-column>
-          <el-table-column prop="address"
-                           label="邮件">
-          </el-table-column>
-          <el-table-column prop="address"
-                           label="拜访">
-          </el-table-column>
-          <el-table-column prop="address"
-                           label="参观">
-          </el-table-column>
-          <el-table-column prop="address"
-                           label="其他">
-          </el-table-column>
-          <el-table-column prop="address"
-                           label="合计">
-          </el-table-column>
         </el-table>
       </div>
     </el-col>
@@ -237,17 +161,31 @@ export default {
   data () {
     return {
       tableData: [{
+        management: '绿岛物业',
+        name: '水泵保养2-20200528-1',
+        peo: '企业版',
         date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        doPer: '',
+        link: '	水泵保养2',
+        inName: '	水泵机',
+        type: '日常保养',
+        address: '1栋',
+        pStart: '2020/05/28 14:45',
+        pEnd: '2020/05/28 17:50',
+        pType: '未分配'
       }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
+        management: '绿岛物业',
+        name: '水泵保养2-20200528-1',
+        peo: '企业版',
+        date: '2016-05-02',
+        doPer: '',
+        link: '	水泵保养2',
+        inName: '	水泵机',
+        type: '日常保养',
+        address: '1栋',
+        pStart: '2020/05/28 14:45',
+        pEnd: '2020/05/28 17:50',
+        pType: '未分配'
       }],
     }
   },
@@ -255,7 +193,7 @@ export default {
 </script>
 
 <style lang="less" scope>
-.overview-attr {
+.overviewsEstate {
   .overview-card {
     height: 300px;
     background-color: rgba(10, 13, 51, 0.7);

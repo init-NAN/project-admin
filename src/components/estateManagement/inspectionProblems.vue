@@ -1,7 +1,7 @@
 <template>
   <div class="insPro">
     <el-row>
-      <ul class="ul-list">
+      <ul class="ul-list margin-bottom">
         <span class="type-title">状态:</span>
         <li :class="activeClass == index ? 'active':''"
             v-for="(itme,index) in itmeList"

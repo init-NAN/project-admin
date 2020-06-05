@@ -151,7 +151,7 @@
                          label="实际开始时间"
                          width="150"></el-table-column>
         <el-table-column prop="doEnd"
-                         label="	实际结束时间"
+                         label="实际结束时间"
                          width="150"></el-table-column>
         <el-table-column prop="pType"
                          label="任务状态"
@@ -163,10 +163,10 @@
             <el-button type="text"
                        size="small"
                        class="table-change"
-                       @click="isInscection = true">分派</el-button>
+                       @click="assignment(scope.$index,scope.row)">分派</el-button>
             <el-button type="text"
                        class="table-del"
-                       @click="handleDelete(scope.row)"
+                       @click="handleDelete(scope.$index,scope.row)"
                        size="small">删除</el-button>
             <el-button type="text"
                        size="small"
@@ -197,9 +197,9 @@
           <el-select v-model="form.region"
                      placeholder="请选择执行人">
             <el-option label="企业版"
-                       value="shanghai"></el-option>
+                       value="企业版"></el-option>
             <el-option label="企业版111"
-                       value="beijing"></el-option>
+                       value="企业版111"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -209,7 +209,7 @@
         <el-button @click="isInscection = false"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
-                   @click="isInscection = false">确 定</el-button>
+                   @click="changeRegion()">确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog title="备注"
@@ -248,8 +248,8 @@ export default {
         peo: '经办人',
         date: '2016-05-02',
         doPer: '',
-        link: '	水泵保养2',
-        inName: '	水泵机',
+        link: '水泵保养2',
+        inName: '水泵机',
         type: '日常保养',
         address: '1栋',
         pStart: '2020/05/28 14:45',
@@ -261,8 +261,8 @@ export default {
         peo: '经办人',
         date: '2016-05-02',
         doPer: '',
-        link: '	水泵保养2',
-        inName: '	水泵机',
+        link: '水泵保养2',
+        inName: '水泵机',
         type: '日常保养',
         address: '1栋',
         pStart: '2020/05/28 14:45',
@@ -272,12 +272,7 @@ export default {
       total: 0,
       page: 1,
       pageSize: 10,
-      form: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
-      },
+      form: {},
       rules: {
         mobile: [
           { required: true, message: "手机号不能为空", trigger: "blur" },
@@ -380,6 +375,24 @@ export default {
       this.page = val;
       this.getDeviceList();
     },
+    resetForm (formName) {
+      this.isEquipment = false
+      if (this.$refs[formName] !== undefined) {
+        this.$refs[formName].resetFields();
+      }
+    },
+    closeInspection(done) {
+      this.$refs['form'].resetFields();
+      done();
+    },
+    // fenpai
+   assignment(index,item) {
+     window.console.log(index)
+     window.console.log(item)
+     this.isInscection = true
+     this.form = { ...item }
+   },
+
   }
 }
 </script>

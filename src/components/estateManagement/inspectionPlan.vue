@@ -13,8 +13,8 @@
         <el-input v-model="input"
                   placeholder="请输入内容"></el-input>
       </el-col>
-      <el-col :span="3">
-        <span>高级搜索</span>
+      <el-col :span="2" :offset="1">
+        <el-button type="text">高级搜索</el-button>
       </el-col>
     </el-row>
     <section class="grid-content">

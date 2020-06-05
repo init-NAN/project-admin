@@ -15,7 +15,9 @@ export default {
   .margin-bottom {
     margin-bottom: 20px;
   }
-
+  .el-table__fixed-right:before, .el-table__fixed:before {
+    height: 0;
+  }
   .el-table th,
   .el-table tr {
     background-color: rgba(0, 0, 0);

@@ -145,7 +145,7 @@
           <template slot-scope="scope">
             <el-button type="text"
                        class="table-del"
-                       @click="handleDelete(scope.row)"
+                       @click="handleDelete(scope.$index,scope.row)"
                        size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -171,29 +171,28 @@
 
           <el-form :model="form"
                    :rules="rules"
-                   hide-required-asterisk
                    label-position='left'
                    label-width="auto"
                    ref="form">
             <el-row :gutter="30">
               <el-col :span="24">
-                <el-form-item label="管理区:">
-                  <el-select v-model="form.tpye"
+                <el-form-item label="管理区:" prop="management">
+                  <el-select v-model="form.management"
                              placeholder="请选择区域">
                     <el-option label="明珠城"
-                               value="shanghai"></el-option>
+                               value="明珠城"></el-option>
                     <el-option label="绿岛物业"
-                               value="beijing"></el-option>
+                               value="绿岛物业"></el-option>
                     <el-option label="其他"
-                               value="out"></el-option>
+                               value="其他"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="30">
               <el-col :span="24">
-                <el-form-item label="任务计划时间:">
-                  <el-date-picker v-model="value1"
+                <el-form-item label="任务计划时间:" prop="rageDate">
+                  <el-date-picker v-model="form.rageDate"
                                   type="daterange"
                                   range-separator="~"
                                   start-placeholder="开始日期"
@@ -208,7 +207,7 @@
                   <el-select v-model="form.name"
                              placeholder="请选择经办人">
                     <el-option label="暂无数据"
-                               value="out"></el-option>
+                               value="暂无数据"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -257,24 +256,14 @@ export default {
       total: 0,
       page: 1,
       pageSize: 10,
-      form: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
-      },
+      form: {},
       rules: {
-        mobile: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          {
-            pattern: "0?(13|14|15|18|17)[0-9]{9}",
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          }
+        management: [
+          { required: true, message: "请选择管理区", trigger: "change" },
+         
         ],
-        code: [
-          { required: true, message: "验证码不能为空", trigger: "blur" },
-          { len: 6, message: "验证码必须为6位", trigger: "blur" }
+        rageDate: [
+          { required: true, message: "请选择周期", trigger: "change" },
         ]
       },
       value1: '',
@@ -291,6 +280,7 @@ export default {
         inName: '	水泵机',
         type: '日常保养',
         address: '1栋',
+        rageDate:['2020/05/28 14:45','2020/05/28 17:50'],
         pStart: '2020/05/28 14:45',
         pEnd: '2020/05/28 17:50',
         pType: '未开始'

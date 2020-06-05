@@ -321,8 +321,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="房间类型：" prop="roomType">
-              <el-select v-model="selectedRoomType" placeholder="请选择房间类型" style="width:100%">
+            <el-form-item label="房间类型：" prop="selectedRoomType">
+              <el-select v-model="editRoomForm.selectedRoomType" placeholder="请选择房间类型" style="width:100%">
                 <el-option
                   v-for="item in roomTypeList"
                   :key="item.value"
@@ -334,41 +334,68 @@
           </el-col>
         </el-row>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="isShowRoomEditDialog = false" class="btn-trans">取 消</el-button>
-        <el-button class="btn-addmore">确 定</el-button>
+      <div slot="footer" class="dialog-footer"> 
+        <!-- isShowRoomEditDialog = false -->
+        <el-button @click="cancelRoomEdit('editRoomForm')" class="btn-trans">取 消</el-button>
+        <el-button class="btn-addmore" @click="submitEditRoomForm('editRoomForm')">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="客户详情" :visible.sync="isShowCustomerDetail" width="85%">
-      <el-form ref="customerDetailForm" :model="customerDetailForm" label-width="auto">
+    <el-dialog title="编辑客户详情" :visible.sync="isShowCustomerDetail" width="85%">
+      <el-form ref="customerDetailForm" :model="customerDetailForm" :rules="customerDetailFormRules" label-width="auto">
         <el-row type="flex" justify="space-between">
           <el-col :span="10">
-            <el-form-item label="姓名：">
+            <el-form-item label="姓名：" prop="customerName">
               <el-input v-model="customerDetailForm.customerName" placeholder="请输客户姓名"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="身份证号：">
+            <el-form-item label="身份证号：" prop="identifyNum">
               <el-input v-model="customerDetailForm.identifyNum" placeholder="请输身份证号"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="space-between">
           <el-col :span="10">
-            <el-form-item label="电话号码：">
+            <el-form-item label="电话号码：" prop="telPhone">
               <el-input v-model="customerDetailForm.telPhone" placeholder="请输客户电话"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="管理区：">
-              <el-input v-model="customerDetailForm.managerAria" placeholder="请输入管理区"></el-input>
+            <el-form-item label="管理区：" prop="managerAria">
+              <el-select
+                v-model="customerDetailForm.managerAria"
+                placeholder="请选择管理区"
+                @change="customerChooseAria">
+                <el-option
+                  v-for="item in managerAriaList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="意向楼宇：" prop="floorHouse">
+              <el-input v-model="customerDetailForm.floorHouse" placeholder="请输意向楼宇名称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="交房日期：" prop="handoverDate">
+              <el-date-picker
+                v-model="customerDetailForm.handoverDate"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="isShowCustomerDetail = false" class="btn-trans">取 消</el-button>
-        <el-button type="primary" @click="isShowCustomerDetail = false" class="btn-addmore">确 定</el-button>
+        <el-button @click="cancelCustomerForm('customerDetailForm')" class="btn-trans">取 消</el-button>
+        <el-button type="primary" @click="submitCustomerForm('customerDetailForm')" class="btn-addmore">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -385,7 +412,7 @@ export default {
           roomCode: "FR-QDJ6",
           buildUpArea: "892.6",
           customerName: "王浩光",
-          handoverDate: "2020/04/17"
+          handoverDate: "2020-04-17"
         },
         {
           managerAria: "明珠城（商业）",
@@ -393,7 +420,7 @@ export default {
           roomCode: "FR-QDJ6",
           buildUpArea: "892.6",
           customerName: "王浩光",
-          handoverDate: "2020/04/17"
+          handoverDate: "2020-04-17"
         },
         {
           managerAria: "明珠城（商业）",
@@ -401,7 +428,7 @@ export default {
           roomCode: "FR-QDJ6",
           buildUpArea: "892.6",
           customerName: "王浩光",
-          handoverDate: "2020/04/17"
+          handoverDate: "2020-04-17"
         }
       ],
       ownerTable: [
@@ -432,8 +459,7 @@ export default {
       },
       eDitRoomRules: {
         higherAuthorities: [
-          { required: true, message: "请输入活动名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { required: true, message: "请选择上级机构", trigger: "blur" },
         ],
         floor: [{ required: true, message: "请输入楼层", trigger: "blur" }],
         roomNum: [{ required: true, message: "请输入序号！", trigger: "blur" }],
@@ -445,7 +471,7 @@ export default {
             trigger: "blur"
           }
         ],
-        roomType: [
+        selectedRoomType: [
           { required: true, message: "请选择房间类型！", trigger: "blur" }
         ]
       },
@@ -467,7 +493,8 @@ export default {
       registrationForm: {
         roomName: "",
         customer: "",
-        handoverDate: ""
+        handoverDate: "",
+        selectedRoomType: "",
       },
       registrationRules: {
         roomName: [{ required: true, message: "请输入房间", trigger: "blur" }],
@@ -482,9 +509,18 @@ export default {
          customerName:'',
          identifyNum:223123123123123,
          telPhone:15797706475,
-         managerAria:''
+         managerAria:'',
+         floorHouse:'',
+         handoverDate:''
       },
-      selectedRoomType: "",
+      customerDetailFormRules:{
+        customerName:[{ required: true, message: "请输入客户名称", trigger: "blur" }],
+        identifyNum:[{ required: true, message: "请输入身份证号码", trigger: "blur" }],
+        telPhone:[{ required: true, message: "请输入电话号码", trigger: "blur" }],
+        managerAria:[{ required: true, message: "请选择管理区", trigger: "blur" }],
+        floorHouse:[{ required: true, message: "请输入楼宇名称", trigger: "blur" }],
+        handoverDate:[{ required: true, message: "请选择交房时间", trigger: "blur" }]
+      },
       total: 0,
       page: 1,
       pageSize: 10,
@@ -567,7 +603,7 @@ export default {
       //取到form的数据并发送接口保存设置操作（待写...）
       this.isShowrRegistation = false;
     },
-    // 取消
+    // 取消登记导向表单
     cancel() {
       //将form的数据清空
       for (let key in this.registrationForm) {
@@ -575,14 +611,37 @@ export default {
       }
       this.isShowrRegistation = false;
     },
+    cancelRoomEdit(formName) {
+        this.isShowRoomEditDialog = false
+        this.$refs[formName].resetFields();
+    },
+    //点击客户详情弹窗取消按钮
+    cancelCustomerForm(formName) {
+      this.isShowCustomerDetail = false
+      this.$refs[formName].resetFields();
+    },
+    submitCustomerForm(formName) {
+      this.isShowCustomerDetail = false
+      this.$refs[formName].validate((valid) => {
+          if (valid) {
+            //修改成功操作
+          } else {
+            return false;
+          }
+        });
+    },
     reSetting() {
       for (let key in this.searchDetailForm) {
         this.searchDetailForm[key] = "";
       }
     },
+    //客户详情弹窗选择管理区
+    customerChooseAria(item) {
+      console.log(item,'管理区')
+    },
     chooseAria(item) {
       //当管理区发生变化时候，给楼宇赋值
-      console.log(item, "管理区");
+      // console.log(item, "管理区");
       if (item == 0) {
         this.isFloorDisabled = true;
         this.emptyFloorSelect();
@@ -654,15 +713,28 @@ export default {
       this.isShowRoomCodeDialog = false;
       this.editRoomForm.roomCode = this.currentRow.roomCode;
     },
+    //提交编辑房间的表单
+    submitEditRoomForm(formName) {
+      this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.isShowRoomEditDialog = false
+            //修改成功操作
+          } else {
+            return false;
+          }
+        });
+    },
     // 展示抽屉弹窗
     showRoomCodeDialog(row) {
       this.isShowRoomCodeDialog = true;
       this.currentRow = row;
     },
-    //展示客户信息弹窗
+    //展示编辑客户信息弹窗
     showCustomerDetail(row) {
       this.customerDetailForm.customerName = row.customerName
       this.customerDetailForm.managerAria = row.managerAria
+      this.customerDetailForm.floorHouse = row.houseName
+      this.customerDetailForm.handoverDate = row.handoverDate
       this.isShowCustomerDetail = true
     },
     //删除当前房间
@@ -713,65 +785,6 @@ export default {
   }
 }
 .main-content {
-  .grid-content {
-    .searchDetail {
-      min-width: 800px;
-      width: 100%;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      border: 1px solid rgb(211, 220, 230);
-      padding: 20px 0;
-      border-radius: 3px;
-      .el-form {
-        .el-form-item {
-          .el-form-item__content {
-            .el-select,
-            .roomCodeInput,
-            .customerInput {
-              width: 50%;
-              display: flex;
-            }
-          }
-          .el-form-item__label-wrap {
-            .el-form-item__label {
-              color: #fff;
-            }
-          }
-        }
-      }
-      .line {
-        height: 1px;
-        width: 80%;
-        margin: 0 auto;
-        background-color: rgb(211, 220, 230);
-      }
-      .searchContent {
-        margin-top: 20px;
-        .btns {
-          display: flex;
-          justify-content: flex-end;
-          padding-right: 20%;
-        }
-      }
-    }
-    .buttonHead {
-      .left {
-        display: flex;
-        justify-content: flex-start;
-      }
-      .right {
-        display: flex;
-        justify-content: flex-end;
-        .searchInput {
-          .el-input__inner {
-            background-color: transparent;
-            border: 1px solid #9ea2c0;
-          }
-          width: 40%;
-        }
-      }
-    }
-  }
   .registration-content {
     .back {
       display: flex;

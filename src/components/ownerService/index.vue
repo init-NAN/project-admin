@@ -11,6 +11,68 @@ export default {};
 <style lang="less" scope>
 // 右边固定的操作列样式
 .rec {
+  .main-content {
+    .grid-content {
+      .searchDetail {
+        min-width: 800px;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgb(211, 220, 230);
+        padding: 20px 0;
+        border-radius: 3px;
+        .el-form {
+          .el-form-item {
+            .el-form-item__content {
+              .el-select,
+              .roomCodeInput,
+              .customerInput {
+                width: 50%;
+                display: flex;
+              }
+            }
+            .el-form-item__label-wrap {
+              .el-form-item__label {
+                color: #fff;
+              }
+            }
+          }
+        }
+        .line {
+          height: 1px;
+          width: 80%;
+          margin: 0 auto;
+          background-color: rgb(211, 220, 230);
+        }
+        .searchContent {
+          margin-top: 20px;
+          .btns {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 20%;
+          }
+        }
+      }
+      .buttonHead {
+        margin-bottom: 20px;
+        .left {
+          display: flex;
+          justify-content: flex-start;
+        }
+        .right {
+          display: flex;
+          justify-content: flex-end;
+          .searchInput {
+            .el-input__inner {
+              background-color: transparent;
+              border: 1px solid #9ea2c0;
+            }
+            width: 40%;
+          }
+        }
+      }
+    }
+  }
   .margin-bottom {
     margin-bottom: 20px;
   }

@@ -390,7 +390,7 @@ export default {
         date: '2016-05-02',
         eName: '曳引驱动乘客电梯1',
         eType: '乘客电梯',
-        good: '正常',
+        status: '正常',
         how: 'dec2',
         mounth: '0',
         dat: 0,
@@ -401,7 +401,7 @@ export default {
         date: '2016-05-02',
         eName: '曳引驱动乘客电梯1',
         eType: '乘客电梯',
-        good: '正常',
+        status: '正常',
         how: 'dec2',
         mounth: '0',
         dat: 0,
@@ -522,9 +522,8 @@ export default {
 
     addEquipment () {
       this.form = {}
-      this.addEquipFiles = '新增设备档案'
       this.isEquipment = true
-      this.resetForm('form');
+      this.addEquipFiles = '新增设备档案'
     },
     closeEquipment (done) {
       this.$refs['form'].resetFields();
@@ -533,6 +532,7 @@ export default {
     editList (index, item) {
       // window.console.log(item)
       // window.console.log(index)
+      this.form={}
       this.isEquipment = true
       this.form = { ...item }
       // window.console.log(this.form)
@@ -552,7 +552,7 @@ export default {
         }
       });
 
-      // this.resetForm(formName);
+      this.resetForm(formName);
     },
 
   }

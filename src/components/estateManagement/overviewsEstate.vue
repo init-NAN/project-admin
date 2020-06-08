@@ -13,24 +13,24 @@
       <div class="cCard">
         <div class="content">
           <div class="content-card">
-            <p class="content-title">本月意向</p>
-            <p class="content-num">0</p>
+            <p class="content-title">本月巡检</p>
+            <p class="content-num">24</p>
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">本年意向</p>
-            <p class="content-num">1</p>
+            <p class="content-title">本年巡检</p>
+            <p class="content-num">400</p>
           </div>
         </div>
         <div class="content">
           <div class="content-card">
-            <p class="content-title">本月签约</p>
-            <p class="content-num">0</p>
+            <p class="content-title">本月维修单</p>
+            <p class="content-num">15</p>
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">本年签约</p>
-            <p class="content-num">0</p>
+            <p class="content-title">本年维修单</p>
+            <p class="content-num">300</p>
           </div>
         </div>
         <div class="content">
@@ -40,8 +40,8 @@
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">本年转化率</p>
-            <p class="content-num">0.00%</p>
+            <p class="content-title">本年维修率</p>
+            <p class="content-num">75%</p>
           </div>
         </div>
       </div>
@@ -60,34 +60,34 @@
         <div class="content">
           <div class="content-card">
             <p class="content-title">完成情况</p>
-            <p class="content-num">0</p>
+            <p class="content-num">3</p>
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">本年意向</p>
-            <p class="content-num">1</p>
+            <p class="content-title">巡检人数</p>
+            <p class="content-num">500</p>
           </div>
         </div>
         <div class="content">
           <div class="content-card">
-            <p class="content-title">本月签约</p>
-            <p class="content-num">0</p>
+            <p class="content-title">本月保养</p>
+            <p class="content-num">20</p>
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">本年签约</p>
-            <p class="content-num">0</p>
+            <p class="content-title">本年保养</p>
+            <p class="content-num">100</p>
           </div>
         </div>
         <div class="content">
           <div class="content-card">
-            <p class="content-title">正在跟进</p>
+            <p class="content-title">报修数量</p>
             <p class="content-num">2</p>
           </div>
           <i class="verticalLine"></i>
           <div class="content-card">
-            <p class="content-title">本年转化率</p>
-            <p class="content-num">0.00%</p>
+            <p class="content-title">本年报修数量</p>
+            <p class="content-num">233</p>
           </div>
         </div>
       </div>
@@ -102,7 +102,8 @@
         </p>
         <i class="el-icon-refresh-right refresh"></i>
       </div>
-      <div class="echarts">
+      <div class="echarts"
+           ref="estateCharts">
 
       </div>
     </el-col>
@@ -157,6 +158,7 @@
 </template>
 
 <script>
+import echarts from 'echarts';
 export default {
   data () {
     return {
@@ -186,16 +188,75 @@ export default {
         pStart: '2020/05/28 14:45',
         pEnd: '2020/05/28 17:50',
         pType: '未分配'
-      }],
+      }, {
+        management: '绿岛物业',
+        name: '水泵保养2-20200528-1',
+        peo: '企业版',
+        date: '2016-05-02',
+        doPer: '',
+        link: '	水泵保养2',
+        inName: '	水泵机',
+        type: '日常保养',
+        address: '1栋',
+        pStart: '2020/05/28 14:45',
+        pEnd: '2020/05/28 17:50',
+        pType: '未分配'
+      },],
     }
   },
+  mounted () {
+    var estate = echarts.init(this.$refs.estateCharts);
+    var option = {
+      xAxis: {
+        type: 'category',
+        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        axisLine: {
+          lineStyle: {
+            color: "#fff",
+          }
+        }
+      },
+      yAxis: {
+        type: 'value',
+        axisLine: {
+          lineStyle: {
+            color: "#fff",
+          }
+        }
+      },
+      grid: {
+        top:'5%',
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      series: [{
+        data: [120, 150, 0, 80, 70, 110, 130, 23, 50, 200, 120, 98],
+        type: 'line',
+        symbol: 'triangle',
+        symbolSize: 20,
+        lineStyle: {
+          color: 'green',
+          width: 4,
+          type: 'dashed'
+        },
+        itemStyle: {
+          borderWidth: 3,
+          borderColor: 'yellow',
+          color: 'blue'
+        }
+      }]
+    };
+    estate.setOption(option)
+  }
 }
 </script>
 
 <style lang="less" scope>
 .overviewsEstate {
   .overview-card {
-    height: 300px;
+    // height: 300px;
     background-color: rgba(10, 13, 51, 0.7);
     margin-bottom: 40px;
     .header {
@@ -273,6 +334,9 @@ export default {
       img {
         width: 100%;
       }
+    }
+    .echarts {
+      height: 263px;
     }
   }
   .hidden-card {

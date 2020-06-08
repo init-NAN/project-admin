@@ -408,7 +408,6 @@ export default {
     //   console.log(value);
     // },
     resetForm (formName) {
-      this.isEquipment = false
       if (this.$refs[formName] !== undefined) {
         this.$refs[formName].resetFields();
       }
@@ -418,11 +417,11 @@ export default {
       done();
     },
     editList (index, item) {
-      window.console.log(item)
-      window.console.log(index)
+      // window.console.log(item)
+      // window.console.log(index)
       this.isInspection = true
       this.form = { ...item }
-      window.console.log(this.form)
+      // window.console.log(this.form)
       this.inspectionTitle = '编辑巡检计划'
     },
     handleDelete (index, row) {

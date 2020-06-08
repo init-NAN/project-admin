@@ -106,7 +106,16 @@
                          width="150"></el-table-column>
       </el-table>
     </section>
-
+    <el-col class="toolbar">
+      <el-pagination @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :current-page="page"
+                     :page-sizes="[10, 20, 30, 40, 50, 100]"
+                     :page-size="pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="total">
+      </el-pagination>
+    </el-col>
   </div>
 </template>
 
@@ -114,6 +123,9 @@
 export default {
   data () {
     return {
+      total: 0,
+      page: 1,
+      pageSize: 10,
       activeClass: 0, // 0为默认选择第一个，-1为不选择
       itmeList: ['全部', '未解决', '已解决'],
       form: {
@@ -123,7 +135,6 @@ export default {
         mobile: ""
       },
       value1: '',
-
       listLoading: false,
       tableData: [{
         miaoshu: '123123123123123',
@@ -183,6 +194,14 @@ export default {
           })
         }
       });
+    },
+    handleSizeChange (size) {
+      this.pageSize = size;
+      this.handleCurrentChange(1);
+    },
+    handleCurrentChange (val) {
+      this.page = val;
+      this.getDeviceList();
     },
   }
 }

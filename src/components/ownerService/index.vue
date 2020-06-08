@@ -12,6 +12,29 @@ export default {};
 // 右边固定的操作列样式
 .rec {
   .main-content {
+    .registration-content {
+      .back {
+        display: flex;
+        justify-content: flex-start;
+      }
+      .el-form {
+        margin-top: 20px;
+        padding-left: 120px;
+        padding-right: 120px;
+        .handoverDate,
+        .operation {
+          .el-form-item__content {
+            display: flex;
+          }
+        }
+        .el-form-item__label {
+          font-size: 14px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+    }
     .grid-content {
       .searchDetail {
         min-width: 800px;

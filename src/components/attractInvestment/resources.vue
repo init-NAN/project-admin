@@ -1,5 +1,61 @@
 <template>
   <div class="table-wrapper">
+    <div class="current-page-title">
+      <span>资源</span>
+    </div>
+
+    <section class="title-content">
+      <el-row :gutter="5">
+        <el-col :span="3">
+          <span class="title">管理区数量</span>
+        </el-col>
+        <el-col :span="3">
+          <span class="title">楼宇数量</span>
+        </el-col>
+        <el-col :span="3">
+          <span class="title">房间数量</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="title">管理面积(m²)</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="title">在租面积(m²)</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="title">空置面积(m²)</span>
+        </el-col>
+        <el-col :span="3">
+          <span class="title">在租合同份数</span>
+        </el-col>
+      </el-row>
+      <el-row :gutter="5"
+              class="margin-bottom">
+        <el-col :span="3">
+          <span class="content">4</span>
+        </el-col>
+        <el-col :span="3">
+          <span class="content">45</span>
+        </el-col>
+        <el-col :span="3">
+          <span class="content">139</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="content">113512.33</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="content">25042.08</span>
+        </el-col>
+        <el-col :span="4">
+          <span class="content">88470.25</span>
+        </el-col>
+        <el-col :span="3">
+          <span class="content">19</span>
+        </el-col>
+      </el-row>
+    </section>
+
+    <el-button class="gotoList btn-addmore margin-bottom"
+               @click="$router.push('charts')">查看图表</el-button>
     <section class="grid-content">
       <el-table :data="resources"
                 resizable
@@ -16,24 +72,24 @@
                          label="房间数量"></el-table-column>
 
         <el-table-column prop="resourcesMeasure"
-                         label="管理面积"></el-table-column>
+                         label="管理面积(m²)"></el-table-column>
 
         <el-table-column prop="resourcesMeasure"
-                         label="在租面积"></el-table-column>
+                         label="在租面积(m²)"></el-table-column>
 
         <el-table-column prop="resourcesl"
-                         label="出租率"></el-table-column>
+                         label="出租率(%)"></el-table-column>
         <el-table-column prop="resourcesRoomS"
-                         label="空置面积"></el-table-column>
+                         label="空置面积(m²)"></el-table-column>
         <el-table-column prop="resourcesRoomS"
-                         label="空置率"></el-table-column>
+                         label="空置率(%)"></el-table-column>
         <el-table-column prop="resourcesRoomS"
-                         label="利用率"></el-table-column>
+                         label="利用率(%)"></el-table-column>
         <el-table-column prop="resourcesRoomS"
                          label="在租合同份数"></el-table-column>
       </el-table>
     </section>
-    
+
     <el-col class="toolbar">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
@@ -44,9 +100,7 @@
                      :total="total">
       </el-pagination>
     </el-col>
-    <el-button 
-               class="gotoList btn-addmore"
-               @click="$router.push('charts')">查看图表</el-button>
+
   </div>
 </template>
 
@@ -139,9 +193,23 @@ export default {
 </script>
 
 <style lang="less" scope>
-.el-table {
-  background: rgba(10, 13, 51, 1);
-  opacity: 0.7;
+.table-wrapper {
+  .el-table {
+    background: rgba(10, 13, 51, 1);
+    opacity: 0.7;
+  }
+  .title-content {
+    text-align: center;
+    .title {
+      color: #fff;
+      font-size: 18px;
+    }
+    .content {
+      font-size: 35px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 2;
+    }
+  }
 }
-
 </style>

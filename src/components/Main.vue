@@ -194,6 +194,25 @@ export default {
   overflow: hidden;
   height: 100vh;
   background-image: url(../assets/bg.png);
+  .current-page-title {
+    padding-left: 31px;
+    padding-right: 31px;
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 15px 0 0 0;
+    background: url("../assets/comment/path.png") no-repeat;
+    background-color: rgba(10, 13, 51, 0.4);
+    font-size: 22px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    // color: #67d0d5;
+    line-height: 56px;
+    span {
+      background: linear-gradient(to right, #825BFB , #0497E0,  #4B53F9);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+  }
 
   // 滚动条样式
   /deep/ .el-table__body-wrapper::-webkit-scrollbar {

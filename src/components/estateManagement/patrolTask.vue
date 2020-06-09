@@ -1,5 +1,8 @@
 <template>
   <div class="patrolTask">
+    <div class="current-page-title">
+      <span>巡查任务</span>
+    </div>
     <el-row>
       <ul class="ul-list margin-bottom">
         <span class="type-title">状态:</span>
@@ -318,6 +321,9 @@ export default {
     }
   },
   methods: {
+    getItme (index) {
+      this.activeClass = index;  // 把当前点击元素的index，赋值给activeClass
+    },
     // context menu
     handleSelectionChange: function (sels) {
       window.console.log(sels)

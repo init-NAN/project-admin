@@ -137,9 +137,22 @@
         </p>
         <i class="el-icon-refresh-right refresh"></i>
       </div>
-      <div class="img-box">
-        <img src="../../assets/img/login-poto.gif"
-             alt="">
+      <div class="table">
+        <el-table :data="formCharge"
+                  style="width: 100%"
+                  tooltip-effect="dark"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+
+          <el-table-column prop="name"
+                           label="负责人">
+          </el-table-column>
+          <el-table-column prop="responsible"
+                           label="负责项目">
+          </el-table-column>
+          <el-table-column prop="status"
+                           label="完成情况">
+          </el-table-column>
+        </el-table>
       </div>
     </el-col>
     <el-col class="overview-card"
@@ -286,6 +299,39 @@ export default {
         visitQ: '2',
         other: '',
         total: '7'
+      },],
+      formCharge :[{
+        name:'王小虎',
+        responsible:'绿城区',
+        status:'已完成',
+      },{
+        name:'王小虎',
+        responsible:'绿城区',
+        status:'已完成',
+      },{
+        name:'王小虎',
+        responsible:'绿城区',
+        status:'已完成',
+      },{
+        name:'王小虎',
+        responsible:'绿城区',
+        status:'已完成',
+      },{
+        name:'王小虎',
+        responsible:'绿城区',
+        status:'已完成',
+      },{
+        name:'王小虎',
+        responsible:'绿城区',
+        status:'已完成',
+      },{
+        name:'王小虎',
+        responsible:'绿城区',
+        status:'已完成',
+      },{
+        name:'王小虎',
+        responsible:'绿城区',
+        status:'已完成',
       },]
     }
   },

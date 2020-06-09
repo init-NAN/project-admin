@@ -1,6 +1,20 @@
 <template>
   <div class="customer">
-
+    <div class="current-page-title">
+      <span>客户</span>
+    </div>
+    <el-row class="margin-bottom">
+      <el-col :span="2">
+        <el-button class="add-customer btn-addmore"
+                   @click="addCustomerVisibel = true, form={},addDialogTitle='新增客户'">新建用户</el-button>
+      </el-col>
+      <el-col :span="3">
+        <el-button type="primary"
+                   class="del-btn btn-trans"
+                   :disabled="this.checkedBox.length == 0"
+                   @click="delectAll()">批量删除</el-button>
+      </el-col>
+    </el-row>
     <el-table :data="tableData"
               resizable
               ref="table"
@@ -69,12 +83,6 @@
                      :total="total">
       </el-pagination>
     </el-col>
-    <el-button class="add-customer btn-addmore"
-               @click="addCustomerVisibel = true, form={},addDialogTitle='新增客户'">新建用户</el-button>
-    <el-button type="primary"
-               class="del-btn btn-trans"
-               :disabled="this.multipleSelection.length == 0"
-               @click="removeList(multipleSelection)">批量删除</el-button>
 
     <el-dialog :title="addDialogTitle"
                :visible.sync="addCustomerVisibel"
@@ -252,7 +260,7 @@ export default {
     return {
       addDialogTitle: '',
       tableData: [{
-        name: '王小虎',
+        name: '王小虎1',
         industry: 'IT',
         contacts: '',
         tel: '',
@@ -265,7 +273,7 @@ export default {
         remarks: '',
         id: 1
       }, {
-        name: '王小虎',
+        name: '王小虎2',
         industry: 'IT',
         contacts: '',
         tel: '',
@@ -278,7 +286,7 @@ export default {
         remarks: '',
         id: 2
       }, {
-        name: '王小虎',
+        name: '王小虎3',
         industry: 'IT',
         contacts: '',
         tel: '',
@@ -310,7 +318,7 @@ export default {
       total: 4,
       page: 1,
       pageSize: 10,
-      multipleSelection: [],
+      checkedBox: [],
     }
   },
   methods: {
@@ -348,12 +356,23 @@ export default {
     // context menu
     handleSelectionChange (sels) {
       // window.console.log(sels)
-      this.multipleSelection = sels;
+      this.checkedBox = sels;
       //console.log(this.ids);
     },
-    removeList (rows) {
-      window.console.log(rows);
+    //piliangshanchu
+    delectAll () {
+      for (let i = 0; i < this.tableData.length; i++) {
+        const element = this.tableData[i];
+        element.id = i
+      }
+      this.checkedBox.forEach(element => {
+        this.tableData.forEach((e, i) => {
 
+          if (element.id == e.id) {
+            this.tableData.splice(i, 1)
+          }
+        });
+      });
     },
     handleSortChange (col) {
       if (col.prop == null) {

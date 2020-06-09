@@ -12,6 +12,10 @@ export default {
 
 <style lang="less" scope>
 .attra {
+
+  .margin-bottom {
+    margin-bottom: 20px;
+  }
   /deep/ .el-input__inner
    {
     background-color: transparent;

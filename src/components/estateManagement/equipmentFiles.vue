@@ -1,5 +1,8 @@
 <template>
   <div class="equipmentFiles">
+    <div class="current-page-title">
+      <span>设备档案</span>
+    </div>
     <el-row class="margin-bottom">
       <el-col :span="2">
         <el-button class="btn-addmore "
@@ -10,14 +13,16 @@
       </el-col>
       <el-col :span="3">
         <el-button :disabled='this.checkedBox.length===0'
-                   class="btn-trans">批量删除</el-button>
+                   class="btn-trans"
+                   @click="delectAll()">批量删除</el-button>
       </el-col>
       <el-col :span="6"
               :offset="7">
         <el-input v-model="input"
                   placeholder="请输入内容"></el-input>
       </el-col>
-      <el-col :span="2" :offset="1">
+      <el-col :span="2"
+              :offset="1">
         <el-button type="text">高级搜索</el-button>
       </el-col>
     </el-row>
@@ -374,7 +379,7 @@ export default {
       num: 1,
       addEquipFiles: '',
       tableData: [{
-        management: '绿岛物业',
+        management: '绿岛物业1',
         eCode: '1#',
         date: '2016-05-02',
         eName: '曳引驱动乘客电梯1',
@@ -383,9 +388,10 @@ export default {
         specification: 'dec2',
         mounth: '0',
         dat: 0,
-        deviceNo: 0
+        deviceNo: 0,
+        id:1
       }, {
-        management: '绿岛物业',
+        management: '绿岛物业2',
         eCode: '1#',
         date: '2016-05-02',
         eName: '曳引驱动乘客电梯1',
@@ -394,9 +400,10 @@ export default {
         how: 'dec2',
         mounth: '0',
         dat: 0,
-        deviceNo: 0
+        deviceNo: 0,
+        id:2
       }, {
-        management: '绿岛物业',
+        management: '绿岛物业3',
         eCode: '1#',
         date: '2016-05-02',
         eName: '曳引驱动乘客电梯1',
@@ -405,7 +412,8 @@ export default {
         how: 'dec2',
         mounth: '0',
         dat: 0,
-        deviceNo: 0
+        deviceNo: 0,
+        id:3
       },],
       isEquipment: false,
       checkedBox: [],
@@ -445,6 +453,22 @@ export default {
       this.checkedBox = sels;
       //console.log(this.ids);
     },
+    //批量删除
+    delectAll () {
+      for (let i = 0; i < this.tableData.length; i++) {
+        const element = this.tableData[i];
+        element.id = i
+      }
+      this.checkedBox.forEach(element => {
+        this.tableData.forEach((e, i) => {
+
+          if (element.id == e.id) {
+            this.tableData.splice(i, 1)
+          }
+        });
+      });
+    },
+
     handleSortChange (col) {
       if (col.prop == null) {
         return;
@@ -486,7 +510,7 @@ export default {
     //biaodan 
     handleDelete (index, row) {
       // 设置类似于console类型的功能
-      window.console.log('row'+ row)
+      window.console.log('row' + row)
       window.console.log(index)
 
       this.$confirm("永久删除该文件, 是否继续?", "提示", {
@@ -532,7 +556,7 @@ export default {
     editList (index, item) {
       // window.console.log(item)
       // window.console.log(index)
-      this.form={}
+      this.form = {}
       this.isEquipment = true
       this.form = { ...item }
       // window.console.log(this.form)

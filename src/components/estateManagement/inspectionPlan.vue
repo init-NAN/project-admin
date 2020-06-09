@@ -1,19 +1,25 @@
 <template>
   <div class="inspectionPlan">
+    <div class="current-page-title">
+      <span>保养巡检计划</span>
+    </div>
     <el-row class="margin-bottom">
       <el-col :span="2">
         <el-button class="btn-addmore"
                    @click="isInspection = true,form = {},inspectionTitle = '新建巡检计划',resetForm ('form')">新建</el-button>
       </el-col>
       <el-col :span="3">
-        <el-button :disabled='this.checkedBox.length===0' class="btn-trans">批量删除</el-button>
+        <el-button :disabled='this.checkedBox.length===0'
+                   class="btn-trans"
+                   @click="delectAll()">批量删除</el-button>
       </el-col>
       <el-col :span="6"
               :offset="7">
         <el-input v-model="input"
                   placeholder="请输入内容"></el-input>
       </el-col>
-      <el-col :span="2" :offset="1">
+      <el-col :span="2"
+              :offset="1">
         <el-button type="text">高级搜索</el-button>
       </el-col>
     </el-row>
@@ -66,7 +72,7 @@
         <el-table-column prop="label"
                          label="状态"
                          width="150"></el-table-column>
-                         
+
         <el-table-column fixed="right"
                          label="操作"
                          width="130">
@@ -76,7 +82,7 @@
                        class="table-change"
                        @click.native.prevent="editList(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text"
-            class="table-del"
+                       class="table-del"
                        @click="handleDelete(scope.$index,scope.row)"
                        size="small">停用</el-button>
             <el-button type="text"
@@ -100,7 +106,7 @@
     </el-col>
 
     <el-dialog :title="inspectionTitle"
-               :visible.sync="isInspection" 
+               :visible.sync="isInspection"
                :before-close="closeInspection">
       <!-- <el-dialog title="添加"
                  :visible.sync="addPerson"
@@ -122,7 +128,8 @@
                    ref="form">
             <el-row :gutter="30">
               <el-col :span="11">
-                <el-form-item label="管理区:" prop="management">
+                <el-form-item label="管理区:"
+                              prop="management">
                   <el-select v-model="form.management"
                              placeholder="请选择区域">
                     <el-option label="明珠城"
@@ -137,7 +144,8 @@
             </el-row>
             <el-row :gutter="30">
               <el-col :span="11">
-                <el-form-item label="计划名称:" prop="name">
+                <el-form-item label="计划名称:"
+                              prop="name">
                   <el-input v-model="form.name"
                             placeholder="请输入名称"
                             autocomplete="off"></el-input>
@@ -266,7 +274,8 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="isInspection = false" class="btn-trans">取 消</el-button>
+        <el-button @click="isInspection = false"
+                   class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore">确 定</el-button>
       </div>
     </el-dialog>
@@ -297,42 +306,44 @@ export default {
       //   return item.pinyin.indexOf(query) > -1;
       // },
 
-      inspectionTitle:'',
+      inspectionTitle: '',
       checkedBox: [],
       input: '',
       isInspection: false,
       listLoading: false,
       addPerson: false,
       tableData: [{
-        management: '绿岛物业',
+        management: '绿岛物业1',
         insName: '水泵机',
         dateValidity: '2016-05-02',
         name: '水泵机',
         status: '保养类型',
         insType: '日常保养',
         how: '排水设备',
-        frequency:'每日',
-        people:'企业版',
+        frequency: '每日',
+        people: '企业版',
         mounth: '0',
         dat: 1,
         where: '1栋',
-        crDate:'2016-05-02',
-        label:'	已启用'
-      },{
-        management: '绿岛物业',
+        crDate: '2016-05-02',
+        label: '已启用',
+        id:1
+      }, {
+        management: '绿岛物业2',
         insName: '水泵机',
         dateValidity: '2016-05-02',
         name: '水泵机',
         status: '保养类型',
         insType: '日常保养',
         how: '排水设备',
-        frequency:'每日',
-        people:'企业版',
+        frequency: '每日',
+        people: '企业版',
         mounth: '0',
         dat: 1,
         where: '1栋',
-        crDate:'2016-05-02',
-        label:'	已启用'
+        crDate: '2016-05-02',
+        label: '已启用',
+        id:2
       },],
       total: 0,
       page: 1,
@@ -341,7 +352,7 @@ export default {
       rules: {
         management: [
           { required: true, message: "请选择管理区", trigger: "change" },
-          
+
         ],
         name: [
           { required: true, message: "名称不能为空", trigger: "blur" },
@@ -395,6 +406,21 @@ export default {
       this.checkedBox = sels;
       //console.log(this.ids);
     },
+    //piliangshanchu
+    delectAll () {
+      for (let i = 0; i < this.tableData.length; i++) {
+        const element = this.tableData[i];
+        element.id = i
+      }
+      this.checkedBox.forEach(element => {
+        this.tableData.forEach((e, i) => {
+
+          if (element.id == e.id) {
+            this.tableData.splice(i, 1)
+          }
+        });
+      });
+    },
     handleSizeChange (size) {
       this.pageSize = size;
       this.handleCurrentChange(1);
@@ -412,7 +438,7 @@ export default {
         this.$refs[formName].resetFields();
       }
     },
-    closeInspection(done) {
+    closeInspection (done) {
       this.$refs['form'].resetFields();
       done();
     },
@@ -425,7 +451,7 @@ export default {
       this.inspectionTitle = '编辑巡检计划'
     },
     handleDelete (index, row) {
-      window.console.log('row'+row)
+      window.console.log('row' + row)
       window.console.log(index)
       this.$confirm("永久停用该计划, 是否继续?", "提示", {
         confirmButtonText: "确定",

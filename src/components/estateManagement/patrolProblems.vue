@@ -1,5 +1,8 @@
 <template>
   <div class="patrolPro">
+    <div class="current-page-title">
+      <span>巡查问题</span>
+    </div>
     <el-row>
       <ul class="ul-list margin-bottom">
         <span class="type-title">状态:</span>

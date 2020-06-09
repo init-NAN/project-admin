@@ -1,5 +1,8 @@
 <template>
   <div class="insTask">
+    <div class="current-page-title">
+      <span>保养巡检任务</span>
+    </div>
     <el-row>
       <ul class="ul-list margin-bottom">
         <span class="type-title">状态:</span>

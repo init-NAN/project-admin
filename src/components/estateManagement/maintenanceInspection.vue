@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="current-page-title">
+      <span>保养巡检核查</span>
+    </div>
     <el-row>
       <ul class="ul-list margin-bottom">
         <span class="type-title">状态:</span>
@@ -182,10 +185,10 @@
             <el-button type="text"
                        size="small"
                        class="table-change"
-                       @click="isInscection = true">分派</el-button>
+                       @click="assignment(scope.$index,scope.row)">分派</el-button>
             <el-button type="text"
                        class="table-del"
-                       @click="handleDelete(scope.row)"
+                       @click="handleDelete(scope.$index,scope.row)"
                        size="small">删除</el-button>
             <el-button type="text"
                        size="small"
@@ -213,12 +216,12 @@
                width="30%">
       <el-form :model="form">
         <el-form-item label="执行人">
-          <el-select v-model="form.region"
+          <el-select v-model="form.doPer"
                      placeholder="请选择执行人">
             <el-option label="企业版"
-                       value="shanghai"></el-option>
+                       value="企业版"></el-option>
             <el-option label="企业版111"
-                       value="beijing"></el-option>
+                       value="企业版111"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -328,6 +331,7 @@ export default {
       isMore: true,
       isInscection: false,
       isVisit: false,
+
     }
   },
   methods: {
@@ -412,6 +416,12 @@ export default {
       this.page = val;
       this.getDeviceList();
     },
+
+
+    assignment(index,item) {
+      console.log(index);
+      console.log(item);
+    }
   }
 }
 </script>

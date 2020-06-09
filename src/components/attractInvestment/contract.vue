@@ -1,12 +1,28 @@
 <template>
   <div class="contract">
+    <div class="current-page-title">
+      <span>合同列表</span>
+    </div>
+    <el-row class="margin-bottom">
+      <el-col :span="2">
+        <el-button class="btn-addmore"
+                   @click="isInspection = true,form = {},inspectionTitle = '新建巡检计划',resetForm ('form')">新建合同</el-button>
+      </el-col>
+      <el-col :span="3">
+        <el-button :disabled='this.checkedBox.length===0'
+                   class="btn-trans"
+                   @click="delectAll()">批量删除</el-button>
+      </el-col>
+    </el-row>
     <el-table :data="contract"
               v-loading="listLoading"
               ref="table"
               @selection-change="handleSelectionChange"
               @sort-change="handleSortChange"
               :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
-
+      <el-table-column type="selection"
+                       width="55">
+      </el-table-column>
       <el-table-column prop="area"
                        label="管理区"></el-table-column>
 
@@ -42,64 +58,21 @@
 
       <el-table-column prop="less"
                        label="欠费金额"></el-table-column>
+
+      <el-table-column label="操作">
+
+        <template slot-scope="scope">
+          <el-button type="text"
+                     size="small"
+                     class="table-show"
+                     @click="showRole(scope.$index, scope.row)">编辑</el-button>
+          <el-button type="text"
+                     size="small"
+                     class="table-del"
+                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
-    <!-- <el-table :data="tableData"
-              resizable
-              stripe
-              ref="table">
-      <el-table-column prop="date"
-                       label="管理区"
-                       width="180">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="合同编号"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="address"
-                       label="合同名称"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="租户姓名"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="资源代码"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="收费标准"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="收费标准"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="费用应收日期"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="费用周期"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="应收金额"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="已缴金额"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="退款金额"
-                       width="120">
-      </el-table-column>
-      <el-table-column prop="name"
-                       label="欠费金额"
-                       width="120">
-      </el-table-column>
-    </el-table> -->
     <el-col class="toolbar">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
@@ -110,7 +83,137 @@
                      :total="total">
       </el-pagination>
     </el-col>
-
+    <el-dialog :title="addDialogTitle"
+               :visible.sync="addCustomerVisibel"
+               :before-close="closeForm">
+      <div class="flex-space-between____c">
+        <el-card class="box-card">
+          <div slot="header"
+               class="clearfix">
+            <span>卡片名称</span>
+          </div>
+          <el-form :model="form"
+                   :rules="rules"
+                   ref="form">
+            <el-row :gutter="30">
+              <el-col :span="11">
+                <el-form-item label="客户名称:"
+                              prop="name">
+                  <el-input v-model="form.name"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="所属行业:"
+                              prop="industry">
+                  <el-select v-model="form.industry">
+                    <el-option label="餐饮"
+                               value="餐饮"
+                               selected></el-option>
+                    <el-option label="IT"
+                               value="IT"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="11">
+                <el-form-item label="客户状态:"
+                              prop="status">
+                  <el-select v-model="form.status"
+                             placeholder="请选择客户状态">
+                    <el-option label="潜在客户"
+                               value="潜在客户"></el-option>
+                    <el-option label="签约客户"
+                               value="签约客户"></el-option>
+                    <el-option label="流失客户"
+                               value="流失客户"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="联系人:">
+                  <el-input v-model="form.contacts"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="11">
+                <el-form-item label="联系电话:">
+                  <el-input v-model="form.tel"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="来访时间:">
+                  <el-date-picker type="date"
+                                  placeholder="选择时间"
+                                  v-model="form.date"
+                                  format="yyyy-MM-dd"
+                                  value-format="yyyy-MM-dd"
+                                  style="width: 100%;"></el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="11">
+                <el-form-item label="来源渠道:">
+                  <el-select v-model="form.source"
+                             placeholder="请选择来源渠道">
+                    <el-option label="上门"
+                               value="上门"></el-option>
+                    <el-option label="电话"
+                               value="电话"></el-option>
+                    <el-option label="网络"
+                               value="网络"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="销售阶段:">
+                  <el-select v-model="form.stage"
+                             placeholder="请选择销售阶段">
+                    <el-option label="初期沟通"
+                               value="初期沟通"></el-option>
+                    <el-option label="房源选择"
+                               value="房源选择"></el-option>
+                    <el-option label="价格谈判"
+                               value="价格谈判"></el-option>
+                    <el-option label="合同签约"
+                               value="合同签约"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="22">
+                <el-form-item label="客户需求:">
+                  <el-input v-model="form.demand"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="22">
+                <el-form-item label="备注:">
+                  <el-input type="textarea"
+                            v-model="form.remarks"
+                            placeholder="请输入备注"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-card>
+      </div>
+      <div slot="footer"
+           class="dialog-footer">
+        <el-button @click="resetForm('form')"
+                   class="btn-trans">取 消</el-button>
+        <el-button class="btn-addmore"
+                   @click="submitForm('form')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -121,7 +224,7 @@ export default {
       contract: [{
         date: '2016-05-02',
         name: '名称',
-        area: '上海市普陀区金沙江路 1518 弄',
+        area: '上海市普陀区',
         num: '1231222',
         peoName: '王小虎',
         per: '0',
@@ -129,37 +232,60 @@ export default {
         how: '100000',
         now: '12322',
         tui: '0',
-        less: '23123'
+        less: '23123',
+        id: 1
       }, {
         date: '2016-05-02',
         name: '名称',
-        area: '上海市普陀区金沙江路 1518 弄',
+        area: '上海市普陀区',
         num: '1231222',
-        peoName: '王小虎',
+        peoName: '王小虎2',
         per: '0',
         long: '一年',
         how: '100000',
         now: '12322',
         tui: '0',
-        less: '23123'
+        less: '23123',
+        id: 2
       }, {
         date: '2016-05-02',
         name: '名称',
-        area: '上海市普陀区金沙江路 1518 弄',
+        area: '上海市普陀区',
         num: '1231222',
-        peoName: '王小虎',
+        peoName: '王小虎3',
         per: '0',
         long: '一年',
         how: '100000',
         now: '12322',
         tui: '0',
-        less: '23123'
+        less: '23123',
+        id: 3
       },],
       page1: 1,
       listLoading: false,
       total: 0,
       page: 1,
       pageSize: 10,
+
+      checkedBox: [],
+      form:{},
+      
+      
+      
+      rules: {
+        name: [
+          { required: true, message: "请输入客户名称，不超过30个字符！", trigger: "blur" },
+          { max: 30, message: "请输入客户名称，不超过30个字符！", trigger: "blur" }
+        ],
+        industry: [
+          { required: true, message: '请选择职业', trigger: 'change' }
+        ],
+        status: [
+          { required: true, message: '请选择客户状态', trigger: 'change' }
+        ]
+      },
+      addDialogTitle:'123x ',
+      addCustomerVisibel:true,
     }
   },
   methods: {
@@ -167,7 +293,27 @@ export default {
       window.console.log(index, row);
     },
     handleDelete (index, row) {
-      window.console.log(index, row);
+      // 设置类似于console类型的功能
+      window.console.log(row)
+      this.$confirm("永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+          this.contract.splice(index, 1);
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     handleSizeChange (size) {
       this.pageSize = size;
@@ -179,9 +325,28 @@ export default {
     },
     // context menu
     handleSelectionChange: function (sels) {
-      this.sels = sels;
-      this.ids = _.map(this.sels, (device) => device.deviceNo);
+      window.console.log(sels)
+      this.checkedBox = sels;
       //console.log(this.ids);
+    },
+    //piliangshanchu
+    delectAll () {
+      for (let i = 0; i < this.contract.length; i++) {
+        const element = this.contract[i];
+        element.id = i
+      }
+      this.checkedBox.forEach(element => {
+        this.contract.forEach((e, i) => {
+
+          if (element.id == e.id) {
+            this.contract.splice(i, 1)
+          }
+        });
+      });
+    },
+    closeForm (done) {
+      this.$refs['form'].resetFields();
+      done();
     },
     handleSortChange (col) {
       if (col.prop == null) {
@@ -226,80 +391,70 @@ export default {
 </script>
 
 <style lang="less">
-// .el-table {
-//   /* 表格字体颜色 */
-//   font-size: 13px;
-//   font-family: PingFangSC-Regular, PingFang SC;
-//   font-weight: 400;
-//   color: rgba(158, 162, 192, 1);
-//   line-height: 18px;
-//   /* 表格边框颜色 */
-//   /* border: 0.5px solid #758a99; */
-// }
-// .contract /deep/ .el-table__row>td{
-//   /* 去除表格线 */
-//   border: none;
-// }
-// .contract /deep/ .el-table th.is-leaf {
-//   /* 去除上边框 */
-//     border: none;
-// }
-// .el-table th {
-//   background-color: transparent;
-//   font-size: 13px;
-//   font-family: PingFangSC-Regular, PingFang SC;
-//   font-weight: 400;
-//   color: rgba(255, 255, 255, 1);
-//   line-height: 18px;
-// }
-// .el-table--enable-row-hover .el-table__body tr:hover > td {
-//   background-color: rgba(0, 0, 0, 0) !important;
-// }
-// .contract /deep/ .el-table--fit {
-//   padding: 20px;
-// }
-// .contract /deep/ .el-table,
-// .el-table__expanded-cell {
-//   background-color: transparent;
-// }
+.contract {
+  .el-dialog {
+    margin-top: 0;
+    background-color: rgba(10, 13, 51, 0.7);
+    color: #fff;
+    transform-origin: 1281px 246px;
+    .el-dialog__title {
+      color: #fff;
+    }
+  }
+  .flex-space-between____c {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .box-card {
+      width: 570px;
+      height: 704px;
 
-// .contract /deep/ .el-table tr {
-//   background-color: transparent !important;
-// }
-// .contract /deep/ .el-table--enable-row-transition .el-table__body td,
-// .el-table .cell {
-//   background-color: transparent;
-// }
-// .el-table--border::after,
-// .el-table--group::after,
-// .el-table::before {
-//   background-color: transparent;
-// }
-// .el-table--striped .el-table__body tr.el-table__row--striped td {
-//   background-color:rgba(158,162,192,.05);
-// }
-// // fenye
-// .pager-box {
-//   text-align: right;
-// }
-// .pager-box /deep/ button,
-// .pager-box /deep/ .el-pager li {
-//   background-color: transparent !important;
-// }
-// .pager-box
-//   /deep/
-//   .el-pagination.is-background
-//   .el-pager
-//   li:not(.disabled).active {
-//   background-color: #0ffff3 !important;
-// }
-// .pager-box /deep/.el-pagination {
-//   color: rgba(255, 255, 255, 0.65);
-// }
-// .pager-box /deep/.el-pagination button:disabled {
-//   color: rgba(0, 0, 0, 0.35);
-// }
-// .pager-box /deep/ .el-pager {
-//   color: rgba(255, 255, 255, 0.65);
-// }
+      .addChose {
+        width: 100%;
+      }
+
+      .digo-list-title {
+        margin-top: 25px;
+      }
+    }
+    .el-select {
+      width: 100%;
+    }
+    /deep/ .el-card__header {
+      border: none;
+      color: #fff;
+    }
+    /deep/ .el-card {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: none;
+      font-size: 16px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      line-height: 16px;
+      .el-form {
+        .el-form-item__label {
+          font-size: 14px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+    }
+  }
+  // .el-table .cell {
+  //   white-space: nowrap; //强制不换行
+  //   overflow: hidden; //溢出隐藏
+  //   text-overflow: ellipsis; //替换为省略号
+  // }
+  //dialog 页眉页脚
+  /deep/ .el-dialog__header {
+    background: url("./../../assets/comment/type(1).png") no-repeat;
+    padding: 10px 20px 10px;
+  }
+  /deep/ .el-dialog__footer {
+    background: url("./../../assets/comment/type(2).png") no-repeat right;
+    padding: 50px 20px 20px;
+  }
+}
 </style>

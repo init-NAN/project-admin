@@ -1,5 +1,20 @@
 <template>
   <div class="model">
+    <div class="current-page-title">
+      <span>合同模板</span>
+    </div>
+    <el-row class="margin-bottom">
+      <el-col :span="2">
+        <el-button class="addList btn-addmore"
+                   @click="dialogAddList = true">新建</el-button>
+      </el-col>
+      <el-col :span="3">
+        <el-button type="primary"
+                   class="del-btn btn-trans"
+                   :disabled="this.checkedBox.length == 0"
+                   @click="delectAll()">批量删除</el-button>
+      </el-col>
+    </el-row>
     <el-table ref="multipleTable"
               :data="tableData"
               tooltip-effect="dark"
@@ -12,13 +27,12 @@
                        width="55">
       </el-table-column>
       <el-table-column label="适用管理区"
-                       prop="date">
-        <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
+                       prop="address">
       </el-table-column>
       <el-table-column prop="name"
                        label="模板名称">
       </el-table-column>
-      <el-table-column prop="address"
+      <el-table-column prop="disc"
                        label="备注"
                        show-overflow-tooltip>
       </el-table-column>
@@ -46,11 +60,7 @@
                      :total="total">
       </el-pagination>
     </el-col>
-    <el-button class="addList btn-addmore"
-               @click="dialogAddList = true">新建</el-button>
-    <el-button type="primary"
-               class="del-btn btn-trans"
-               :disabled="this.multipleSelection.length == 0">批量删除</el-button>
+
     <el-dialog title="新建合同模板"
                :visible.sync="dialogAddList">
       <div class="todolist">
@@ -83,7 +93,8 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="适用管理区:"
-                        :label-width="formLabelWidth" prop="region">
+                        :label-width="formLabelWidth"
+                        prop="region">
             <el-select v-model="form.region"
                        placeholder="请选择适用管理区">
               <el-option label="明珠城"
@@ -120,21 +131,25 @@ export default {
   data () {
     return {
       tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        disc: '2016-05-02',
+        name: '王小虎1',
+        address: '上海市普陀区金沙江路 1518 弄',
+        id: 1
       }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
+        disc: '2016-05-04',
+        name: '王小虎2',
+        address: '上海市普陀区金沙江路 1517 弄',
+        id: 2
       }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
+        disc: '2016-05-01',
+        name: '王小虎3',
+        address: '上海市普陀区金沙江路 1519 弄',
+        id: 3
       }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
+        disc: '2016-05-03',
+        name: '王小虎4',
+        address: '上海市普陀区金沙江路 1516 弄',
+        id: 4
       }],
       listLoading: false,
       isDisabled: true,
@@ -164,7 +179,7 @@ export default {
       total: 4,
       page: 1,
       pageSize: 10,
-      multipleSelection: [],
+      checkedBox: [],
     }
   },
   methods: {
@@ -205,8 +220,22 @@ export default {
     // context menu
     handleSelectionChange (sels) {
       window.console.log(sels)
-      this.multipleSelection = sels;
+      this.checkedBox = sels;
       //console.log(this.ids);
+    },
+    delectAll () {
+      for (let i = 0; i < this.tableData.length; i++) {
+        const element = this.tableData[i];
+        element.id = i
+      }
+      this.checkedBox.forEach(element => {
+        this.tableData.forEach((e, i) => {
+
+          if (element.id == e.id) {
+            this.tableData.splice(i, 1)
+          }
+        });
+      });
     },
     handleSortChange (col) {
       if (col.prop == null) {

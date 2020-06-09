@@ -1,5 +1,9 @@
 <template>
   <div class="insPro">
+    <div class="current-page-title">
+      <span>保养巡检问题</span>
+    </div>
+
     <el-row>
       <ul class="ul-list margin-bottom">
         <span class="type-title">状态:</span>
@@ -112,7 +116,7 @@
                          width="250"></el-table-column>
         <el-table-column prop="link"
                          label="关联任务"
-                         width="150"></el-table-column>
+                         width="300"></el-table-column>
         <el-table-column prop="name"
                          label="设备名称"
                          width="150"></el-table-column>

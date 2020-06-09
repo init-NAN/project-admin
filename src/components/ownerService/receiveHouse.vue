@@ -5,7 +5,8 @@
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
           <div class="left">
             <el-button size="small" type="primary" class="el-icon-plus btn-addmore" @click="showRegistration">   接房登记</el-button>
-            <!-- <el-button size="small" type="primary" class="el-icon-edit btn-addmore" :disabled="isDisabled" @click="editCurrentRow">编辑</el-button> -->
+            <el-button size="small" type="primary" class="el-icon-delete btn-addmore" :disabled="isCanDelete" @click="deleteSelections">删除</el-button>
+            <el-button size="small" :disabled="isDisabledChangeDate" class="btn-addmore" @click="changeReceiveDate">更改接房日期</el-button>
             <el-button size="small" type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
           </div>
         </el-col>
@@ -103,11 +104,12 @@
       <el-table
         :data="tableData"
         v-loading="listLoading"
+        @selection-change="handleSelectionChange"
         ref="singleTable"
         style="width: 100%"
         :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}"
       >
-        <!-- <el-table-column type="selection" width="55"></el-table-column> -->
+        <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="managerAria" label="管理区"></el-table-column>
         <el-table-column prop="houseName" label="楼宇"></el-table-column>
         <el-table-column prop="roomCode" label="房间代码">
@@ -264,8 +266,26 @@
           <el-button class="btn-addmore" @click="submitEditRoomForm('editRoomForm')">确 定</el-button>
         </div>
       </el-dialog>
-      <el-dialog>
-      </el-dialog>
+      <el-dialog title="更改接房日期" :visible.sync="isShowChangeDateDialog" width="40%">
+      <el-form ref="changeDateForm" :model="changeDateForm" :rules="changeDateFormRules" label-width="auto">
+        <el-row type="flex" justify="space-between">
+          <el-col>
+            <el-form-item label="接房日期：" prop="receiveDate">
+              <el-date-picker
+                v-model="changeDateForm.receiveDate"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelChangeDate('changeDateForm')" class="btn-trans">取 消</el-button>
+        <el-button type="primary" @click="submitChangeDate('changeDateForm')" class="btn-addmore">确 定</el-button>
+      </span>
+    </el-dialog>
     </section>
     <section class="registration-content" v-else-if="isShowrRegistation">
       <div class="back">
@@ -349,7 +369,7 @@ export default {
         {
           managerAria: "明珠城（商业）",
           houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
+          roomCode: "FR-QDJ5",
           buildUpArea: "892.6",
           customerName: "王浩光",
           roomState:"1",
@@ -358,6 +378,16 @@ export default {
       ],
       isFloorDisabled: true, //楼宇下拉框默认不可选
       isShowrRegistation: false, //是否展示登记导向
+      isDisabledChangeDate: true,
+      isShowChangeDateDialog: false,//更改接房日期弹窗
+      changeDateIndex: 0,
+      isCanDelete:true,
+      changeDateForm:{
+        receiveDate:''
+      },
+      changeDateFormRules:{
+        receiveDate:[{ required: true, message: "请选择接房日期", trigger: "blur" }],
+      },
       //搜索详情表单数据
       searchDetailForm: {
         selectedAria: "",
@@ -365,6 +395,7 @@ export default {
         roomCodeSearch: "", //搜索框的房间代码
         customerNameSearch: "" //搜索框的客户名称
       },
+      arrayIndex:[],//多选按钮选中后index数组
       floorHouseList: [],
       total: 0,
       page: 1,				
@@ -483,7 +514,71 @@ export default {
   },
 
   methods: {
-    // 操作(删除当前行)
+    handleSelectionChange(val) {
+      this.arrayIndex = []
+      this.multipleSelection = val;
+      val.forEach((value, index) => {
+　　　　　this.tableData.forEach((v, i) => {
+          if(value.roomCode == v.roomCode){
+            this.arrayIndex.push(i)
+          }
+        })
+      })      
+      console.log(this.arrayIndex,'iii')  
+      this.selectionLengh = val.length;
+    },
+    changeReceiveDate() {
+      this.changeDateForm.receiveDate = ''
+      let index = this.arrayIndex.length - 1
+      this.changeDateIndex = this.arrayIndex[index]
+      this.isShowChangeDateDialog = true
+    },
+    cancelChangeDate(formName) {
+      this.isShowChangeDateDialog = false
+      this.$refs[formName].resetFields()
+    },
+    submitChangeDate(formName) {
+      this.isShowChangeDateDialog = false
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          console.log(this.changeDateIndex,'index')
+          this.tableData[this.changeDateIndex].receiveDate = this.changeDateForm.receiveDate
+        } else {
+          return false;
+        }
+      });
+    },
+    deleteSelections() {
+      this.$confirm(`确定要删除吗?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+      for (let i = 0; i < this.tableData.length; i++) {
+        const element = this.tableData[i];
+        element.id = i
+      }
+      this.multipleSelection.forEach(element => {
+        this.tableData.forEach((e, i) => {
+          if (element.id == e.id) {
+            this.tableData.splice(i, 1)
+          }
+        });
+      });
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+      })
+      .catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
     deleteCurrentRow(index, row) {
       this.$confirm(`确定要删除房间${row.roomCode}吗?`, "提示", {
         confirmButtonText: "确定",
@@ -675,16 +770,21 @@ export default {
       for (let key in this.searchDetailForm) {
         this.searchDetailForm[key] = "";
       }
-    },
+    }
   },
   watch: {
-      // selectionLengh: function(newLen, oldLen) {
-      //   if (newLen === 1) {
-      //     this.isDisabled = false;
-      //   } else {
-      //     this.isDisabled = true;
-      //   }
-      // }
+      selectionLengh: function(newLen, oldLen) {
+        if(newLen != 0) {
+          this.isCanDelete = false
+        } else {
+          this.isCanDelete = true
+        }
+        if (newLen === 1) {
+          this.isDisabledChangeDate = false;
+        } else {
+          this.isDisabledChangeDate = true;
+        }
+      }
   }
 }
 </script>

@@ -5,7 +5,9 @@
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
           <div class="left">
             <el-button size="small" class="el-icon-plus btn-addmore" @click="showRegistration">交房登记</el-button>
+            <el-button size="small" class="el-icon-delete btn-addmore" :disabled="isCanDelete" @click="deleteSelections">删除</el-button>
             <el-button size="small" :disabled="isDisabledChangeDate" class="btn-addmore" @click="changeHandOverDate">更改交房日期</el-button>
+            <el-button size="small" type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
           </div>
         </el-col>
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
@@ -450,7 +452,7 @@ export default {
           houseName: "A区6号楼",
           roomCode: "FR-QDJ6",
           buildUpArea: "892.6",
-          customerName: "王浩光",
+          customerName: "王光",
           handoverDate: "2020-04-17"
         },
         {
@@ -458,7 +460,7 @@ export default {
           houseName: "A区6号楼",
           roomCode: "FR-QDJ5",
           buildUpArea: "892.6",
-          customerName: "王浩光",
+          customerName: "王浩",
           handoverDate: "2020-04-17"
         },
         {
@@ -603,6 +605,7 @@ export default {
         roomCodeSearch: "", //搜索框的房间代码
         customerNameSearch: "" //搜索框的客户名称
       },
+      isCanDelete:true,//删除按钮默认不可点击
       isFloorDisabled: true, //楼宇下拉框默认不可选
       floorHouseList: [],
       isShowRoomCodeDialog: false, //是否展示抽屉弹窗（房间代码）
@@ -622,12 +625,12 @@ export default {
   },
   methods: {
     handleSelectionChange(val) {
+      this.arrayIndex = []
       this.multipleSelection = val;
       val.forEach((value, index) => {
 　　　　　this.tableData.forEach((v, i) => {
           if(value.roomCode == v.roomCode){
             this.arrayIndex.push(i)
-            console.log(this.arrayIndex,'indexArr')
           }
         })
       })        
@@ -643,9 +646,42 @@ export default {
     },
     //更改交房日期
     changeHandOverDate() {
-      this.changeDateIndex = this.arrayIndex.pop()
+      this.changeDateForm.handoverDate = ''
+      let index = this.arrayIndex.length - 1
+      this.changeDateIndex = this.arrayIndex[index]
       this.isShowChangeDateDialog = true
-      // this.tableData[this.arrayIndex.pop()].handoverDate = 
+    },
+    //删除按钮
+    deleteSelections() {
+      this.$confirm(`确定要删除吗?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+      for (let i = 0; i < this.tableData.length; i++) {
+        const element = this.tableData[i];
+        element.id = i
+      }
+      this.multipleSelection.forEach(element => {
+        this.tableData.forEach((e, i) => {
+          if (element.id == e.id) {
+            this.tableData.splice(i, 1)
+          }
+        });
+      });
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+      })
+      .catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
     },
     // 展示详细的搜索盒子
     showDetailSearch() {
@@ -657,7 +693,6 @@ export default {
         this.registrationForm[key] = "";
       }
       this.isShowrRegistation = true;
-      
     },
     goBack() {
       this.isShowrRegistation = false;
@@ -717,6 +752,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.changeDateForm.handoverDate,'date')
+          console.log(this.changeDateIndex,'index')
           this.tableData[this.changeDateIndex].handoverDate = this.changeDateForm.handoverDate
         } else {
           return false;
@@ -878,6 +914,11 @@ export default {
   },
   watch: {
     selectionLengh: function(newLen, oldLen) {
+      if(newLen != 0) {
+        this.isCanDelete = false
+      } else {
+        this.isCanDelete = true
+      }
       if (newLen === 1) {
         this.isDisabledChangeDate = false;
       } else {

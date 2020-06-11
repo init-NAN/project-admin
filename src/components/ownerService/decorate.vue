@@ -16,7 +16,7 @@
           </div>
         </el-col>
         <el-col :span="12" :xs="24" :sm="24"  :lg="12" :xl="12">
-          <div class="right">
+          <div class="right" v-if="!isShowDetail">
             <el-input v-model="inputSearch" size="small" placeholder="搜索..." class="searchInput"></el-input>
             <el-button size="small" type="primary" class="el-icon-search btn-addmore"></el-button>
             <el-button size="small"  class="el-icon-arrow-down btn-addmore" id="dropdown" @click="showDetailSearch"></el-button>

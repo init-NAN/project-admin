@@ -30,7 +30,7 @@
           </div>
         </el-col>
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
-          <div class="right">
+          <div class="right" v-if="!isShowDetail">
             <el-input v-model="inputSearch" size="small" placeholder="搜索..." class="searchInput"></el-input>
             <el-button size="small" type="primary" class="el-icon-search btn-addmore"></el-button>
             <el-button
@@ -396,6 +396,7 @@
           </el-form-item>
         </el-form>
       </div>
+      <div style="height:80px;width:100%;"></div>
     </section>
     <el-col class="toolbar" v-if="!isShowrRegistation">
       <el-pagination

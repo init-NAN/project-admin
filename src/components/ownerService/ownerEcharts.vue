@@ -100,10 +100,11 @@
       <el-col :span="15" class="overviewCard" :offset="1">
         <div class="cardHead">报修总览</div>
         <div class="cardBody">
-          <div ref="overViewRepaireApplication" style="width:100%;height:500px;"></div>
+          <div ref="overViewRepaireApplication" style="width:100%;height:400px;"></div>
         </div>
       </el-col>
     </el-row>
+    <div style="width:100%;height:80px;"></div>
   </div>
 </template>
 
@@ -422,7 +423,6 @@ export default {
                 font-weight: 400;
               }
             }
-
             .verticalLine {
               display: inline-block;
               width: 1px;

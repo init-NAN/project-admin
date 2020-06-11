@@ -189,6 +189,7 @@
           </el-form-item>
         </el-form>
       </div>
+      <div style="height:80px;width:100%;"></div>
     </section>
     <el-col class="toolbar" v-if="!isShowrRegistation">
       <el-pagination

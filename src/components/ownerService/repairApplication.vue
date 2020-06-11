@@ -1,5 +1,8 @@
 <template>
   <div class="main-content">
+    <div class="current-page-title">
+      <span>报修管理</span>
+    </div>
     <section class="grid-content">
       <div class="state">
         <ul class="ul-list">
@@ -12,30 +15,39 @@
           </li>
         </ul>
       </div>
-      <div class="searchArea">
-        <el-tooltip class="item" effect="dark" content="报修单号" placement="bottom">
-          <span class="numTxt txt">报修单号:</span>
-        </el-tooltip>
-        <el-input v-model="repaireNum" placeholder="请输入报修单号" class="repaireNumInput input"></el-input>
-        <el-tooltip class="item" effect="dark" content="报修人" placement="bottom">
-          <span class="repairerTxt txt">报修人:</span>
-        </el-tooltip>
-        <el-input v-model="repairePhone" placeholder="请输入报修人/电话" class="repairePhoneInput input"></el-input>
-        <el-tooltip class="item" effect="dark" content="工单大类" placement="bottom">
-          <span class="bigCategoryTxt txt">工单大类:</span>
-        </el-tooltip>
-        <el-select v-model="bigCategory" clearable placeholder="所选工单大类" class="input bigCategorySelect">
-          <el-option
-            v-for="item in bigCategoryOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button size="small" type="primary" class="btn-addmore">查询</el-button>
-        <el-button size="small" type="primary" class="btn-addmore">重置</el-button>
-        <el-button size="small" class="more" type="text" >更多<i class="el-icon-arrow-down"></i></el-button>
-      </div>
+
+      <el-form ref="searchForm" :model="searchForm" :rules="searchFormRules" label-width="auto" class="searchArea">
+        <el-row :gutter="20">
+          <el-col :span="4">
+            <el-form-item label="报修单号:" prop="repaireNum">
+              <el-input v-model="searchForm.repaireNum" placeholder="请输入报修单号" class="repaireNumInput input"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="报修人:" prop="repairePhone">
+              <el-input v-model="searchForm.repairePhone" placeholder="请输入报修人/电话" class="repairePhoneInput input"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="工单大类:" prop="bigCategory">
+              <el-select v-model="searchForm.bigCategory" clearable placeholder="所选工单大类" class="input bigCategorySelect">
+                <el-option
+                  v-for="item in bigCategoryOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5" v-if="!isShowMore">
+            <el-button size="small" type="primary" class="btn-addmore">查询</el-button>
+            <el-button size="small" type="primary" class="btn-addmore">重置</el-button>
+            <el-button size="small" class="more" type="text" @click="isShowMore = true">更多<i class="el-icon-arrow-down"></i></el-button>
+          </el-col>
+        </el-row>
+      </el-form>
+      
       <div class="newExport">
         <el-button size="small" type="primary" class="el-icon-plus btn-addmore">   新建报修</el-button>
         <el-button size="small" type="primary" class="el-icon-download btn-addmore">导出EXCEL</el-button>
@@ -111,7 +123,7 @@ export default {
           state: "待分配",
           oderPerson: "看看",
           concatPhone: "15797706475",
-          orderStartDate: "2020/05/27 18:36",
+          orderStartDate: "2020-05-25 18:36",
           assignor: "admin",
           repairer:'小王',
           repaireLimitTime:'8小时内处理',
@@ -123,7 +135,7 @@ export default {
           managerAria:'时代佳苑(住宅)',
           floorHouse:'1幢',
           reVistor:'小李',
-          reVistorDate:'2020/3/21 15:30',
+          reVistorDate:'2020-3-21 15:30',
           comment:'好评',
           commentContent:'服务好'
         },
@@ -132,19 +144,19 @@ export default {
           state: "待分配",
           oderPerson: "看看",
           concatPhone: "15797706475",
-          orderStartDate: "2020/05/27 18:36",
+          orderStartDate: "2020-05-26 18:36",
           assignor: "admin",
           repairer:'小王',
           repaireLimitTime:'8小时内处理',
           bigCategory:'报修业务',
           smallCategory:'一般单',
-          oderOrigin:'微信端',
+          oderOrigin:'系统内',
           needHandle:'窗户坏了',
           resultNote:'搞定',
           managerAria:'时代佳苑(住宅)',
           floorHouse:'1幢',
           reVistor:'小李',
-          reVistorDate:'2020/3/21 15:30',
+          reVistorDate:'2020-3-21 15:30',
           comment:'好评',
           commentContent:'服务好'
         },
@@ -153,61 +165,19 @@ export default {
           state: "待分配",
           oderPerson: "看看",
           concatPhone: "15797706475",
-          orderStartDate: "2020/05/27 18:36",
+          orderStartDate: "2020-05-27 18:36",
           assignor: "admin",
           repairer:'小王',
           repaireLimitTime:'8小时内处理',
           bigCategory:'报修业务',
           smallCategory:'一般单',
-          oderOrigin:'微信端',
+          oderOrigin:'微博端',
           needHandle:'窗户坏了',
           resultNote:'搞定',
           managerAria:'时代佳苑(住宅)',
           floorHouse:'1幢',
           reVistor:'小李',
-          reVistorDate:'2020/3/21 15:30',
-          comment:'好评',
-          commentContent:'服务好'
-        },
-        {
-          orderNum: "bxa12301293",
-          state: "待分配",
-          oderPerson: "看看",
-          concatPhone: "15797706475",
-          orderStartDate: "2020/05/27 18:36",
-          assignor: "admin",
-          repairer:'小王',
-          repaireLimitTime:'8小时内处理',
-          bigCategory:'报修业务',
-          smallCategory:'一般单',
-          oderOrigin:'微信端',
-          needHandle:'窗户坏了',
-          resultNote:'搞定',
-          managerAria:'时代佳苑(住宅)',
-          floorHouse:'1幢',
-          reVistor:'小李',
-          reVistorDate:'2020/3/21 15:30',
-          comment:'好评',
-          commentContent:'服务好'
-        },
-        {
-          orderNum: "bxa12301293",
-          state: "待分配",
-          oderPerson: "看看",
-          concatPhone: "15797706475",
-          orderStartDate: "2020/05/27 18:36",
-          assignor: "admin",
-          repairer:'小王',
-          repaireLimitTime:'8小时内处理',
-          bigCategory:'报修业务',
-          smallCategory:'一般单',
-          oderOrigin:'微信端',
-          needHandle:'窗户坏了',
-          resultNote:'搞定',
-          managerAria:'时代佳苑(住宅)',
-          floorHouse:'1幢',
-          reVistor:'小李',
-          reVistorDate:'2020/3/21 15:30',
+          reVistorDate:'2020-3-21 15:30',
           comment:'好评',
           commentContent:'服务好'
         }
@@ -215,6 +185,9 @@ export default {
       total: 0,
       page: 1,				
       pageSize: 10,
+      isShowMore:false,
+      searchForm:{},//搜索表单
+      searchFormRules:{},
       activeClass: 0, // 0为默认选择第一个，-1为不选择
       repaireNum:'',//报修单号
       repairePhone:'',//报修人电话
@@ -271,8 +244,6 @@ export default {
       }
     }
     .searchArea {
-      display: flex;
-      justify-content: flex-start;
       margin-bottom: 10px;
       .more {
         background: transparent !important;
@@ -302,6 +273,7 @@ export default {
     .newExport {
       display: flex;
       justify-content: flex-start;
+      margin-bottom: 20px;
     }
     .el-table {
       .moreOperation {

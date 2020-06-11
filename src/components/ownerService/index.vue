@@ -195,6 +195,16 @@ export default {};
         font-weight: 400;
         color: rgba(255, 255, 255, 1);
       }
+      .el-form-item {
+        .el-form-item__content {
+          .el-date-editor {
+            .el-range-input, .el-range-separator {
+              background-color: transparent;
+              color: rgba(255, 255, 255, 1);
+            }
+          }
+        }
+      }
     }
     /deep/ .el-dialog__header  {
       padding: 10px 20px 10px;
@@ -304,6 +314,14 @@ export default {};
           color: rgba(255, 255, 255, 1);
         }
       }
+    }
+  }
+  .el-form {
+    .el-form-item__label {
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
     }
   }
 }

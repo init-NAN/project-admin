@@ -1,5 +1,8 @@
 <template>
   <div class="main-content">
+    <div class="current-page-title">
+      <span>入住登记</span>
+    </div>
     <section class="grid-content">
       <el-row class="buttonHead">
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
@@ -415,7 +418,6 @@ export default {
     },
     editCurrentRow() {
       this.isShowEdit = true
-      console.log(this.multipleSelection[0],'1')
       this.editRoomForm = this.multipleSelection[0]
     },
     newManagerAriaData(item) {
@@ -426,10 +428,6 @@ export default {
       const {value, label} = item
       let index = this.arrayIndex[0]
       this.tableData[index].managerAria = label
-    },
-    cancelRoomEdit(formName) {
-      this.isShowEdit = false
-      this.$refs[formName].resetFields();
     },
     cancelRoomEdit(formName) {
       this.isShowEdit = false

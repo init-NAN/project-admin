@@ -1,5 +1,8 @@
 <template>
   <div class="main-content">
+    <div class="current-page-title">
+      <span>交房登记</span>
+    </div>
     <section class="grid-content" v-if="!isShowrRegistation">
       <el-row class="buttonHead">
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">

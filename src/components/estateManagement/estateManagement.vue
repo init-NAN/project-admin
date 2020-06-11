@@ -235,6 +235,9 @@ export default {
   .el-date-editor--daterange.el-input__inner {
     width: 100%;
   }
+  .el-date-editor--datetimerange.el-input__inner{
+    width: 100%;
+  }
   .el-range-input {
     color: #fff;
   }

@@ -6,7 +6,7 @@
     <el-row class="margin-bottom">
       <el-col :span="2">
         <el-button class="btn-addmore"
-                   @click="isInspection = true,form = {},inspectionTitle = '新建巡检计划',resetForm ('form')">新建合同</el-button>
+                   @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
       </el-col>
       <el-col :span="3">
         <el-button :disabled='this.checkedBox.length===0'
@@ -23,19 +23,19 @@
       <el-table-column type="selection"
                        width="55">
       </el-table-column>
-      <el-table-column prop="area"
+      <el-table-column prop="management"
                        label="管理区"></el-table-column>
 
-      <el-table-column prop="num"
+      <el-table-column prop="contractNo"
                        label="合同编号"></el-table-column>
 
-      <el-table-column prop="name"
+      <el-table-column prop="contractName"
                        label="合同名称"></el-table-column>
 
       <el-table-column prop="peoName"
                        label="租户姓名"></el-table-column>
 
-      <el-table-column prop="num"
+      <el-table-column prop="resourceCode"
                        label="资源代码"></el-table-column>
 
       <el-table-column prop="per"
@@ -44,28 +44,27 @@
       <el-table-column prop="date"
                        label="费用应收日期"></el-table-column>
 
-      <el-table-column prop="long"
+      <el-table-column prop="costCycle"
                        label="费用周期"></el-table-column>
 
-      <el-table-column prop="how"
+      <el-table-column prop="amountReceivable"
                        label="应收金额"></el-table-column>
 
-      <el-table-column prop="now"
+      <el-table-column prop="amountPaid"
                        label="已缴金额"></el-table-column>
 
-      <el-table-column prop="tui"
+      <el-table-column prop="refundAmount"
                        label="退款金额"></el-table-column>
 
-      <el-table-column prop="less"
+      <el-table-column prop="amountOwed"
                        label="欠费金额"></el-table-column>
 
       <el-table-column label="操作">
-
         <template slot-scope="scope">
           <el-button type="text"
                      size="small"
                      class="table-show"
-                     @click="showRole(scope.$index, scope.row)">编辑</el-button>
+                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button type="text"
                      size="small"
                      class="table-del"
@@ -88,65 +87,60 @@
                :before-close="closeForm">
       <div class="flex-space-between____c">
         <el-card class="box-card">
-          <div slot="header"
-               class="clearfix">
-            <span>卡片名称</span>
-          </div>
           <el-form :model="form"
                    :rules="rules"
                    ref="form">
             <el-row :gutter="30">
-              <el-col :span="11">
-                <el-form-item label="客户名称:"
-                              prop="name">
-                  <el-input v-model="form.name"
-                            autocomplete="off"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="11">
-                <el-form-item label="所属行业:"
-                              prop="industry">
-                  <el-select v-model="form.industry">
-                    <el-option label="餐饮"
-                               value="餐饮"
-                               selected></el-option>
-                    <el-option label="IT"
-                               value="IT"></el-option>
+              <el-col :span="12">
+                <el-form-item label="管理区:"
+                              prop="management">
+                  <el-select v-model="form.management">
+                    <el-option label="绿城区"
+                               value="绿城区"></el-option>
+                    <el-option label="普陀区"
+                               value="普陀区"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row :gutter="30">
-              <el-col :span="11">
-                <el-form-item label="客户状态:"
-                              prop="status">
-                  <el-select v-model="form.status"
-                             placeholder="请选择客户状态">
-                    <el-option label="潜在客户"
-                               value="潜在客户"></el-option>
-                    <el-option label="签约客户"
-                               value="签约客户"></el-option>
-                    <el-option label="流失客户"
-                               value="流失客户"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="11">
-                <el-form-item label="联系人:">
-                  <el-input v-model="form.contacts"
+              <el-col :span="12">
+                <el-form-item label="合同编号:"
+                              prop="contractNo">
+                  <el-input v-model="form.contractNo"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="30">
-              <el-col :span="11">
+              <el-col :span="12">
+                <el-form-item label="合同名称:">
+                  <el-input v-model="form.contractName"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="租户姓名:">
+                  <el-input v-model="form.peoName"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="12">
                 <el-form-item label="联系电话:">
                   <el-input v-model="form.tel"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="11">
-                <el-form-item label="来访时间:">
+              <el-col :span="12">
+                <el-form-item label="资源代码:">
+                  <el-input v-model="form.resourceCode"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="12">
+                <el-form-item label="费用应收日期:">
                   <el-date-picker type="date"
                                   placeholder="选择时间"
                                   v-model="form.date"
@@ -155,51 +149,45 @@
                                   style="width: 100%;"></el-date-picker>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row :gutter="30">
-              <el-col :span="11">
-                <el-form-item label="来源渠道:">
-                  <el-select v-model="form.source"
-                             placeholder="请选择来源渠道">
-                    <el-option label="上门"
-                               value="上门"></el-option>
-                    <el-option label="电话"
-                               value="电话"></el-option>
-                    <el-option label="网络"
-                               value="网络"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="11">
-                <el-form-item label="销售阶段:">
-                  <el-select v-model="form.stage"
-                             placeholder="请选择销售阶段">
-                    <el-option label="初期沟通"
-                               value="初期沟通"></el-option>
-                    <el-option label="房源选择"
-                               value="房源选择"></el-option>
-                    <el-option label="价格谈判"
-                               value="价格谈判"></el-option>
-                    <el-option label="合同签约"
-                               value="合同签约"></el-option>
+              <el-col :span="12">
+                <el-form-item label="费用周期:">
+                  <el-select v-model="form.costCycle"
+                             placeholder="请选择费用周期">
+                    <el-option label="一年"
+                               value="一年"></el-option>
+                    <el-option label="半年"
+                               value="半年"></el-option>
+                    <el-option label="一季"
+                               value="一季"></el-option>
+                    <el-option label="一月"
+                               value="一月"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="30">
-              <el-col :span="22">
-                <el-form-item label="客户需求:">
-                  <el-input v-model="form.demand"
+              <el-col :span="6">
+                <el-form-item label="应收金额:">
+                  <el-input v-model="form.amountReceivable"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row :gutter="30">
-              <el-col :span="22">
-                <el-form-item label="备注:">
-                  <el-input type="textarea"
-                            v-model="form.remarks"
-                            placeholder="请输入备注"></el-input>
+              <el-col :span="6">
+                <el-form-item label="已缴金额:">
+                  <el-input v-model="form.amountPaid"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="退款金额:">
+                  <el-input v-model="form.refundAmount"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="欠费金额:">
+                  <el-input v-model="form.amountOwed"
+                            autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -208,7 +196,7 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="resetForm('form')"
+        <el-button @click="addCustomerVisibel=false"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="submitForm('form')">确 定</el-button>
@@ -218,47 +206,48 @@
 </template>
 
 <script>
+import delectAll from '@/common/utils/deleteAll.js'
 export default {
   data () {
     return {
       contract: [{
         date: '2016-05-02',
-        name: '名称',
-        area: '上海市普陀区',
-        num: '1231222',
+        contractName: '名称',
+        management: '上海市普陀区',
+        contractNo: '1231222',
         peoName: '王小虎',
         per: '0',
-        long: '一年',
-        how: '100000',
-        now: '12322',
-        tui: '0',
-        less: '23123',
+        costCycle: '一年',
+        amountReceivable: '100000',
+        amountPaid: '12322',
+        refundAmount: '0',
+        amountOwed: '23123',
         id: 1
       }, {
         date: '2016-05-02',
-        name: '名称',
-        area: '上海市普陀区',
-        num: '1231222',
+        contractName: '名称',
+        management: '上海市普陀区',
+        contractNo: '1231222',
         peoName: '王小虎2',
         per: '0',
-        long: '一年',
-        how: '100000',
-        now: '12322',
-        tui: '0',
-        less: '23123',
+        costCycle: '一年',
+        amountReceivable: '100000',
+        amountPaid: '12322',
+        refundAmount: '0',
+        amountOwed: '23123',
         id: 2
       }, {
         date: '2016-05-02',
-        name: '名称',
-        area: '上海市普陀区',
-        num: '1231222',
+        contractName: '名称',
+        management: '上海市普陀区',
+        contractNo: '1231222',
         peoName: '王小虎3',
         per: '0',
-        long: '一年',
-        how: '100000',
-        now: '12322',
-        tui: '0',
-        less: '23123',
+        costCycle: '一年',
+        amountReceivable: '100000',
+        amountPaid: '12322',
+        refundAmount: '0',
+        amountOwed: '23123',
         id: 3
       },],
       page1: 1,
@@ -268,30 +257,26 @@ export default {
       pageSize: 10,
 
       checkedBox: [],
-      form:{},
-      
-      
-      
+      form: {},
+
+
+
       rules: {
-        name: [
-          { required: true, message: "请输入客户名称，不超过30个字符！", trigger: "blur" },
-          { max: 30, message: "请输入客户名称，不超过30个字符！", trigger: "blur" }
-        ],
-        industry: [
+        management: [
           { required: true, message: '请选择职业', trigger: 'change' }
         ],
-        status: [
-          { required: true, message: '请选择客户状态', trigger: 'change' }
-        ]
+        contractNo: [
+          { required: true, message: "请输入合同编号，不超过30个字符！", trigger: "blur" },
+          { max: 30, message: "请输入合同编号，不超过30个字符！", trigger: "blur" }
+        ],
       },
-      addDialogTitle:'123x ',
-      addCustomerVisibel:true,
+      addDialogTitle: '',
+      addCustomerVisibel: false,
+
+      editIndex:''
     }
   },
   methods: {
-    handleEdit (index, row) {
-      window.console.log(index, row);
-    },
     handleDelete (index, row) {
       // 设置类似于console类型的功能
       window.console.log(row)
@@ -322,31 +307,6 @@ export default {
     handleCurrentChange (val) {
       this.page = val;
       this.getDeviceList();
-    },
-    // context menu
-    handleSelectionChange: function (sels) {
-      window.console.log(sels)
-      this.checkedBox = sels;
-      //console.log(this.ids);
-    },
-    //piliangshanchu
-    delectAll () {
-      for (let i = 0; i < this.contract.length; i++) {
-        const element = this.contract[i];
-        element.id = i
-      }
-      this.checkedBox.forEach(element => {
-        this.contract.forEach((e, i) => {
-
-          if (element.id == e.id) {
-            this.contract.splice(i, 1)
-          }
-        });
-      });
-    },
-    closeForm (done) {
-      this.$refs['form'].resetFields();
-      done();
     },
     handleSortChange (col) {
       if (col.prop == null) {
@@ -385,8 +345,88 @@ export default {
         }
       });
     },
-  }
+    // context menu
+    handleSelectionChange: function (sels) {
+      window.console.log(sels)
+      this.checkedBox = sels;
+      //console.log(this.ids);
+    },
+    //piliangshanchu
+    delectAll () {
+      this.$confirm("永久删除数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+          
+          for (let i = 0; i < this.contract.length; i++) {
+            const element = this.contract[i];
+            element.id = i
+          }
+          this.checkedBox.forEach(element => {
+            this.contract.forEach((e, i) => {
+
+              if (element.id == e.id) {
+                this.contract.splice(i, 1)
+              }
+            });
+          });
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    closeForm (done) {
+      this.$refs['form'].resetFields();
+      done();
+    },
+    resetForm (formName) {
+      if (this.$refs[formName] !== undefined) {
+        this.$refs[formName].resetFields();
+      }
+    },
+
+    handleEdit (index, item) {
+      this.resetForm('form');
+      this.addCustomerVisibel = true
+      this.form = { ...item }
+      this.addDialogTitle = '编辑合同'
+      this.editIndex = index
+    },
+
+
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert('submit')
+          if (this.addDialogTitle == '新建合同') {
+            this.contract.unshift(this.form);
+            this.addCustomerVisibel = false
+          }else if (this.addDialogTitle =='编辑合同') {
+            this.contract[this.editIndex] = this.form 
+            this.addCustomerVisibel = false
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+  },
+
+
+
 }
+
 
 </script>
 
@@ -396,6 +436,7 @@ export default {
     margin-top: 0;
     background-color: rgba(10, 13, 51, 0.7);
     color: #fff;
+    width: 900px;
     transform-origin: 1281px 246px;
     .el-dialog__title {
       color: #fff;
@@ -406,8 +447,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     .box-card {
-      width: 570px;
-      height: 704px;
+      width: 900px;
 
       .addChose {
         width: 100%;

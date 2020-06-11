@@ -80,7 +80,7 @@
             <el-button type="text"
                        size="small"
                        class="table-show"
-                       @click="editList(scope.$index, scope.row)">复制</el-button>
+                       @click="copyList(scope.$index, scope.row)">复制</el-button>
             <el-button type="text"
                        class="table-show"
                        size="small">查看二维码</el-button>
@@ -190,11 +190,11 @@
                   <el-select v-model="form.intervals"
                              placeholder="请选择保养周期">
                     <el-option label="日"
-                               value="shanghai"></el-option>
+                               value="日"></el-option>
                     <el-option label="周"
-                               value="beijing"></el-option>
+                               value="周"></el-option>
                     <el-option label="月"
-                               value="out"></el-option>
+                               value="月"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -389,7 +389,8 @@ export default {
         mounth: '0',
         dat: 0,
         deviceNo: 0,
-        id:1
+        id: 1,
+        weight:3
       }, {
         management: '绿岛物业2',
         eCode: '1#',
@@ -401,7 +402,7 @@ export default {
         mounth: '0',
         dat: 0,
         deviceNo: 0,
-        id:2
+        id: 2
       }, {
         management: '绿岛物业3',
         eCode: '1#',
@@ -413,7 +414,7 @@ export default {
         mounth: '0',
         dat: 0,
         deviceNo: 0,
-        id:3
+        id: 3
       },],
       isEquipment: false,
       checkedBox: [],
@@ -435,7 +436,7 @@ export default {
         ],
 
       },
-
+      equipRowIndex: ''
     }
   },
   methods: {
@@ -546,6 +547,7 @@ export default {
 
     addEquipment () {
       this.form = {}
+      this.resetForm('form');
       this.isEquipment = true
       this.addEquipFiles = '新增设备档案'
     },
@@ -553,21 +555,32 @@ export default {
       this.$refs['form'].resetFields();
       done();
     },
+    copyList(index,item){
+      this.resetForm('form')
+      this.isEquipment = true
+      this.form = { ...item }
+      this.addEquipFiles = '复制设备档案'
+    },
     editList (index, item) {
       // window.console.log(item)
       // window.console.log(index)
-      this.form = {}
-      this.isEquipment = true
-      this.form = { ...item }
+      this.copyList(index,item)
       // window.console.log(this.form)
       this.addEquipFiles = '编辑设备档案'
+      this.equipRowIndex = index
     },
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // alert('submit')
           if (this.addEquipFiles == '新增设备档案') {
-            this.tableData.push(this.form);
+            this.tableData.unshift(this.form);
+            this.isEquipment = false
+          } else if (this.addEquipFiles == '编辑设备档案') {
+            this.tableData[this.equipRowIndex] = this.form
+            this.isEquipment = false
+          }else {
+            this.$message('页面已关闭')
             this.isEquipment = false
           }
         } else {
@@ -575,8 +588,6 @@ export default {
           return false;
         }
       });
-
-      this.resetForm(formName);
     },
 
   }

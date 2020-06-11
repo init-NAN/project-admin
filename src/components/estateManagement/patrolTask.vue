@@ -14,45 +14,45 @@
         </li>
       </ul>
     </el-row>
-    <el-form :model="form"
-             :rules="rules"
-             hide-required-asterisk
+    <el-form :model="checkForm"
              label-width="auto"
              label-position="left"
-             ref="form">
+             ref="checkForm">
       <el-row :gutter="30"
               class="margin-bottom">
         <el-col :span="6">
           <el-form-item label="管理区:">
-            <el-select v-model="form.tpye"
+            <el-select v-model="checkForm.tpye"
                        placeholder="请选择区域">
               <el-option label="明珠城"
-                         value="shanghai"></el-option>
+                         value="明珠城"></el-option>
               <el-option label="绿岛物业"
-                         value="beijing"></el-option>
+                         value="绿岛物业"></el-option>
               <el-option label="其他"
-                         value="out"></el-option>
+                         value="其他"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="经办人:">
-            <el-select v-model="form.who"
+            <el-select v-model="checkForm.who"
                        placeholder="请选择核查人">
               <el-option label="维修工岗位"
-                         value="shanghai"></el-option>
+                         value="维修工岗位"></el-option>
               <el-option label="投诉处理岗位"
-                         value="beijing"></el-option>
+                         value="投诉处理岗位"></el-option>
               <el-option label="测试岗位"
-                         value="out"></el-option>
+                         value="测试岗位"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="7">
           <el-form-item label="计划开始日期:">
-            <el-date-picker v-model="value1"
+            <el-date-picker v-model="checkForm.rageDate"
                             type="daterange"
                             range-separator="~"
+                            format="yyyy-MM-dd HH:mm:ss"
+                            value-format="yyyy-MM-dd HH:mm:ss"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
             </el-date-picker>
@@ -71,14 +71,14 @@
               v-if="!isMore">
         <el-col :span="6">
           <el-form-item label="任务批次:">
-            <el-input v-model="form.person"
+            <el-input v-model="checkForm.person"
                       autocomplete="off"
                       placeholder="请输入任务批次"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="任务名称:">
-            <el-input v-model="form.person"
+            <el-input v-model="checkForm.person"
                       autocomplete="off"
                       placeholder="请输入任务名称"></el-input>
           </el-form-item>
@@ -179,7 +179,8 @@
                    ref="form">
             <el-row :gutter="30">
               <el-col :span="24">
-                <el-form-item label="管理区:" prop="management">
+                <el-form-item label="管理区:"
+                              prop="management">
                   <el-select v-model="form.management"
                              placeholder="请选择区域">
                     <el-option label="明珠城"
@@ -194,10 +195,13 @@
             </el-row>
             <el-row :gutter="30">
               <el-col :span="24">
-                <el-form-item label="任务计划时间:" prop="rageDate">
+                <el-form-item label="任务计划时间:"
+                              prop="rageDate">
                   <el-date-picker v-model="form.rageDate"
-                                  type="daterange"
+                                  type="datetimerange"
                                   range-separator="~"
+                                  format="yyyy-MM-dd HH:mm:ss"
+                                  value-format="yyyy-MM-dd HH:mm:ss"
                                   start-placeholder="开始日期"
                                   end-placeholder="结束日期">
                   </el-date-picker>
@@ -207,7 +211,7 @@
             <el-row :gutter="30">
               <el-col :span="24">
                 <el-form-item label="经办人:">
-                  <el-select v-model="form.name"
+                  <el-select v-model="form.peo"
                              placeholder="请选择经办人">
                     <el-option label="暂无数据"
                                value="暂无数据"></el-option>
@@ -219,7 +223,8 @@
               <el-col :span="24">
 
                 <el-form-item label="巡查事项:">
-                  <el-cascader :options="options"
+                  <el-cascader v-model="form.name"
+                               :options="options"
                                :props="{ multiple: true, checkStrictly: true }"
                                clearable
                                placeholder="请选择巡查事项"></el-cascader>
@@ -242,7 +247,8 @@
            class="dialog-footer">
         <el-button @click="isTask = false"
                    class="btn-trans">取 消</el-button>
-        <el-button class="btn-addmore">确 定</el-button>
+        <el-button class="btn-addmore"
+                   @click="addPatrolTask('form')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -259,17 +265,21 @@ export default {
       total: 0,
       page: 1,
       pageSize: 10,
-      form: {},
+      checkForm: {},
+      form: {
+        pEnd: '',
+        pStart: '',
+        rageDate: [],
+      },
       rules: {
         management: [
           { required: true, message: "请选择管理区", trigger: "change" },
-         
+
         ],
         rageDate: [
           { required: true, message: "请选择周期", trigger: "change" },
         ]
       },
-      value1: '',
       isMore: true,
       tableData: [{
         management: '绿岛物业',
@@ -283,7 +293,7 @@ export default {
         inName: '	水泵机',
         type: '日常保养',
         address: '1栋',
-        rageDate:['2020/05/28 14:45','2020/05/28 17:50'],
+        rageDate: ['2020/05/28 14:45', '2020/05/28 17:50'],
         pStart: '2020/05/28 14:45',
         pEnd: '2020/05/28 17:50',
         pType: '未开始'
@@ -305,16 +315,16 @@ export default {
       }],
       //级联数据
       options: [{
-        value: 'zhinan',
+        value: '工程检查',
         label: '工程检查',
         children: [{
-          value: 'shejiyuanze',
+          value: '工程检查',
           label: '工程检查',
         }, {
-          value: 'daohang',
+          value: '锦园',
           label: '锦园'
         }, {
-          value: 'daohang',
+          value: '工程进展检查',
           label: '工程进展检查'
         }]
       },]
@@ -402,12 +412,40 @@ export default {
       this.page = val;
       this.getDeviceList();
     },
+
+
+    closeForm (done) {
+      this.$refs['form'].resetFields();
+      done();
+    },
+    resetForm (formName) {
+      if (this.$refs[formName] !== undefined) {
+        this.$refs[formName].resetFields();
+      }
+    },
+    addPatrolTask (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.form.pStart = this.form.rageDate[0]
+          this.form.pEnd = this.form.rageDate[1]
+          this.tableData.unshift(this.form)
+          this.$message('新增成功')
+          this.isTask = false
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    }
   },
 }
 </script>
 
 <style lang="less" scope>
 .patrolTask {
+  .el-dialog {
+    width: 900px;
+  }
   .el-cascader {
     width: 100%;
     /deep/ .el-input__inner {

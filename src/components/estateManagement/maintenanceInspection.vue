@@ -52,8 +52,10 @@
         <el-col :span="7">
           <el-form-item label="计划日期:">
             <el-date-picker v-model="value1"
-                            type="daterange"
-                            range-separator="~"
+                            type="datetimerange"
+                                  range-separator="~"
+                                  format="yyyy-MM-dd HH:mm:ss"
+                                  value-format="yyyy-MM-dd HH:mm:ss"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
             </el-date-picker>
@@ -193,7 +195,7 @@
             <el-button type="text"
                        size="small"
                        class="table-change"
-                       @click="isVisit = true">添加备注</el-button>
+                       @click="assignmentVisit(scope.$index,scope.row)">添加备注</el-button>
           </template>
         </el-table-column>
 
@@ -212,10 +214,14 @@
     </el-col>
 
     <el-dialog title="分派"
-               :visible.sync="isInscection"
-               width="30%">
-      <el-form :model="form">
-        <el-form-item label="执行人">
+               :visible.sync="isMaintenance"
+               width="30%"
+               :before-close="closeInspection">
+      <el-form :model="form"
+               :rules="rules"
+               ref="form">
+        <el-form-item label="执行人"
+                      prop="doPer">
           <el-select v-model="form.doPer"
                      placeholder="请选择执行人">
             <el-option label="企业版"
@@ -228,15 +234,16 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isInscection = false"
+        <el-button @click="isMaintenance = false"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
-                   @click="isInscection = false">确 定</el-button>
+                   @click="changeMaintenanceRegion('form')">确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog title="备注"
-               :visible.sync="isVisit"
-               width="30%">
+               :visible.sync="isDesc"
+               width="30%"
+               :before-close="closeInspection">
       <el-form :model="form">
         <el-form-item label="备注">
           <el-input type="textarea"
@@ -246,10 +253,10 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isVisit = false"
+        <el-button @click="isDesc = false"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
-                   @click="isVisit = false">确 定</el-button>
+                   @click="changeDesc">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -277,7 +284,7 @@ export default {
         pStart: '2020/05/28 14:45',
         pEnd: '2020/05/28 17:50',
         pType: '未分配'
-      },{
+      }, {
         management: '绿岛物业',
         name: '水泵保养2-20200528-1',
         peo: '企业版',
@@ -290,7 +297,7 @@ export default {
         pStart: '2020/05/28 14:45',
         pEnd: '2020/05/28 17:50',
         pType: '未分配'
-      },{
+      }, {
         management: '绿岛物业',
         name: '水泵保养2-20200528-1',
         peo: '企业版',
@@ -314,24 +321,15 @@ export default {
         mobile: ""
       },
       rules: {
-        mobile: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          {
-            pattern: "0?(13|14|15|18|17)[0-9]{9}",
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          }
+        doPer: [
+          { required: true, message: "请选择执行人", trigger: "change" },
         ],
-        code: [
-          { required: true, message: "验证码不能为空", trigger: "blur" },
-          { len: 6, message: "验证码必须为6位", trigger: "blur" }
-        ]
       },
       value1: '',
       isMore: true,
-      isInscection: false,
-      isVisit: false,
-
+      isMaintenance: false,
+      isDesc: false,
+      inMaintenceIndex: ''
     }
   },
   methods: {
@@ -417,11 +415,48 @@ export default {
       this.getDeviceList();
     },
 
-
-    assignment(index,item) {
+    resetForm (formName) {
+      if (this.$refs[formName] !== undefined) {
+        this.$refs[formName].resetFields();
+      }
+    },
+    closeInspection (done) {
+      this.$refs['form'].resetFields();
+      done();
+    },
+    assignment (index, item) {
       console.log(index);
       console.log(item);
-    }
+      this.resetForm('form')
+      this.isMaintenance = true
+      this.form = { ...item }
+      this.inMaintenceIndex = index
+    },
+    changeMaintenanceRegion(formName){
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.tableData[this.inMaintenceIndex] = this.form
+          this.tableData[this.inMaintenceIndex].pType = '已分配'
+          this.$message('分派成功')
+          this.isMaintenance = false
+          
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    assignmentVisit(index,item) {
+      this.resetForm ('form') 
+      this.isDesc = true
+      this.form = { ...item }
+      this.inMaintenceIndex = index
+    },
+    changeDesc() {
+          this.tableData[this.inMaintenceIndex] = this.form
+          this.$message('备注成功')
+          this.isDesc = false
+    },
   }
 }
 </script>

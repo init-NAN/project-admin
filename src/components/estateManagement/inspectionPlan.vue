@@ -84,7 +84,9 @@
             <el-button type="text"
                        class="table-del"
                        @click="handleDelete(scope.$index,scope.row)"
-                       size="small">停用</el-button>
+                       size="small">
+              {{scope.row.label=='已启用'?'停止':''}}
+            </el-button>
             <el-button type="text"
                        size="small"
                        class="table-change"
@@ -154,8 +156,10 @@
               <el-col :span="13">
                 <el-form-item label="计划有效期:">
                   <el-date-picker v-model="form.dateValidity"
-                                  type="daterange"
+                                  type="datetimerange"
                                   range-separator="~"
+                                  format="yyyy-MM-dd HH:mm:ss"
+                                  value-format="yyyy-MM-dd HH:mm:ss"
                                   start-placeholder="开始日期"
                                   end-placeholder="结束日期">
                   </el-date-picker>
@@ -197,13 +201,13 @@
                   <el-select v-model="form.frequency"
                              placeholder="">
                     <el-option label="每日"
-                               value="shanghai"></el-option>
+                               value="每日"></el-option>
                     <el-option label="每周"
-                               value="beijing"></el-option>
+                               value="每周"></el-option>
                     <el-option label="每月"
-                               value="beijing"></el-option>
+                               value="每月"></el-option>
                     <el-option label="每年"
-                               value="beijing"></el-option>
+                               value="每年"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -269,6 +273,19 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-row :gutter="30">
+              <el-col :span="24">
+                <el-form-item prop="label" label="保养状态:">
+                  <el-select v-model="form.label"
+                             placeholder="">
+                    <el-option label="已启用"
+                               value="已启用"></el-option>
+                    <el-option label="已停用"
+                               value="已停用"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-form>
         </el-card>
       </div>
@@ -276,7 +293,8 @@
            class="dialog-footer">
         <el-button @click="isInspection = false"
                    class="btn-trans">取 消</el-button>
-        <el-button class="btn-addmore">确 定</el-button>
+        <el-button class="btn-addmore"
+                   @click="submitForm('form')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -327,7 +345,7 @@ export default {
         where: '1栋',
         crDate: '2016-05-02',
         label: '已启用',
-        id:1
+        id: 1
       }, {
         management: '绿岛物业2',
         insName: '水泵机',
@@ -343,7 +361,7 @@ export default {
         where: '1栋',
         crDate: '2016-05-02',
         label: '已启用',
-        id:2
+        id: 2
       },],
       total: 0,
       page: 1,
@@ -357,9 +375,10 @@ export default {
         name: [
           { required: true, message: "名称不能为空", trigger: "blur" },
           { min: 1, message: "名称不能为空", trigger: "blur" }
-        ]
+        ],
+        label:[{ required: true, message: "请选择状态", trigger: "change" },]
       },
-
+      inspectionIndex: '',
     }
   },
   methods: {
@@ -447,6 +466,7 @@ export default {
       // window.console.log(index)
       this.isInspection = true
       this.form = { ...item }
+      this.inspectionIndex = index
       // window.console.log(this.form)
       this.inspectionTitle = '编辑巡检计划'
     },
@@ -472,6 +492,27 @@ export default {
             message: "已取消停用"
           });
         });
+    },
+
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert('submit')
+          if (this.inspectionTitle == '新建巡检计划') {
+            this.tableData.unshift(this.form);
+            this.isInspection = false
+          } else if (this.inspectionTitle == '编辑巡检计划') {
+            this.tableData[this.inspectionIndex] = this.form
+            this.isInspection = false
+          } else {
+            this.$message('页面已关闭')
+            this.isInspection = false
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     },
   }
 }

@@ -51,8 +51,10 @@
         <el-col :span="7">
           <el-form-item label="计划开始日期:">
             <el-date-picker v-model="value1"
-                            type="daterange"
-                            range-separator="~"
+                            type="datetimerange"
+                                  range-separator="~"
+                                  format="yyyy-MM-dd HH:mm:ss"
+                                  value-format="yyyy-MM-dd HH:mm:ss"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
             </el-date-picker>
@@ -174,7 +176,7 @@
             <el-button type="text"
                        size="small"
                        class="table-change"
-                       @click="isVisit = true">添加备注</el-button>
+                       @click="assignmentVisit(scope.$index,scope.row)">添加备注</el-button>
           </template>
         </el-table-column>
 
@@ -194,10 +196,13 @@
 
     <el-dialog title="分派"
                :visible.sync="isInscection"
-               width="30%">
-      <el-form :model="form">
-        <el-form-item label="执行人">
-          <el-select v-model="form.region"
+               width="30%"
+               :before-close="closeInspection">
+      <el-form :model="form"
+               :rules="rules"
+               ref="form">
+        <el-form-item label="执行人" prop="doPer">
+          <el-select v-model="form.doPer"
                      placeholder="请选择执行人">
             <el-option label="企业版"
                        value="企业版"></el-option>
@@ -212,13 +217,15 @@
         <el-button @click="isInscection = false"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
-                   @click="changeRegion()">确 定</el-button>
+                   @click="changeRegion('form')">确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog title="备注"
                :visible.sync="isVisit"
-               width="30%">
-      <el-form :model="form">
+               width="30%"
+               :before-close="closeInspection">
+      <el-form :model="form"
+               ref="form">
         <el-form-item label="备注">
           <el-input type="textarea"
                     v-model="form.desc"></el-input>
@@ -230,7 +237,7 @@
         <el-button @click="isVisit = false"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
-                   @click="isVisit = false">确 定</el-button>
+                   @click="changeVisit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -277,23 +284,15 @@ export default {
       pageSize: 10,
       form: {},
       rules: {
-        mobile: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          {
-            pattern: "0?(13|14|15|18|17)[0-9]{9}",
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          }
+        doPer: [
+          { required: true, message: "请选择执行人", trigger: "change" },
         ],
-        code: [
-          { required: true, message: "验证码不能为空", trigger: "blur" },
-          { len: 6, message: "验证码必须为6位", trigger: "blur" }
-        ]
       },
       value1: '',
       isMore: true,
       isInscection: false,
       isVisit: false,
+      inTaskIndex:'',
     }
   },
   methods: {
@@ -379,23 +378,47 @@ export default {
       this.getDeviceList();
     },
     resetForm (formName) {
-      this.isEquipment = false
       if (this.$refs[formName] !== undefined) {
         this.$refs[formName].resetFields();
       }
     },
-    closeInspection(done) {
+    closeInspection (done) {
       this.$refs['form'].resetFields();
       done();
     },
     // fenpai
-   assignment(index,item) {
-     window.console.log(index)
-     window.console.log(item)
-     this.isInscection = true
-     this.form = { ...item }
-   },
-
+    assignment (index, item) {
+      this.resetForm ('form') 
+      this.isInscection = true
+      this.form = { ...item }
+      this.inTaskIndex = index
+    },
+    changeRegion(formName){
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.tableData[this.inTaskIndex] = this.form
+          this.tableData[this.inTaskIndex].pType = '已分配'
+          this.$message('分派成功')
+          this.isInscection = false
+          
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    assignmentVisit(index,item) {
+      this.resetForm ('form') 
+      this.isVisit = true
+      this.form = { ...item }
+      this.inTaskIndex = index
+    },
+    changeVisit() {
+          this.tableData[this.inTaskIndex] = this.form
+          this.$message('备注成功')
+          this.isVisit = false
+    },
+    
   }
 }
 </script>

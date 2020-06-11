@@ -6,7 +6,7 @@
     <el-row class="margin-bottom">
       <el-col :span="2">
         <el-button class="add-customer btn-addmore"
-                   @click="addCustomerVisibel = true, form={},addDialogTitle='新增客户'">新建用户</el-button>
+                   @click="addCustomerVisibel = true, form={},addDialogTitle='新增客户',resetForm ('form')">新建用户</el-button>
       </el-col>
       <el-col :span="3">
         <el-button type="primary"
@@ -214,9 +214,9 @@
           <el-button class="addChose">+添加</el-button>
           <div class="digo-list-title">
             <p>时代佳苑(住宅)</p>
-            <el-table :data="tableData"
+            <el-table :data="tableData1"
                       resizable
-                      ref="table"
+                      ref="table1"
                       :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
               <el-table-column prop="num"
                                label="楼栋/房号">
@@ -245,7 +245,7 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="resetForm('form')"
+        <el-button @click="addCustomerVisibel = false"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="submitForm('form')">确 定</el-button>
@@ -259,6 +259,7 @@ export default {
   data () {
     return {
       addDialogTitle: '',
+      tableData1: [],
       tableData: [{
         name: '王小虎1',
         industry: 'IT',
@@ -319,6 +320,7 @@ export default {
       page: 1,
       pageSize: 10,
       checkedBox: [],
+      editIndex: ''
     }
   },
   methods: {
@@ -361,18 +363,37 @@ export default {
     },
     //piliangshanchu
     delectAll () {
-      for (let i = 0; i < this.tableData.length; i++) {
-        const element = this.tableData[i];
-        element.id = i
-      }
-      this.checkedBox.forEach(element => {
-        this.tableData.forEach((e, i) => {
-
-          if (element.id == e.id) {
-            this.tableData.splice(i, 1)
+      this.$confirm("永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+          for (let i = 0; i < this.tableData.length; i++) {
+            const element = this.tableData[i];
+            element.id = i
           }
+          this.checkedBox.forEach(element => {
+            this.tableData.forEach((e, i) => {
+
+              if (element.id == e.id) {
+                this.tableData.splice(i, 1)
+              }
+            });
+          });
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
         });
-      });
+
     },
     handleSortChange (col) {
       if (col.prop == null) {
@@ -413,28 +434,27 @@ export default {
     },
 
     showRole (index, item) {
-      window.console.log(item);
+      this.resetForm('form')
       this.addDialogTitle = '编辑客户';
       this.addCustomerVisibel = true;
       this.form = { ...item }
-      // window.console.log(Object.assign({}, item));
-      // window.console.log(index);
-      // var  dataobj = this.tableData.splice(index,1)
-      // window.console.log(dataobj);
+      this.editIndex = index
     },
 
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.addDialogTitle == '新增客户') {
-            window.console.log(this.form.date)
+            // window.console.log(this.form.date)
             this.tableData.push(this.form);
             this.addCustomerVisibel = false;
-
           }
-          // else if (this.addDialogTitle == '编辑客户') {
-
-          // }
+          else if (this.addDialogTitle == '编辑客户') {
+            window.console.log(this.form)
+            this.tableData[this.editIndex] = this.form
+            window.console.log(this.tableData[this.editIndex])
+            this.addCustomerVisibel = false;
+          }
         } else {
           console.log('error submit!!');
           return false;
@@ -446,7 +466,6 @@ export default {
       if (this.$refs[formName] !== undefined) {
         this.$refs[formName].resetFields();
       }
-      this.addCustomerVisibel = false
     },
     closeForm (done) {
       this.$refs['form'].resetFields();

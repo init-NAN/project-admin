@@ -36,9 +36,11 @@
         </el-col>
         <el-col :span="7">
           <el-form-item label="计划开始日期:">
-            <el-date-picker v-model="value1"
-                            type="daterange"
+            <el-date-picker v-model="form.rageDate"
+                            type="datetimerange"
                             range-separator="~"
+                            format="yyyy-MM-dd HH:mm:ss"
+                            value-format="yyyy-MM-dd HH:mm:ss"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
             </el-date-picker>
@@ -47,9 +49,11 @@
         </el-col>
         <el-col :span="7">
           <el-form-item label="计划开始日期:">
-            <el-date-picker v-model="value1"
-                            type="daterange"
+            <el-date-picker v-model="form.rageDate"
+                            type="datetimerange"
                             range-separator="~"
+                            format="yyyy-MM-dd HH:mm:ss"
+                            value-format="yyyy-MM-dd HH:mm:ss"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
             </el-date-picker>
@@ -147,7 +151,10 @@ export default {
         picture: require('../../assets/img/login-poto.gif'),
         endTime: '2020/04/22 16:35',
         doPer: '企业版',
-        pType: '已解决'
+        pType: '已解决',
+        pStart:'',
+        pEnd:'',
+        rageDate:[],
       }],
     }
   },

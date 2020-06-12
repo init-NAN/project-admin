@@ -85,8 +85,8 @@
       </el-form>
       
       <div class="newExport">
-        <el-button size="small" type="primary" class="el-icon-plus btn-addmore" @click="newEidtRepaire('new')">   新建报修</el-button>
-        <el-button size="small" type="primary" class="el-icon-download btn-addmore">导出EXCEL</el-button>
+        <el-button type="primary" class="el-icon-plus btn-addmore" @click="newEidtRepaire('new')">   新建报修</el-button>
+        <el-button type="primary" class="el-icon-download btn-addmore">导出EXCEL</el-button>
       </div>
       
       <el-table
@@ -116,9 +116,9 @@
         <el-table-column prop="commentContent" label="评价" width="140"></el-table-column>
         <el-table-column prop="commentContent" label="操作" width="140" fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" size="small" class="table-show" @click="newEidtRepaire('edit',scope.row,scope.$index)">编辑</el-button>
-            <el-button type="text" size="small" class="table-del" @click="deleteCurrentRow(scope.$index,scope.row)">删除</el-button>
-            <el-button type="text" size="small" class="table-show" @click="distribute(scope.$index,scope.row)">派工</el-button>&nbsp;&nbsp;
+            <el-button type="text" class="table-show" @click="newEidtRepaire('edit',scope.row,scope.$index)">编辑</el-button>
+            <el-button type="text" class="table-del" @click="deleteCurrentRow(scope.$index,scope.row)">删除</el-button>
+            <el-button type="text" class="table-show" @click="distribute(scope.$index,scope.row)">派工</el-button>&nbsp;&nbsp;
           </template>
         </el-table-column>
       </el-table>

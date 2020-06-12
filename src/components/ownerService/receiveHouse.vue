@@ -4,48 +4,47 @@
       <span>接房登记</span>
     </div>
     <section class="grid-content">
-      <el-row class="buttonHead">
-        <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
-          <div class="left">
-            <el-button
-              size="small"
-              type="primary"
-              class="el-icon-plus btn-addmore"
-              @click="newAddRegistration"
-            >接房登记</el-button>
-            <el-button
-              size="small"
-              type="primary"
-              class="el-icon-delete btn-addmore"
-              :disabled="isCanDelete"
-              @click="deleteSelections"
-            >删除</el-button>
-            <el-button
-              size="small"
-              :disabled="isDisabledChangeDate"
-              class="btn-addmore"
-              @click="changeReceiveDate"
-            >更改接房日期</el-button>
-            <el-button size="small" type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
-          </div>
-        </el-col>
-        <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
-          <div class="right" v-if="!isShowDetail">
-            <el-input v-model="inputSearch" size="small" placeholder="搜索..." class="searchInput"></el-input>
-            <el-button size="small" type="primary" class="el-icon-search btn-addmore"></el-button>
-            <el-button
-              size="small"
-              class="el-icon-arrow-down btn-addmore"
-              id="dropdown"
-              @click="showDetailSearch"
-            ></el-button>
-          </div>
-        </el-col>
-      </el-row>
-      <div class="searchDetail" v-if="isShowDetail">
-        <el-form :model="searchDetailForm" ref="searchDetailForm" label-width="auto">
-          <el-row type="flex" justify="space-around">
-            <el-col :span="10" :offset="2">
+      <el-form :model="searchDetailForm" ref="searchDetailForm" label-width="auto">
+        <el-row class="buttonHead">
+          <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
+            <div class="left">
+              <el-button
+                
+                type="primary"
+                class="el-icon-plus btn-addmore"
+                @click="newAddRegistration"
+              >接房登记</el-button>
+              <el-button
+                
+                type="primary"
+                class="el-icon-delete btn-addmore"
+                :disabled="isCanDelete"
+                @click="deleteSelections"
+              >删除</el-button>
+              <el-button
+                
+                :disabled="isDisabledChangeDate"
+                class="btn-addmore"
+                @click="changeReceiveDate"
+              >更改接房日期</el-button>
+              <el-button  type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
+            </div>
+          </el-col>
+          <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
+            <div class="right" v-if="!isShowDetail">
+              <el-input v-model="inputSearch"  placeholder="搜索..." class="searchInput"></el-input>
+              <el-button  type="primary" class="el-icon-search btn-addmore"></el-button>
+              <el-button
+                
+                class="el-icon-arrow-down btn-addmore"
+                id="dropdown"
+                @click="showDetailSearch"
+              ></el-button>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row v-if="isShowDetail">
+            <el-col :span="6">
               <el-form-item label="管理区">
                 <el-select
                   v-model="searchDetailForm.selectedAria"
@@ -61,71 +60,52 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10" :offset="2">
+            <el-col :span="6" :offset="1">
               <el-form-item label="楼宇">
-                <el-select
-                  v-model="searchDetailForm.selectedFloor"
-                  filterable
-                  placeholder="请选择楼宇"
-                  :disabled="isFloorDisabled"
-                >
-                  <el-option
-                    v-for="item in floorHouseList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
+                  <el-select
+                    v-model="searchDetailForm.selectedFloor"
+                    filterable
+                    placeholder="请选择楼宇"
+                    :disabled="isFloorDisabled"
+                  >
+                    <el-option
+                      v-for="item in floorHouseList"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row type="flex" justify="space-around">
-            <el-col :span="10" :offset="2">
-              <el-form-item label="房间代码">
-                <el-input
-                  v-model="searchDetailForm.roomCodeSearch"
-                  placeholder="请输入房间代码"
-                  class="roomCodeInput"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10" :offset="2">
-              <el-form-item label="客户名称">
-                <el-input
-                  v-model="searchDetailForm.customerNameSearch"
-                  placeholder="请输入客户名称"
-                  class="customerInput"
-                ></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-        <el-row>
-          <el-col :span="23" :offset="1">
-            <div class="line"></div>
+        </el-row>
+        <el-row v-if="isShowDetail" type="flex"  justify="flex-end">
+          <el-col :span="6">
+            <el-form-item label="房间代码">
+              <el-input
+                v-model="searchDetailForm.roomCodeSearch"
+                placeholder="请输入房间代码"
+                class="roomCodeInput"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6" :offset="1">
+            <el-form-item label="客户名称">
+              <el-input
+                v-model="searchDetailForm.customerNameSearch"
+                placeholder="请输入客户名称"
+                class="customerInput"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6" :offset="1">
+            <el-button  class="el-icon-search btn-addmore">搜索</el-button>
+            <el-button class="el-icon-refresh-left btn-addmore" @click="reSetting()">重置</el-button>
+            <el-button class="el-icon-arrow-up btn-addmore" @click="showDetailSearch"></el-button>
           </el-col>
         </el-row>
-        <div class="searchContent">
-          <el-row>
-            <el-col :span="12" :offset="12">
-              <div class="btns">
-                <el-button size="small" class="el-icon-search btn-addmore">搜索</el-button>
-                <el-button
-                  class="el-icon-refresh-left btn-addmore"
-                  size="small"
-                  @click="reSetting()"
-                >重置</el-button>
-                <el-button
-                  class="el-icon-arrow-up btn-addmore"
-                  size="small"
-                  @click="showDetailSearch"
-                ></el-button>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
-      <el-table
+      </el-form>
+    </section>
+    <el-table
         :data="tableData"
         v-loading="listLoading"
         @selection-change="handleSelectionChange"
@@ -140,7 +120,7 @@
           <template slot-scope="scope">
             <el-button
               type="text"
-              size="small"
+              
               class="table-show"
               @click="editRoomDialog(scope.$index, scope.row)"
             >{{scope.row.roomCode}}</el-button>
@@ -151,7 +131,7 @@
           <template slot-scope="scope">
             <el-button
               type="text"
-              size="small"
+              
               class="table-show"
               @click="showCustomerDetail(scope.row)"
             >{{scope.row.customerName}}</el-button>
@@ -166,10 +146,10 @@
         <el-table-column prop="receiveDate" label="接房日期"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <!-- <el-button type="text" size="small" class="table-show" >编辑</el-button> -->
+            <!-- <el-button type="text"  class="table-show" >编辑</el-button> -->
             <el-button
               type="text"
-              size="small"
+              
               class="table-del"
               @click="deleteCurrentRow(scope.$index, scope.row)"
             >删除</el-button>
@@ -338,7 +318,6 @@
           >确 定</el-button>
         </span>
       </el-dialog>
-    </section>
     <el-dialog title="新建接房登记" :visible.sync="isShowrRegistation" width="85%">
       <el-form
           :model="registrationForm"

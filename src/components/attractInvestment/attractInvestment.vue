@@ -12,12 +12,38 @@ export default {
 
 <style lang="less" scope>
 .attra {
-
   .margin-bottom {
     margin-bottom: 20px;
   }
-  /deep/ .el-input__inner
-   {
+  .el-card__header {
+    border: none;
+    color: #fff;
+    text-align: left;
+  }
+  .el-card {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    font-size: 16px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 16px;
+    .el-form {
+      .el-form-item__label {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+  }
+  .el-input__inner,
+  .el-textarea__inner {
+    background-color: transparent;
+    border: 1px solid rgba(158, 162, 192, 1);
+    color: #fff;
+  }
+  .el-input__inner {
     background-color: transparent;
     border: 1px solid rgba(158, 162, 192, 1);
     color: #fff;
@@ -57,12 +83,20 @@ export default {
   .table-del {
     color: #eb6370 !important;
     text-decoration: underline;
-    
   }
-  /deep/ .table-show,
-  /deep/ .table-change {
+  .table-show,
+  .table-change {
     color: #49a9ff !important;
     text-decoration: underline;
+  }
+
+   .el-dialog__header {
+    background: url("../../assets/comment/type(1).png") no-repeat;
+    padding: 10px 20px 10px;
+  }
+   .el-dialog__footer {
+    background: url("../../assets/comment/type(2).png") no-repeat right;
+    padding: 50px 20px 20px;
   }
 }
 </style>

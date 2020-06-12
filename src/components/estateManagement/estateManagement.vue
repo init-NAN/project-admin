@@ -15,12 +15,13 @@ export default {
   .margin-bottom {
     margin-bottom: 20px;
   }
-  .el-table__fixed-right:before, .el-table__fixed:before {
+  .el-table__fixed-right:before,
+  .el-table__fixed:before {
     height: 0;
   }
   .el-table th,
   .el-table tr {
-    background-color: rgba(0, 0, 0);
+    background-color: rgba(0, 0, 0, 1);
   }
   .el-table .el-button {
     color: #fff;
@@ -32,7 +33,7 @@ export default {
   .el-table td {
     border: transparent;
   }
-  /deep/ .el-input-group__append {
+  .el-input-group__append {
     background-color: transparent;
     color: #fff;
   }
@@ -40,22 +41,24 @@ export default {
     background-color: transparent;
   }
   //日期选择器
-  /deep/.el-range-input {
+  .el-range-input {
     background-color: transparent;
   }
 
-  /deep/ .el-range-separator {
+  .el-range-separator {
     color: #fff;
   }
   .el-dialog__title {
     color: #fff;
   }
 
-  /deep/ .el-input__inner,
+  .el-input__inner,
   .el-textarea__inner {
     background-color: transparent;
     border: 1px solid rgba(158, 162, 192, 1);
     color: #fff;
+    background: #000\9; /*IE*/
+    filter: alpha(opacity=50); /*IE*/
   }
 
   .el-input-number__decrease,
@@ -86,10 +89,10 @@ export default {
     width: 100%;
   }
   .el-dialog {
-    background-color: rgba(19,24,55,1);;
+    background-color: rgba(19, 24, 55, 1);
     transform-origin: 141px 134.563px;
 
-    /deep/ .el-input-group__append {
+    .el-input-group__append {
       background-color: transparent;
       color: #fff;
     }
@@ -97,18 +100,18 @@ export default {
       background-color: transparent;
     }
     //日期选择器
-    /deep/.el-range-input {
+    .el-range-input {
       background-color: transparent;
     }
 
-    /deep/ .el-range-separator {
+    .el-range-separator {
       color: #fff;
     }
     .el-dialog__title {
       color: #fff;
     }
 
-    /deep/ .el-input__inner,
+    .el-input__inner,
     .el-textarea__inner {
       background-color: transparent;
       border: 1px solid rgba(158, 162, 192, 1);
@@ -137,12 +140,12 @@ export default {
       width: 100%;
     }
 
-    /deep/ .el-card__header {
+    .el-card__header {
       border: none;
       color: #fff;
       text-align: left;
     }
-    /deep/ .el-card {
+    .el-card {
       background-color: rgba(0, 0, 0, 0.3);
       border: none;
       font-size: 16px;
@@ -161,11 +164,11 @@ export default {
     }
   }
 
-  /deep/ .el-dialog__header {
+  .el-dialog__header {
     background: url("../../assets/comment/type(1).png") no-repeat;
     padding: 10px 20px 10px;
   }
-  /deep/ .el-dialog__footer {
+  .el-dialog__footer {
     background: url("../../assets/comment/type(2).png") no-repeat right;
     padding: 50px 20px 20px;
   }
@@ -227,15 +230,15 @@ export default {
     color: #eb6370 !important;
     text-decoration: underline;
   }
-  /deep/ .table-show,
-  /deep/ .table-change {
+  .table-show,
+  .table-change {
     color: #49a9ff !important;
     text-decoration: underline;
   }
   .el-date-editor--daterange.el-input__inner {
     width: 100%;
   }
-  .el-date-editor--datetimerange.el-input__inner{
+  .el-date-editor--datetimerange.el-input__inner {
     width: 100%;
   }
   .el-range-input {

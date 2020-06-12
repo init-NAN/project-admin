@@ -434,7 +434,7 @@ export default {
     },
 
     showRole (index, item) {
-      this.resetForm('form')
+      // this.resetForm('form')
       this.addDialogTitle = '编辑客户';
       this.addCustomerVisibel = true;
       this.form = { ...item }

@@ -556,7 +556,6 @@ export default {
       done();
     },
     copyList(index,item){
-      this.resetForm('form')
       this.isEquipment = true
       this.form = { ...item }
       this.addEquipFiles = '复制设备档案'

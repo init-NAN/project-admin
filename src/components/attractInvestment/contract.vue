@@ -396,7 +396,6 @@ export default {
     },
 
     handleEdit (index, item) {
-      this.resetForm('form');
       this.addCustomerVisibel = true
       this.form = { ...item }
       this.addDialogTitle = '编辑合同'

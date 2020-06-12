@@ -239,8 +239,8 @@
             </el-col>
             <el-col :span="10">
               <el-form-item label="房间状态：" prop="roomState"> 
-                <el-radio v-model="newDataForm.roomState" label="0">未入住</el-radio>
                 <el-radio v-model="newDataForm.roomState" label="1">已入住</el-radio>
+                <el-radio v-model="newDataForm.roomState" label="0">未入住</el-radio>
               </el-form-item>
             </el-col>
           </el-row>
@@ -445,11 +445,15 @@ export default {
           }
       });
     },
+    cancelNewData(formName) {
+      this.isShowNew = false
+      this.$refs[formName].resetFields();
+    },
     submitNewDataForm(formName) {
       this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log(this.newDataForm,'newForm')
-            this.tableData.push(this.newDataForm)
+            this.tableData.push({...this.newDataForm})
             this.isShowNew = false
           } else {
             return false;
@@ -472,6 +476,9 @@ export default {
     },
     newData() {
       this.isShowNew = true
+      for (let key in this.newDataForm) {
+        this.newDataForm[key] = "";
+      }
     },
     chooseAria(item) {
       //当管理区发生变化时候，给楼宇赋值
@@ -565,57 +572,4 @@ export default {
 </script>
 
 <style lang="less" scope>
-.main-content {
-  .grid-content {
-    .buttonHead {
-      .left {
-        display: flex;
-        justify-content: flex-start;
-      }
-      .right {
-        display: flex;
-        justify-content: flex-end;
-        .searchInput {
-          width: 40%;
-        }
-      }
-    }
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 40%;
-          }
-       }
-      }
-    }
-  }
-}
-@media only screen and (max-width: 768px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 100%;
-          }
-       }
-      }
-    }
-  }
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          margin-top: 10px;
-       }
-      }
-    }
-  }
-}
 </style>

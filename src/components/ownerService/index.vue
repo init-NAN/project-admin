@@ -135,7 +135,7 @@ export default {};
       background-color: rgba(0, 0, 0, 0.7);
     }
   }
-  /deep/ .el-input__inner,.el-input.is-disabled .el-input__inner {
+  .el-input__inner,.el-input.is-disabled .el-input__inner {
     background-color: transparent;
     border: 1px solid rgba(158, 162, 192, 1);
     color: #fff;
@@ -330,5 +330,40 @@ export default {};
       color: rgba(255, 255, 255, 1);
     }
   }
+  @media only screen and (min-width: 768px) {
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          .searchInput {
+            width: 40%;
+          }
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          .searchInput {
+            width: 100% !important;
+          }
+        }
+      }
+    }
+  }
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}
 }
 </style>

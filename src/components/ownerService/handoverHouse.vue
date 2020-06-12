@@ -3,11 +3,11 @@
     <div class="current-page-title">
       <span>交房登记</span>
     </div>
-    <section class="grid-content" v-if="!isShowrRegistation">
-      <el-row class="buttonHead">
+    <section class="grid-content">
+      <el-row class="buttonHead" type="flex" justify="space-between">
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
           <div class="left">
-            <el-button size="small" class="el-icon-plus btn-addmore" @click="showRegistration">交房登记</el-button>
+            <el-button size="small" class="el-icon-plus btn-addmore" @click="showAddRegistration">交房登记</el-button>
             <el-button size="small" class="el-icon-delete btn-addmore" :disabled="isCanDelete" @click="deleteSelections">删除</el-button>
             <el-button size="small" :disabled="isDisabledChangeDate" class="btn-addmore" @click="changeHandOverDate">更改交房日期</el-button>
             <el-button size="small" type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
@@ -143,55 +143,7 @@
         <el-table-column prop="handoverDate" label="交房日期"></el-table-column>
       </el-table>
     </section>
-    <section class="registration-content" v-else-if="isShowrRegistation">
-      <div class="back">
-        <el-button class="btn-trans el-icon-arrow-left" size="small" @click="goBack">返回</el-button>
-      </div>
-      <div class="content">
-        <el-form
-          :model="registrationForm"
-          :rules="registrationRules"
-          ref="registrationForm"
-          label-width="auto"
-          class="registrationForm"
-        >
-          <el-form-item label="管理区" prop="managerAria">
-            <el-select
-                v-model="registrationForm.managerAria"
-                placeholder="请选择管理区">
-                  <el-option
-                    v-for="item in managerAriaList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.label"
-                  ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="楼宇名称" prop="houseName">
-            <el-input v-model="registrationForm.houseName" placeholder="请输入楼宇名称"></el-input>
-          </el-form-item>
-          <el-form-item label="房间代码" prop="roomCode">
-            <el-input v-model="registrationForm.roomCode" placeholder="请输入房间代码"></el-input>
-          </el-form-item>
-          <el-form-item label="建筑面积" prop="buildUpArea">
-            <el-input v-model="registrationForm.buildUpArea" placeholder="请输入建筑面积"></el-input>
-          </el-form-item>
-          <el-form-item label="客户" prop="customerName">
-            <el-input v-model="registrationForm.customerName" placeholder="请输入客户名称"></el-input>
-          </el-form-item>
-          <el-form-item label="交房日期" class="handoverDate" prop="handoverDate">
-            <el-date-picker v-model="registrationForm.handoverDate" type="date" placeholder="选择交房日期" value-format="yyyy-MM-dd"></el-date-picker>
-          </el-form-item>
-          <el-form-item label class="operation">
-            <el-button size="small" class="btn-addmore" @click="savaAndContinue('registrationForm')">保存并继续</el-button>
-            <el-button size="small" class="btn-addmore" @click="savaAndBack('registrationForm')">保存并返回</el-button>
-            <el-button size="small" class="btn-trans" @click="cancel()">取消</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div style="height:80px;width:100%;"></div>
-    </section>
-    <el-col class="toolbar" v-if="!isShowrRegistation">
+    <el-col class="toolbar">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -314,6 +266,67 @@
         </el-card>
       </div>
     </el-drawer>
+    <el-dialog title="新增登记" :visible.sync="isShowrRegistation" width="85%">
+      <el-form
+          :model="registrationForm"
+          :rules="registrationRules"
+          ref="registrationForm"
+          label-width="auto"
+          class="registrationForm"
+        >
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="管理区" prop="managerAria">
+                <el-select
+                    v-model="registrationForm.managerAria"
+                    placeholder="请选择管理区">
+                      <el-option
+                        v-for="item in managerAriaList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.label"
+                      ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="楼宇名称" prop="houseName">
+                <el-input v-model="registrationForm.houseName" placeholder="请输入楼宇名称"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="房间代码" prop="roomCode">
+                <el-input v-model="registrationForm.roomCode" placeholder="请输入房间代码"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="建筑面积" prop="buildUpArea">
+                <el-input v-model="registrationForm.buildUpArea" placeholder="请输入建筑面积"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="客户" prop="customerName">
+                <el-input v-model="registrationForm.customerName" placeholder="请输入客户名称"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="交房日期" class="handoverDate" prop="handoverDate">
+                <el-date-picker v-model="registrationForm.handoverDate" type="date" placeholder="选择交房日期" value-format="yyyy-MM-dd"></el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+      </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="cancelNewRegistration('registrationForm')" class="btn-trans">取 消</el-button>
+          <el-button type="primary" @click="submitNewRegistration('registrationForm')" class="btn-addmore">确 定</el-button>
+        </span>
+    </el-dialog>
     <el-dialog title="编辑房间" :visible.sync="isShowRoomEditDialog" width="85%">
       <el-form ref="editRoomForm" :model="editRoomForm" :rules="eDitRoomRules" label-width="auto">
         <el-row>
@@ -687,56 +700,19 @@ export default {
         });
       });
     },
+    showAddRegistration() {
+      this.isShowrRegistation = true
+      for (let key in this.registrationForm) {
+        this.registrationForm[key] = "";
+      }
+    },
+    cancelNewRegistration(formName) {
+      this.isShowrRegistation = false
+      this.$refs[formName].resetFields();
+    },
     // 展示详细的搜索盒子
     showDetailSearch() {
       this.isShowDetail = !this.isShowDetail;
-    },
-    // 展示登记导向
-    showRegistration() {
-      for (let key in this.registrationForm) {
-        this.registrationForm[key] = "";
-      }
-      this.isShowrRegistation = true;
-    },
-    goBack() {
-      this.isShowrRegistation = false;
-    },
-    //保存并继续
-    savaAndContinue(formName) {
-      //取到form的数据并发送接口保存设置操作
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          console.log(this.registrationForm,'表单数据')
-          this.tableData.push(this.registrationForm)
-          //修改成功操作
-        } else {
-          return false;
-        }
-      });
-      this.$refs[formName].resetFields();
-    },
-    //保存并返回
-    savaAndBack(formName) {
-      //取到form的数据并发送接口保存设置操作（待写...）
-      console.log()
-      this.$refs[formName].validate((valid) => {
-          if (valid) {
-            console.log(this.registrationForm,'表单数据')
-            this.tableData.push(this.registrationForm)
-            this.isShowrRegistation = false
-            //修改成功操作
-          } else {
-            return false;
-          }
-        });
-    },
-    // 取消登记导向表单
-    cancel() {
-      //将form的数据清空
-      for (let key in this.registrationForm) {
-        this.registrationForm[key] = "";
-      }
-      this.isShowrRegistation = false;
     },
     cancelRoomEdit(formName) {
         this.isShowRoomEditDialog = false
@@ -752,12 +728,23 @@ export default {
       this.$refs[formName].resetFields()
     },
     submitChangeDate(formName) {
-      this.isShowChangeDateDialog = false
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.changeDateForm.handoverDate,'date')
           console.log(this.changeDateIndex,'index')
           this.tableData[this.changeDateIndex].handoverDate = this.changeDateForm.handoverDate
+        } else {
+          return false;
+        }
+      });
+      this.isShowChangeDateDialog = false
+    },
+    submitNewRegistration(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          console.log(this.registrationForm,'registrationForm')
+          this.tableData.push({...this.registrationForm})
+          this.isShowrRegistation = false
         } else {
           return false;
         }
@@ -938,41 +925,6 @@ export default {
 .searchFloorHouse {
   .el-input__inner {
     height: 34px !important;
-  }
-}
-@media only screen and (min-width: 768px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 40%;
-          }
-        }
-      }
-    }
-  }
-}
-@media only screen and (max-width: 768px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 100%;
-          }
-        }
-      }
-    }
-  }
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          margin-top: 10px;
-        }
-      }
-    }
   }
 }
 </style>

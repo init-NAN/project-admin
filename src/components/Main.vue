@@ -215,7 +215,7 @@ export default {
   }
 
   // 滚动条样式
-  /deep/ .el-table__body-wrapper::-webkit-scrollbar {
+  /deep/ .el-table__body-wrapper::-webkit-scrollbar{
     width: 6px; // 横向滚动条
     height: 6px; // 纵向滚动条 必写
   }

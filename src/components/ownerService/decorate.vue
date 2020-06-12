@@ -7,7 +7,7 @@
       <el-row class="buttonHead">
         <el-col :span="12" :xs="24" :sm="24" :lg="12" :xl="12">
           <div class="left">
-            <el-button size="small" type="primary" class="el-icon-plus btn-addmore" @click="isShowAddDia = true">   装修申请</el-button>
+            <el-button size="small" type="primary" class="el-icon-plus btn-addmore" @click="addApplication">   装修申请</el-button>
             <el-button size="small" type="primary" class="el-icon-edit btn-addmore" :disabled="isDisEdit" @click="editSelection">编辑</el-button>
             <el-button size="small" type="primary" class="el-icon-delete btn-addmore" :disabled="isDisDelete" @click="deleteSelections">删除</el-button>
             <el-button size="small" type="primary" class="el-icon-edit btn-addmore" :disabled="isDisabled">收费</el-button>
@@ -469,10 +469,17 @@ export default {
     showDetailSearch() {
       this.isShowDetail = !this.isShowDetail;
     },
-    //申请装修
+    //查看
     showDecDetail(row, index) {
       this.decrationForm = row
       this.isShowDecDetail = true
+    },
+    addApplication() {
+      this.isShowAddDia = true
+      for (let key in this.newEditForm) {
+        this.newEditForm[key] = "";
+      }
+      this.newEditForm.state = '0'
     },
     //编辑弹窗
     editSelection() {
@@ -520,7 +527,7 @@ export default {
             console.log(this.newEditForm,'form')
             this.newEditForm.decorateStartDate = this.newEditForm.decrateDate[0]
             this.newEditForm.decorateEndDate = this.newEditForm.decrateDate[1]
-            this.tableData.push(this.newEditForm)
+            this.tableData.push({...this.newEditForm})
             this.isShowAddDia = false
           } else {
             return false;
@@ -698,24 +705,6 @@ export default {
 </script>
 
 <style lang="less" scope>
-.main-content {
-  .grid-content {
-    .buttonHead {
-      .left {
-        display: flex;
-        justify-content: flex-start;
-      }
-      .right {
-        display: flex;
-        justify-content: flex-end;
-        .searchInput {
-          width: 40%;
-        }
-      }
-    }
-  }
-}
-
 @media only screen and (min-width: 1200px) {
   .main-content {
     .grid-content {
@@ -730,17 +719,6 @@ export default {
   }
 }
 @media only screen and (max-width: 1200px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 100%;
-          }
-       }
-      }
-    }
-  }
   .main-content {
     .grid-content {
       .buttonHead {

@@ -114,21 +114,11 @@
         <el-table-column prop="reVistorDate" label="回访时间" width="140"></el-table-column>
         <el-table-column prop="comment" label="评价等级" width="140"></el-table-column>
         <el-table-column prop="commentContent" label="评价" width="140"></el-table-column>
-        <el-table-column prop="commentContent" label="操作" width="200" fixed="right">
+        <el-table-column prop="commentContent" label="操作" width="140" fixed="right">
           <template slot-scope="scope">
             <el-button type="text" size="small" class="table-show" @click="newEidtRepaire('edit',scope.row,scope.$index)">编辑</el-button>
             <el-button type="text" size="small" class="table-del" @click="deleteCurrentRow(scope.$index,scope.row)">删除</el-button>
             <el-button type="text" size="small" class="table-show" @click="distribute(scope.$index,scope.row)">派工</el-button>&nbsp;&nbsp;
-            <el-dropdown>
-              <span class="el-dropdown-link moreOperation">
-                更多<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>转交</el-dropdown-item>
-                <el-dropdown-item>添加说明</el-dropdown-item>
-                <el-dropdown-item>作废</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
           </template>
         </el-table-column>
       </el-table>
@@ -516,6 +506,9 @@ export default {
       if(type == 'new') {
         this.dialogTitle = '新建报修'
         this.currentDiaType = 'new'
+        for (let key in this.newEditForm) {
+          this.newEditForm[key] = "";
+        }
       } else if(type == 'edit') {
         this.dialogTitle = '编辑报修'
         this.currentDiaType = 'edit'
@@ -553,7 +546,7 @@ export default {
             if(this.currentDiaType == 'new') {
               //新建
               console.log('新建啦')
-              this.tableData.push(this.newEditForm)
+              this.tableData.push({...this.newEditForm})
             } else if(this.currentDiaType == 'edit') {
               this.tableData[this.currentIndexEdit] = this.newEditForm
               console.log(this.tableData[this.currentIndexEdit],'table')
@@ -607,7 +600,7 @@ export default {
     },
     changeAria(item) {
       const {value, label} = item
-      this.ditributeForm.repairer = label
+      this.newEditForm.managerArea = label
     }
   }
 }

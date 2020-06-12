@@ -193,7 +193,7 @@ export default {
 .pagecontainer {
   overflow: hidden;
   height: 100vh;
-  background-image: url(../assets/bg.png);
+  background-image: url(../assets/bg1.png);
   .current-page-title {
     padding-left: 31px;
     padding-right: 31px;

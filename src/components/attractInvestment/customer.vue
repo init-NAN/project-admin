@@ -446,7 +446,7 @@ export default {
         if (valid) {
           if (this.addDialogTitle == '新增客户') {
             // window.console.log(this.form.date)
-            this.tableData.push(this.form);
+            this.tableData.unshift({ ...this.form });
             this.addCustomerVisibel = false;
           }
           else if (this.addDialogTitle == '编辑客户') {

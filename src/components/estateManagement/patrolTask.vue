@@ -428,7 +428,7 @@ export default {
         if (valid) {
           this.form.pStart = this.form.rageDate[0]
           this.form.pEnd = this.form.rageDate[1]
-          this.tableData.unshift(this.form)
+          this.tableData.unshift({...this.form})
           this.$message('新增成功')
           this.isTask = false
         } else {

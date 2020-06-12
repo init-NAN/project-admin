@@ -499,7 +499,7 @@ export default {
         if (valid) {
           // alert('submit')
           if (this.inspectionTitle == '新建巡检计划') {
-            this.tableData.unshift(this.form);
+            this.tableData.unshift({...this.form});
             this.isInspection = false
           } else if (this.inspectionTitle == '编辑巡检计划') {
             this.tableData[this.inspectionIndex] = this.form

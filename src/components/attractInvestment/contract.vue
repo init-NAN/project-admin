@@ -408,7 +408,7 @@ export default {
         if (valid) {
           // alert('submit')
           if (this.addDialogTitle == '新建合同') {
-            this.contract.unshift(this.form);
+            this.contract.unshift({...this.form});
             this.addCustomerVisibel = false
           }else if (this.addDialogTitle =='编辑合同') {
             this.contract[this.editIndex] = this.form 

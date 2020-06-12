@@ -573,7 +573,7 @@ export default {
         if (valid) {
           // alert('submit')
           if (this.addEquipFiles == '新增设备档案') {
-            this.tableData.unshift(this.form);
+            this.tableData.unshift({...this.form});
             this.isEquipment = false
           } else if (this.addEquipFiles == '编辑设备档案') {
             this.tableData[this.equipRowIndex] = this.form

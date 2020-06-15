@@ -162,6 +162,9 @@ export default {};
       );
     }
   }
+  .el-select {
+    width: 100%;
+  }
   .btn-trans {
     border: 1px solid rgba(158, 162, 192, 1);
     background-color: transparent;

@@ -9,8 +9,16 @@
           <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
             <div class="left">
               <el-button class="el-icon-plus btn-addmore" @click="showAddRegistration">交房登记</el-button>
-              <el-button class="el-icon-delete btn-addmore" :disabled="isCanDelete" @click="deleteSelections">删除</el-button>
-              <el-button :disabled="isDisabledChangeDate" class="btn-addmore" @click="changeHandOverDate">更改交房日期</el-button>
+              <el-button
+                class="el-icon-delete btn-addmore"
+                :disabled="isCanDelete"
+                @click="deleteSelections"
+              >删除</el-button>
+              <el-button
+                :disabled="isDisabledChangeDate"
+                class="btn-addmore"
+                @click="changeHandOverDate"
+              >更改交房日期</el-button>
               <el-button type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
             </div>
           </el-col>
@@ -19,7 +27,6 @@
               <el-input v-model="inputSearch" placeholder="搜索..." class="searchInput"></el-input>
               <el-button type="primary" class="el-icon-search btn-addmore"></el-button>
               <el-button
-              
                 class="el-icon-arrow-down btn-addmore"
                 id="dropdown"
                 @click="showDetailSearch"
@@ -46,23 +53,23 @@
           </el-col>
           <el-col :span="6" :offset="1">
             <el-form-item label="楼宇">
-                <el-select
-                  v-model="searchDetailForm.selectedFloor"
-                  filterable
-                  placeholder="请选择楼宇"
-                  :disabled="isFloorDisabled"
-                >
-                  <el-option
-                    v-for="item in floorHouseList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
+              <el-select
+                v-model="searchDetailForm.selectedFloor"
+                filterable
+                placeholder="请选择楼宇"
+                :disabled="isFloorDisabled"
+              >
+                <el-option
+                  v-for="item in floorHouseList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-if="isShowDetail" type="flex"  justify="flex-end">
+        <el-row v-if="isShowDetail" type="flex" justify="flex-end">
           <el-col :span="6">
             <el-form-item label="房间代码">
               <el-input
@@ -82,7 +89,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6" :offset="1">
-            <el-button  class="el-icon-search btn-addmore">搜索</el-button>
+            <el-button class="el-icon-search btn-addmore">搜索</el-button>
             <el-button class="el-icon-refresh-left btn-addmore" @click="reSetting()">重置</el-button>
             <el-button class="el-icon-arrow-up btn-addmore" @click="showDetailSearch"></el-button>
           </el-col>
@@ -90,37 +97,36 @@
       </el-form>
     </section>
     <el-table
-        :data="tableData"
-        v-loading="listLoading"
-        ref="multipleTable"
-        @selection-change="handleSelectionChange"
-        style="width: 100%"
-        :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="managerAria" label="管理区"></el-table-column>
-        <el-table-column prop="houseName" label="楼宇名称"></el-table-column>
-        <el-table-column prop="roomCode" label="房间代码">
-          <template slot-scope="scope">
-            <el-button
-              type="text"
-            
-              class="table-show"
-              @click="showRoomCodeDialog(scope.row,scope.$index)"
-            >{{scope.row.roomCode}}</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="buildUpArea" label="建筑面积(m²)"></el-table-column>
-        <el-table-column prop="customerName" label="客户名称">
-          <template slot-scope="scope">
-            <el-button
-              type="text"
-            
-              class="table-show"
-              @click="showCustomerDetail(scope.row, scope.$index)"
-            >{{scope.row.customerName}}</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="handoverDate" label="交房日期"></el-table-column>
+      :data="tableData"
+      v-loading="listLoading"
+      ref="multipleTable"
+      @selection-change="handleSelectionChange"
+      style="width: 100%"
+      :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}"
+    >
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column prop="managerAria" label="管理区"></el-table-column>
+      <el-table-column prop="houseName" label="楼宇名称"></el-table-column>
+      <el-table-column prop="roomCode" label="房间代码">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            class="table-show"
+            @click="showRoomCodeDialog(scope.row,scope.$index)"
+          >{{scope.row.roomCode}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="buildUpArea" label="建筑面积(m²)"></el-table-column>
+      <el-table-column prop="customerName" label="客户名称">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            class="table-show"
+            @click="showCustomerDetail(scope.row, scope.$index)"
+          >{{scope.row.customerName}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="handoverDate" label="交房日期"></el-table-column>
     </el-table>
     <el-col class="toolbar">
       <el-pagination
@@ -133,6 +139,7 @@
         :total="total"
       ></el-pagination>
     </el-col>
+    <div style="width:100%;height:120px;"></div>
     <el-drawer title="房间详情" :visible.sync="isShowRoomCodeDialog" size="60%" :direction="direction">
       <div class="roomCodeDetail">
         <el-card class="simpData">
@@ -208,12 +215,8 @@
           </el-row>
         </el-card>
         <el-card class="ownerTab">
-          <el-button  class="btn-trans tabBtn" v-if="activeOwnerTab=='owner'">业主管理</el-button>
-          <el-button
-            
-            class="btn-trans tabBtn"
-            v-else-if="activeOwnerTab=='currentMember'"
-          >成员管理</el-button>
+          <el-button class="btn-trans tabBtn" v-if="activeOwnerTab=='owner'">业主管理</el-button>
+          <el-button class="btn-trans tabBtn" v-else-if="activeOwnerTab=='currentMember'">成员管理</el-button>
           <el-tabs v-model="activeOwnerTab" @tab-click="changeOwnerTab">
             <el-tab-pane label="业主" name="owner">
               <el-table :data="ownerTable" stripe style="width: 100%">
@@ -247,64 +250,71 @@
     </el-drawer>
     <el-dialog title="新增登记" :visible.sync="isShowrRegistation" width="85%">
       <el-form
-          :model="registrationForm"
-          :rules="registrationRules"
-          ref="registrationForm"
-          label-width="auto"
-          class="registrationForm"
-        >
-          <el-row type="flex" justify="space-between">
-            <el-col :span="10">
-              <el-form-item label="管理区" prop="managerAria">
-                <el-select
-                    v-model="registrationForm.managerAria"
-                    placeholder="请选择管理区">
-                      <el-option
-                        v-for="item in managerAriaList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.label"
-                      ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item label="楼宇名称" prop="houseName">
-                <el-input v-model="registrationForm.houseName" placeholder="请输入楼宇名称"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          
-          <el-row type="flex" justify="space-between">
-            <el-col :span="10">
-              <el-form-item label="房间代码" prop="roomCode">
-                <el-input v-model="registrationForm.roomCode" placeholder="请输入房间代码"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item label="建筑面积" prop="buildUpArea">
-                <el-input v-model="registrationForm.buildUpArea" placeholder="请输入建筑面积"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          
-          <el-row type="flex" justify="space-between">
-            <el-col :span="10">
-              <el-form-item label="客户" prop="customerName">
-                <el-input v-model="registrationForm.customerName" placeholder="请输入客户名称"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item label="交房日期" class="handoverDate" prop="handoverDate">
-                <el-date-picker v-model="registrationForm.handoverDate" type="date" placeholder="选择交房日期" value-format="yyyy-MM-dd"></el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        :model="registrationForm"
+        :rules="registrationRules"
+        ref="registrationForm"
+        label-width="auto"
+        class="registrationForm"
+      >
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="管理区" prop="managerAria">
+              <el-select v-model="registrationForm.managerAria" placeholder="请选择管理区">
+                <el-option
+                  v-for="item in managerAriaList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="楼宇名称" prop="houseName">
+              <el-input v-model="registrationForm.houseName" placeholder="请输入楼宇名称"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="房间代码" prop="roomCode">
+              <el-input v-model="registrationForm.roomCode" placeholder="请输入房间代码"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="建筑面积" prop="buildUpArea">
+              <el-input v-model="registrationForm.buildUpArea" placeholder="请输入建筑面积"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="客户" prop="customerName">
+              <el-input v-model="registrationForm.customerName" placeholder="请输入客户名称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="交房日期" class="handoverDate" prop="handoverDate">
+              <el-date-picker
+                v-model="registrationForm.handoverDate"
+                type="date"
+                placeholder="选择交房日期"
+                value-format="yyyy-MM-dd"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="cancelNewRegistration('registrationForm')" class="btn-trans">取 消</el-button>
-          <el-button type="primary" @click="submitNewRegistration('registrationForm')" class="btn-addmore">确 定</el-button>
-        </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelNewRegistration('registrationForm')" class="btn-trans">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="submitNewRegistration('registrationForm')"
+          class="btn-addmore"
+        >确 定</el-button>
+      </span>
     </el-dialog>
     <el-dialog title="编辑房间" :visible.sync="isShowRoomEditDialog" width="85%">
       <el-form ref="editRoomForm" :model="editRoomForm" :rules="eDitRoomRules" label-width="auto">
@@ -338,7 +348,11 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="房间类型：" prop="selectedRoomType">
-              <el-select v-model="editRoomForm.selectedRoomType" placeholder="请选择房间类型" style="width:100%">
+              <el-select
+                v-model="editRoomForm.selectedRoomType"
+                placeholder="请选择房间类型"
+                style="width:100%"
+              >
                 <el-option
                   v-for="item in roomTypeList"
                   :key="item.value"
@@ -350,14 +364,19 @@
           </el-col>
         </el-row>
       </el-form>
-      <div slot="footer" class="dialog-footer"> 
+      <div slot="footer" class="dialog-footer">
         <!-- isShowRoomEditDialog = false -->
         <el-button @click="cancelRoomEdit('editRoomForm')" class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore" @click="submitEditRoomForm('editRoomForm')">确 定</el-button>
       </div>
     </el-dialog>
     <el-dialog title="编辑客户详情" :visible.sync="isShowCustomerDetail" width="85%">
-      <el-form ref="customerDetailForm" :model="customerDetailForm" :rules="customerDetailFormRules" label-width="auto">
+      <el-form
+        ref="customerDetailForm"
+        :model="customerDetailForm"
+        :rules="customerDetailFormRules"
+        label-width="auto"
+      >
         <el-row type="flex" justify="space-between">
           <el-col :span="10">
             <el-form-item label="姓名：" prop="customerName">
@@ -381,7 +400,8 @@
               <el-select
                 v-model="customerDetailForm.managerAria"
                 placeholder="请选择管理区"
-                @change="customerChooseAria">
+                @change="customerChooseAria"
+              >
                 <el-option
                   v-for="item in managerAriaList"
                   :key="item.value"
@@ -404,19 +424,28 @@
                 v-model="customerDetailForm.handoverDate"
                 type="date"
                 value-format="yyyy-MM-dd"
-                placeholder="选择日期">
-              </el-date-picker>
+                placeholder="选择日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelCustomerForm('customerDetailForm')" class="btn-trans">取 消</el-button>
-        <el-button type="primary" @click="submitCustomerForm('customerDetailForm')" class="btn-addmore">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="submitCustomerForm('customerDetailForm')"
+          class="btn-addmore"
+        >确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog title="更改交房日期" :visible.sync="isShowChangeDateDialog" width="40%">
-      <el-form ref="changeDateForm" :model="changeDateForm" :rules="changeDateFormRules" label-width="auto">
+      <el-form
+        ref="changeDateForm"
+        :model="changeDateForm"
+        :rules="changeDateFormRules"
+        label-width="auto"
+      >
         <el-row type="flex" justify="space-between">
           <el-col>
             <el-form-item label="交房日期：" prop="handoverDate">
@@ -424,50 +453,30 @@
                 v-model="changeDateForm.handoverDate"
                 type="date"
                 value-format="yyyy-MM-dd"
-                placeholder="选择日期">
-              </el-date-picker>
+                placeholder="选择日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelChangeDate('changeDateForm')" class="btn-trans">取 消</el-button>
-        <el-button type="primary" @click="submitChangeDate('changeDateForm')" class="btn-addmore">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="submitChangeDate('changeDateForm')"
+          class="btn-addmore"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import handover from '@/http/ownerService/handover'
 export default {
   data() {
     return {
-      tableData: [
-        {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王光",
-          handoverDate: "2020-04-17"
-        },
-        {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ5",
-          buildUpArea: "892.6",
-          customerName: "王浩",
-          handoverDate: "2020-04-17"
-        },
-        {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ4",
-          buildUpArea: "892.6",
-          customerName: "王浩光",
-          handoverDate: "2020-04-17"
-        }
-      ],
+      tableData: [],
       ownerTable: [
         {
           ownerName: "王志远（费用承担人）",
@@ -486,7 +495,7 @@ export default {
         }
       ],
       contractTable: [],
-      arrayIndex:[],//多选按钮选中后index数组
+      arrayIndex: [], //多选按钮选中后index数组
       //编辑房间的表单数据
       editRoomForm: {
         higherAuthorities: "",
@@ -497,7 +506,7 @@ export default {
       },
       eDitRoomRules: {
         higherAuthorities: [
-          { required: true, message: "请选择上级机构", trigger: "blur" },
+          { required: true, message: "请选择上级机构", trigger: "blur" }
         ],
         floor: [{ required: true, message: "请输入楼层", trigger: "blur" }],
         roomNum: [{ required: true, message: "请输入序号！", trigger: "blur" }],
@@ -529,39 +538,63 @@ export default {
       ],
       currentIndex: 0,
       changeDateIndex: 0,
-      isShowChangeDateDialog: false,//更改交房日期弹窗
+      isShowChangeDateDialog: false, //更改交房日期弹窗
       //登记导向的表单数据
       registrationForm: {
-        managerAria:"",
-        houseName:"",
+        managerAria: "",
+        houseName: "",
         roomCode: "",
-        buildUpArea:"",
+        buildUpArea: "",
         customerName: "",
-        handoverDate: "",
+        handoverDate: ""
       },
       registrationRules: {
-        managerAria:[{ required: true, message: "请选择管理区", trigger: "blur" }],
-        houseName:[{ required: true, message: "请输入楼宇名称", trigger: "blur" }],
-        roomCode:[{ required: true, message: "请输入房间代码", trigger: "blur" }],
-        customerName: [{ required: true, message: "请输入客户名称", trigger: "blur" }],
-        buildUpArea:[{ required: true, min:0, message: "请输入建筑面积", trigger: "blur" }],
-        handoverDate: [{ required: true, message: "请选择交房日期", trigger: "blur" }]
+        managerAria: [
+          { required: true, message: "请选择管理区", trigger: "blur" }
+        ],
+        houseName: [
+          { required: true, message: "请输入楼宇名称", trigger: "blur" }
+        ],
+        roomCode: [
+          { required: true, message: "请输入房间代码", trigger: "blur" }
+        ],
+        customerName: [
+          { required: true, message: "请输入客户名称", trigger: "blur" }
+        ],
+        buildUpArea: [
+          { required: true, min: 0, message: "请输入建筑面积", trigger: "blur" }
+        ],
+        handoverDate: [
+          { required: true, message: "请选择交房日期", trigger: "blur" }
+        ]
       },
-      customerDetailForm:{
-         customerName:'',
-         identifyNum:223123123123123,
-         telPhone:15797706475,
-         managerAria:'',
-         floorHouse:'',
-         handoverDate:''
+      customerDetailForm: {
+        customerName: "",
+        identifyNum: 223123123123123,
+        telPhone: 15797706475,
+        managerAria: "",
+        floorHouse: "",
+        handoverDate: ""
       },
-      customerDetailFormRules:{
-        customerName:[{ required: true, message: "请输入客户名称", trigger: "blur" }],
-        identifyNum:[{ required: true, message: "请输入身份证号码", trigger: "blur" }],
-        telPhone:[{ required: true, message: "请输入电话号码", trigger: "blur" }],
-        managerAria:[{ required: true, message: "请选择管理区", trigger: "blur" }],
-        floorHouse:[{ required: true, message: "请输入楼宇名称", trigger: "blur" }],
-        handoverDate:[{ required: true, message: "请选择交房时间", trigger: "blur" }]
+      customerDetailFormRules: {
+        customerName: [
+          { required: true, message: "请输入客户名称", trigger: "blur" }
+        ],
+        identifyNum: [
+          { required: true, message: "请输入身份证号码", trigger: "blur" }
+        ],
+        telPhone: [
+          { required: true, message: "请输入电话号码", trigger: "blur" }
+        ],
+        managerAria: [
+          { required: true, message: "请选择管理区", trigger: "blur" }
+        ],
+        floorHouse: [
+          { required: true, message: "请输入楼宇名称", trigger: "blur" }
+        ],
+        handoverDate: [
+          { required: true, message: "请选择交房时间", trigger: "blur" }
+        ]
       },
       total: 0,
       page: 1,
@@ -601,35 +634,44 @@ export default {
         roomCodeSearch: "", //搜索框的房间代码
         customerNameSearch: "" //搜索框的客户名称
       },
-      isCanDelete:true,//删除按钮默认不可点击
+      isCanDelete: true, //删除按钮默认不可点击
       isFloorDisabled: true, //楼宇下拉框默认不可选
       floorHouseList: [],
       isShowRoomCodeDialog: false, //是否展示抽屉弹窗（房间代码）
       isShowRoomEditDialog: false, //是否展示编辑房间的弹窗
       isShowrRegistation: false, //是否展示登记导向
-      isShowCustomerDetail:false,//是否展示客户详情
+      isShowCustomerDetail: false, //是否展示客户详情
       direction: "rtl",
       currentRow: "", //点击的当前行
       activeOwnerTab: "owner",
-      changeDateForm:{
-        handoverDate:''
+      changeDateForm: {
+        handoverDate: ""
       },
-      changeDateFormRules:{
-        handoverDate:[{ required: true, message: "请选择交房日期", trigger: "blur" }],
+      changeDateFormRules: {
+        handoverDate: [
+          { required: true, message: "请选择交房日期", trigger: "blur" }
+        ]
       }
     };
   },
+  mounted() {
+    handover.getHandOverTable().then(res => {
+      if(res.status == 200) {
+        this.tableData = res.data
+      }
+    })
+  },
   methods: {
     handleSelectionChange(val) {
-      this.arrayIndex = []
+      this.arrayIndex = [];
       this.multipleSelection = val;
-      val.forEach((value, index) => {
-　　　　　this.tableData.forEach((v, i) => {
-          if(value.roomCode == v.roomCode){
-            this.arrayIndex.push(i)
+      val.forEach(value => {
+        this.tableData.forEach((v, i) => {
+          if (value.roomCode == v.roomCode) {
+            this.arrayIndex.push(i);
           }
-        })
-      })        
+        });
+      });
       this.selectionLengh = val.length;
     },
     handleSizeChange(size) {
@@ -642,10 +684,10 @@ export default {
     },
     //更改交房日期
     changeHandOverDate() {
-      this.changeDateForm.handoverDate = ''
-      let index = this.arrayIndex.length - 1
-      this.changeDateIndex = this.arrayIndex[index]
-      this.isShowChangeDateDialog = true
+      this.changeDateForm.handoverDate = "";
+      let index = this.arrayIndex.length - 1;
+      this.changeDateIndex = this.arrayIndex[index];
+      this.isShowChangeDateDialog = true;
     },
     //删除按钮
     deleteSelections() {
@@ -654,39 +696,39 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       })
-      .then(() => {
-        // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
-      for (let i = 0; i < this.tableData.length; i++) {
-        const element = this.tableData[i];
-        element.id = i
-      }
-      this.multipleSelection.forEach(element => {
-        this.tableData.forEach((e, i) => {
-          if (element.id == e.id) {
-            this.tableData.splice(i, 1)
+        .then(() => {
+          // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+          for (let i = 0; i < this.tableData.length; i++) {
+            const element = this.tableData[i];
+            element.id = i;
           }
+          this.multipleSelection.forEach(element => {
+            this.tableData.forEach((e, i) => {
+              if (element.id == e.id) {
+                this.tableData.splice(i, 1);
+              }
+            });
+          });
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
         });
-      });
-        this.$message({
-          type: "success",
-          message: "删除成功!"
-        });
-      })
-      .catch(() => {
-        this.$message({
-          type: "info",
-          message: "已取消删除"
-        });
-      });
     },
     showAddRegistration() {
-      this.isShowrRegistation = true
+      this.isShowrRegistation = true;
       for (let key in this.registrationForm) {
         this.registrationForm[key] = "";
       }
     },
     cancelNewRegistration(formName) {
-      this.isShowrRegistation = false
+      this.isShowrRegistation = false;
       this.$refs[formName].resetFields();
     },
     // 展示详细的搜索盒子
@@ -694,55 +736,61 @@ export default {
       this.isShowDetail = !this.isShowDetail;
     },
     cancelRoomEdit(formName) {
-        this.isShowRoomEditDialog = false
-        this.$refs[formName].resetFields();
+      this.isShowRoomEditDialog = false;
+      this.$refs[formName].resetFields();
     },
     //点击客户详情弹窗取消按钮
     cancelCustomerForm(formName) {
-      this.isShowCustomerDetail = false
+      this.isShowCustomerDetail = false;
       this.$refs[formName].resetFields();
     },
     cancelChangeDate(formName) {
-      this.isShowChangeDateDialog = false
-      this.$refs[formName].resetFields()
+      this.isShowChangeDateDialog = false;
+      this.$refs[formName].resetFields();
     },
     submitChangeDate(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.changeDateForm.handoverDate,'date')
-          console.log(this.changeDateIndex,'index')
-          this.tableData[this.changeDateIndex].handoverDate = this.changeDateForm.handoverDate
+          this.tableData[
+            this.changeDateIndex
+          ].handoverDate = this.changeDateForm.handoverDate;
         } else {
           return false;
         }
       });
-      this.isShowChangeDateDialog = false
+      this.isShowChangeDateDialog = false;
     },
     submitNewRegistration(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.registrationForm,'registrationForm')
-          this.tableData.push({...this.registrationForm})
-          this.isShowrRegistation = false
+          this.tableData.push({ ...this.registrationForm });
+          this.isShowrRegistation = false;
         } else {
           return false;
         }
       });
     },
     submitCustomerForm(formName) {
-      this.isShowCustomerDetail = false
-      this.$refs[formName].validate((valid) => {
-          if (valid) {
-            //修改成功操作
-            this.tableData[this.currentIndex].managerAria = this.customerDetailForm.managerAria
-            this.tableData[this.currentIndex].houseName = this.customerDetailForm.floorHouse
-            this.tableData[this.currentIndex].customerName = this.customerDetailForm.customerName
-            this.tableData[this.currentIndex].handoverDate = this.customerDetailForm.handoverDate
-            console.log(this.customerDetailForm,'form')
-          } else {
-            return false;
-          }
-        });
+      this.isShowCustomerDetail = false;
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          //修改成功操作
+          this.tableData[
+            this.currentIndex
+          ].managerAria = this.customerDetailForm.managerAria;
+          this.tableData[
+            this.currentIndex
+          ].houseName = this.customerDetailForm.floorHouse;
+          this.tableData[
+            this.currentIndex
+          ].customerName = this.customerDetailForm.customerName;
+          this.tableData[
+            this.currentIndex
+          ].handoverDate = this.customerDetailForm.handoverDate;
+        } else {
+          return false;
+        }
+      });
     },
     reSetting() {
       for (let key in this.searchDetailForm) {
@@ -772,7 +820,6 @@ export default {
             label: "商业2栋"
           }
         ];
-        console.log("明珠");
       } else if (item === "SD") {
         this.isFloorDisabled = false;
         this.emptyFloorSelect();
@@ -786,7 +833,6 @@ export default {
             label: "住宅2栋"
           }
         ];
-        console.log("时代");
       } else if (item === "LD") {
         this.isFloorDisabled = false;
         this.emptyFloorSelect();
@@ -800,7 +846,6 @@ export default {
             label: "绿岛2栋"
           }
         ];
-        console.log("绿岛");
       } else if (item === "ZY") {
         this.isFloorDisabled = false;
         this.emptyFloorSelect();
@@ -814,7 +859,6 @@ export default {
             label: "筑业2栋"
           }
         ];
-        console.log("筑业");
       }
     },
     emptyFloorSelect() {
@@ -829,33 +873,32 @@ export default {
     },
     //提交编辑房间的表单
     submitEditRoomForm(formName) {
-      this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.isShowRoomEditDialog = false
-            //修改成功操作
-          } else {
-            return false;
-          }
-        });
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.isShowRoomEditDialog = false;
+          //修改成功操作
+        } else {
+          return false;
+        }
+      });
     },
     // 展示抽屉弹窗
     showRoomCodeDialog(row, index) {
-      this.isShowRoomCodeDialog = true
-      this.currentRow = row
-      this.currentRow.index = index
+      this.isShowRoomCodeDialog = true;
+      this.currentRow = row;
+      this.currentRow.index = index;
     },
     //展示编辑客户信息弹窗
     showCustomerDetail(row, index) {
-      console.log(row,'row')
-      this.customerDetailForm.customerName = row.customerName
-      this.customerDetailForm.managerAria = row.managerAria
-      this.customerDetailForm.floorHouse = row.houseName
-      this.customerDetailForm.handoverDate = row.handoverDate
-      this.currentIndex = index
-      this.isShowCustomerDetail = true
+      this.customerDetailForm.customerName = row.customerName;
+      this.customerDetailForm.managerAria = row.managerAria;
+      this.customerDetailForm.floorHouse = row.houseName;
+      this.customerDetailForm.handoverDate = row.handoverDate;
+      this.currentIndex = index;
+      this.isShowCustomerDetail = true;
     },
     //删除当前房间
-    deleteCurrentRoom(row) {
+    deleteCurrentRoom() {
       this.$confirm(`确定要删除房间${this.currentRow.roomCode}吗?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -878,16 +921,14 @@ export default {
     },
     //切换业主Tab
     changeOwnerTab(tab, event) {
-      console.log(this.activeOwnerTab, "activeOwnerTab");
-      console.log(tab.paneName, event);
     }
   },
   watch: {
-    selectionLengh: function(newLen, oldLen) {
-      if(newLen != 0) {
-        this.isCanDelete = false
+    selectionLengh: function(newLen) {
+      if (newLen != 0) {
+        this.isCanDelete = false;
       } else {
-        this.isCanDelete = true
+        this.isCanDelete = true;
       }
       if (newLen === 1) {
         this.isDisabledChangeDate = false;

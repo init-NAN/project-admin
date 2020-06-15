@@ -101,3 +101,7 @@ export const searchAlarmData = (param) => { return axios.post(`${prefix}/alarm/s
 export const getBaseConf = () => { return axios.get(`${prefix}/baseconf/get?_t=${Date.now()}`); };
 
 export const setBaseConf = (param) => { return axios.post(`${prefix}/baseconf/set`,param); };
+
+
+// 资源
+export const  attrResours = ()=> { return axios.get(`${prefix}/attrResours`)}

@@ -98,5 +98,10 @@ export default {
     background: url("../../assets/comment/type(2).png") no-repeat right;
     padding: 50px 20px 20px;
   }
+
+  .hidden-card {
+    height: 100px;
+    width: 100%;
+  }
 }
 </style>

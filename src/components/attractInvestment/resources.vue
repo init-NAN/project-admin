@@ -71,21 +71,21 @@
         <el-table-column prop="resourcesRoomS"
                          label="房间数量"></el-table-column>
 
-        <el-table-column prop="resourcesMeasure"
+        <el-table-column prop="resourcesArea"
                          label="管理面积(m²)"></el-table-column>
 
-        <el-table-column prop="resourcesMeasure"
+        <el-table-column prop="resourcesLease"
                          label="在租面积(m²)"></el-table-column>
 
         <el-table-column prop="resourcesl"
                          label="出租率(%)"></el-table-column>
-        <el-table-column prop="resourcesRoomS"
+        <el-table-column prop="resourcesVacant"
                          label="空置面积(m²)"></el-table-column>
-        <el-table-column prop="resourcesRoomS"
+        <el-table-column prop="resourcesRate"
                          label="空置率(%)"></el-table-column>
-        <el-table-column prop="resourcesRoomS"
+        <el-table-column prop="resourcesUtilization"
                          label="利用率(%)"></el-table-column>
-        <el-table-column prop="resourcesRoomS"
+        <el-table-column prop="resourceslease"
                          label="在租合同份数"></el-table-column>
       </el-table>
     </section>
@@ -101,32 +101,21 @@
       </el-pagination>
     </el-col>
 
+
+    <el-col class="hidden-card"
+            :sm="22"
+            :md="15"
+            :offset="1">
+    </el-col>
   </div>
 </template>
 
 <script>
+import { getattrResours } from '../../http/attrResours.js';
 export default {
   data () {
     return {
-      resources: [{
-        date: '2016-05-02',
-        resourcesName: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        resourcesRoomS: '213',
-        resourcesMeasure: '22',
-      }, {
-        date: '2016-05-02',
-        resourcesName: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        resourcesRoomS: '213',
-        resourcesMeasure: '22',
-      }, {
-        date: '2016-05-02',
-        resourcesName: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        resourcesRoomS: '213',
-        resourcesMeasure: '22',
-      },],
+      resources: [],
       page1: 1,
       listLoading: false,
       total: 3,
@@ -151,7 +140,6 @@ export default {
     },
     handleSelectionChange: function (sels) {
       this.sels = sels;
-      this.ids = _.map(this.sels, (device) => device.deviceNo);
       //console.log(this.ids);
     },
     handleSizeChange (size) {
@@ -187,6 +175,17 @@ export default {
         }
       });
     },
+    loadData () {
+      
+      getattrResours().then(res => {
+        window.console.log(res);
+        this.resources = res.data.resources
+      })
+
+    }
+  },
+  created () {
+    this.loadData();
   }
 }
 

@@ -82,6 +82,11 @@
                      :total="total">
       </el-pagination>
     </el-col>
+    <el-col class="hidden-card"
+            :sm="22"
+            :md="15"
+            :offset="1">
+    </el-col>
     <el-dialog :title="addDialogTitle"
                :visible.sync="addCustomerVisibel"
                :before-close="closeForm">
@@ -206,50 +211,11 @@
 </template>
 
 <script>
-import delectAll from '@/common/utils/deleteAll.js'
+import { getattrContract,creatAttrContract } from '../../http/attrContract';
 export default {
   data () {
     return {
-      contract: [{
-        date: '2016-05-02',
-        contractName: '名称',
-        management: '上海市普陀区',
-        contractNo: '1231222',
-        peoName: '王小虎',
-        per: '0',
-        costCycle: '一年',
-        amountReceivable: '100000',
-        amountPaid: '12322',
-        refundAmount: '0',
-        amountOwed: '23123',
-        id: 1
-      }, {
-        date: '2016-05-02',
-        contractName: '名称',
-        management: '上海市普陀区',
-        contractNo: '1231222',
-        peoName: '王小虎2',
-        per: '0',
-        costCycle: '一年',
-        amountReceivable: '100000',
-        amountPaid: '12322',
-        refundAmount: '0',
-        amountOwed: '23123',
-        id: 2
-      }, {
-        date: '2016-05-02',
-        contractName: '名称',
-        management: '上海市普陀区',
-        contractNo: '1231222',
-        peoName: '王小虎3',
-        per: '0',
-        costCycle: '一年',
-        amountReceivable: '100000',
-        amountPaid: '12322',
-        refundAmount: '0',
-        amountOwed: '23123',
-        id: 3
-      },],
+      contract: [],
       page1: 1,
       listLoading: false,
       total: 0,
@@ -273,7 +239,7 @@ export default {
       addDialogTitle: '',
       addCustomerVisibel: false,
 
-      editIndex:''
+      editIndex: ''
     }
   },
   methods: {
@@ -360,7 +326,7 @@ export default {
       })
         .then(() => {
           // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
-          
+
           for (let i = 0; i < this.contract.length; i++) {
             const element = this.contract[i];
             element.id = i
@@ -408,20 +374,33 @@ export default {
         if (valid) {
           // alert('submit')
           if (this.addDialogTitle == '新建合同') {
-            this.contract.unshift({...this.form});
+            this.form.id = this.contract.length;
+            creatAttrContract(this.form).then(res=>{
+              window.console.log(res)
+            })
+            this.contract.unshift({ ...this.form });
             this.addCustomerVisibel = false
-          }else if (this.addDialogTitle =='编辑合同') {
-            this.contract[this.editIndex] = this.form 
+          } else if (this.addDialogTitle == '编辑合同') {
+            this.contract[this.editIndex] = this.form
             this.addCustomerVisibel = false
           }
         } else {
-          console.log('error submit!!');
+          // console.log('error submit!!');
           return false;
         }
       });
     },
-  },
 
+    loadData () {
+      getattrContract().then(res => {
+        window.console.log(res);
+        this.contract = res.data.contract
+      })
+    }
+  },
+  created () {
+    this.loadData();
+  }
 
 
 }

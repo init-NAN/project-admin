@@ -115,7 +115,7 @@
                   @change="changeAria"
                   placeholder="请选择管理区">
                   <el-option
-                    v-for="item in managerAriaList"
+                    v-for="item in managerAriaList.slice(1)"
                     :key="item.value"
                     :label="item.label"
                     :value="{value:item.value,label:item.label}">
@@ -183,7 +183,7 @@
                   @change="newManagerAriaData"
                   placeholder="请选择管理区">
                   <el-option
-                    v-for="item in managerAriaList"
+                    v-for="item in managerAriaList.slice(1)"
                     :key="item.value"
                     :label="item.label"
                     :value="{value:item.value,label:item.label}">

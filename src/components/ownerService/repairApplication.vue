@@ -133,7 +133,7 @@
                 @change="changeAria"
                 placeholder="请选择管理区">
                   <el-option
-                    v-for="item in managerAreaList"
+                    v-for="item in managerAreaList.slice(1)"
                     :key="item.value"
                     :label="item.label"
                     :value="{value:item.value,label:item.label}"
@@ -445,7 +445,7 @@ export default {
       dialogTitle:'',
       newEditForm:{},
       ditributeForm:{},
-      ditributeFormRules:{repairer:[{ required: true, message: "请选择管理区", trigger: "blur" }]},
+      ditributeFormRules:{repairer:[{ required: true, message: "请选择分派人员", trigger: "blur" }]},
       repairerList:[{value:'1',label:'小王'},{value:'2',label:'小李'},{value:'3',label:'小刘'}],
       newEditFormRules:{
         managerArea:[{ required: true, message: "请选择管理区", trigger: "blur" }],

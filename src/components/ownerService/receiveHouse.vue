@@ -9,7 +9,6 @@
           <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
             <div class="left">
               <el-button
-                
                 type="primary"
                 class="el-icon-plus btn-addmore"
                 @click="newAddRegistration"
@@ -208,7 +207,7 @@
                   placeholder="请选择管理区"
                 >
                   <el-option
-                    v-for="item in managerAriaList"
+                    v-for="item in managerAriaList.slice(1)"
                     :key="item.value"
                     :label="item.label"
                     :value="{value:item.value,label:item.label}"
@@ -330,7 +329,7 @@
               <el-form-item label="管理区" prop="managerAria">
                 <el-select v-model="registrationForm.managerAria" placeholder="请选择管理区">
                   <el-option
-                    v-for="item in managerAriaList"
+                    v-for="item in managerAriaList.slice(1)"
                     :key="item.value"
                     :label="item.label"
                     :value="item.label"

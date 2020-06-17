@@ -397,6 +397,7 @@
         :total="total"
       ></el-pagination>
     </el-col>
+    <div style="width:100%;height:120px;"></div>
   </div>
 </template>
 
@@ -406,22 +407,54 @@ export default {
     return {
       tableData: [
         {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王浩光",
-          roomState: "0",
-          receiveDate: "2020-04-17"
-        },
-        {
+          id: "1",
           managerAria: "明珠城（商业）",
           houseName: "A区6号楼",
           roomCode: "FR-QDJ5",
           buildUpArea: "892.6",
-          customerName: "王浩光",
+          customerName: "张三",
+          roomState: "0",
+          receiveDate: "2020-07-26"
+        },
+        {
+          id: "2",
+          managerAria: "时代佳苑（住宅）",
+          houseName: "B区10号楼",
+          roomCode: "FR-MD7",
+          buildUpArea: "700.6",
+          customerName: "李四",
           roomState: "1",
-          receiveDate: "2020-04-17"
+          receiveDate: "2020-9-12"
+        },
+        {
+          id: "3",
+          managerAria: "绿岛物业",
+          houseName: "C区1号楼",
+          roomCode: "QA-TY7",
+          buildUpArea: "700.6",
+          customerName: "王五",
+          roomState: "0",
+          receiveDate: "2020-10-4"
+        },
+        {
+          id: "4",
+          managerAria: "筑业物业",
+          houseName: "D区21号楼",
+          roomCode: "KS-TE7",
+          buildUpArea: "500.6",
+          customerName: "刘六",
+          roomState: "0",
+          receiveDate: "2020-6-24"
+        },
+        {
+          id: "5",
+          managerAria: "绿岛物业",
+          houseName: "H区21号楼",
+          roomCode: "UA-SY7",
+          buildUpArea: "300.6",
+          customerName: "曾七",
+          roomState: "1",
+          receiveDate: "2020-10-24"
         }
       ],
       isFloorDisabled: true, //楼宇下拉框默认不可选

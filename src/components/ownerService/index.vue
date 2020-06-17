@@ -36,6 +36,13 @@ export default {};
       }
     }
     .grid-content {
+      .state {
+        .stateTxt {
+          color: #ffffff;
+          line-height: 32px;
+          margin-right: 5px;
+        }
+      }
       .searchDetail {
         min-width: 800px;
         width: 100%;
@@ -121,6 +128,7 @@ export default {};
     flex-wrap: wrap;
     align-items: center;
     padding-left: 0;
+    margin-bottom: 10px;
     li {
       margin-right: 20px;
       line-height: 40px;

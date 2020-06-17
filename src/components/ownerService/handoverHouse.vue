@@ -502,8 +502,26 @@ export default {
           roomCode: "QA-TY7",
           buildUpArea: "700.6",
           customerName: "王五",
-          handoverDate: "2020-8-24"
+          handoverDate: "2020-8-4"
         },
+        {
+          id: "4",
+          managerAria: "筑业物业",
+          houseName: "D区21号楼",
+          roomCode: "KS-TE7",
+          buildUpArea: "500.6",
+          customerName: "刘六",
+          handoverDate: "2020-5-24"
+        },
+        {
+          id: "5",
+          managerAria: "绿岛物业",
+          houseName: "H区21号楼",
+          roomCode: "UA-SY7",
+          buildUpArea: "300.6",
+          customerName: "曾七",
+          handoverDate: "2020-9-24"
+        }
       ],
       ownerTable: [
         {

@@ -278,6 +278,7 @@
         :total="total"
       ></el-pagination>
     </el-col>
+    <div style="width:100%;height:120px;"></div>
   </div>
 </template>
 
@@ -288,14 +289,14 @@ export default {
       tableData: [
         {
           orderNum: "bxa110",
-          state: "待分配",
-          orderPerson: "甲",
+          state: "已分配",
+          orderPerson: "姜承禄",
           concactPhone: "15797706475",
           orderStartDate: "2020-05-25 18:36",
           assignor: "admin",
-          repairer:'小王',
+          repairer:'王金',
           repaireLimitTime:'8小时内处理',
-          bigCategory:'报修业务',
+          bigCategory:'故障处理',
           smallCategory:'一般单',
           orderOrigin:'微信端',
           repaireContent:'窗户坏了',
@@ -303,49 +304,112 @@ export default {
           managerArea:'时代佳苑(住宅)',
           floorHouse:'1幢',
           reVistor:'小李',
-          reVistorDate:'2020-3-21 15:30',
+          reVistorDate:'2020-6-11 15:30',
           comment:'好评',
           commentContent:'服务好'
         },
         {
           orderNum: "bxa111",
-          state: "待分配",
-          orderPerson: "乙",
-          concactPhone: "15797706475",
-          orderStartDate: "2020-05-26 18:36",
+          state: "已分配",
+          orderPerson: "李泽明",
+          concactPhone: "18123927509",
+          orderStartDate: "2020-05-28 12:16",
           assignor: "admin",
-          repairer:'小王',
-          repaireLimitTime:'8小时内处理',
+          repairer:'刘明',
+          repaireLimitTime:'48小时内处理',
           bigCategory:'报修业务',
-          smallCategory:'一般单',
+          smallCategory:'大单',
           orderOrigin:'系统内',
-          repaireContent:'窗户坏了',
+          repaireContent:'扶梯坏了',
           resultNote:'搞定',
-          managerArea:'时代佳苑(住宅)',
-          floorHouse:'1幢',
-          reVistor:'小李',
-          reVistorDate:'2020-3-21 15:30',
+          managerArea:'明珠城(商业)',
+          floorHouse:'5幢',
+          reVistor:'李林',
+          reVistorDate:'2020-06-06 14:30',
           comment:'好评',
           commentContent:'服务好'
         },
         {
           orderNum: "bxa112",
-          state: "待分配",
-          orderPerson: "丙",
-          concactPhone: "15797706475",
-          orderStartDate: "2020-05-27 18:36",
+          state: "已分配",
+          orderPerson: "高俅",
+          concactPhone: "13797706475",
+          orderStartDate: "2020-05-12 18:36",
           assignor: "admin",
           repairer:'小王',
           repaireLimitTime:'8小时内处理',
           bigCategory:'报修业务',
           smallCategory:'一般单',
           orderOrigin:'微博端',
+          repaireContent:'电视坏了',
+          resultNote:'搞定',
+          managerArea:'时代佳苑(住宅)',
+          floorHouse:'2幢',
+          reVistor:'黄天',
+          reVistorDate:'2020-06-01 15:30',
+          comment:'好评',
+          commentContent:'服务好'
+        },
+        {
+          orderNum: "bxa110",
+          state: "已分配",
+          orderPerson: "姜承禄",
+          concactPhone: "15797706475",
+          orderStartDate: "2020-05-25 18:36",
+          assignor: "admin",
+          repairer:'王金',
+          repaireLimitTime:'8小时内处理',
+          bigCategory:'故障处理',
+          smallCategory:'一般单',
+          orderOrigin:'微信端',
           repaireContent:'窗户坏了',
           resultNote:'搞定',
           managerArea:'时代佳苑(住宅)',
           floorHouse:'1幢',
           reVistor:'小李',
-          reVistorDate:'2020-3-21 15:30',
+          reVistorDate:'2020-6-11 15:30',
+          comment:'好评',
+          commentContent:'服务好'
+        },
+        {
+          orderNum: "bxa111",
+          state: "已分配",
+          orderPerson: "李泽明",
+          concactPhone: "18123927509",
+          orderStartDate: "2020-05-28 12:16",
+          assignor: "admin",
+          repairer:'刘明',
+          repaireLimitTime:'48小时内处理',
+          bigCategory:'报修业务',
+          smallCategory:'大单',
+          orderOrigin:'系统内',
+          repaireContent:'扶梯坏了',
+          resultNote:'搞定',
+          managerArea:'明珠城(商业)',
+          floorHouse:'5幢',
+          reVistor:'李林',
+          reVistorDate:'2020-06-06 14:30',
+          comment:'好评',
+          commentContent:'服务好'
+        },
+        {
+          orderNum: "bxa112",
+          state: "已分配",
+          orderPerson: "高俅",
+          concactPhone: "13797706475",
+          orderStartDate: "2020-05-12 18:36",
+          assignor: "admin",
+          repairer:'小王',
+          repaireLimitTime:'8小时内处理',
+          bigCategory:'报修业务',
+          smallCategory:'一般单',
+          orderOrigin:'微博端',
+          repaireContent:'电视坏了',
+          resultNote:'搞定',
+          managerArea:'时代佳苑(住宅)',
+          floorHouse:'2幢',
+          reVistor:'黄天',
+          reVistorDate:'2020-06-01 15:30',
           comment:'好评',
           commentContent:'服务好'
         }
@@ -542,7 +606,6 @@ export default {
     submitNewEditForm(formName) {
       this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(this.newEditForm,'newEditForm')
             if(this.currentDiaType == 'new') {
               //新建
               console.log('新建啦')
@@ -610,13 +673,6 @@ export default {
 @font-color:#ffffff;
 .main-content {
   .grid-content {
-    .state {
-      .stateTxt {
-        color: @font-color;
-        line-height: 32px;
-        margin-right: 5px;
-      }
-    }
     .searchArea {
       margin-bottom: 10px;
       .more {

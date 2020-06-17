@@ -316,6 +316,7 @@
         :total="total"
       ></el-pagination>
     </el-col>
+    <div style="width:100%;height:120px;"></div>
   </div>
 </template>
 
@@ -325,34 +326,59 @@ export default {
     return {
       tableData: [
         {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王一",
-          decorateStartDate: "2020-04-17",
-          decorateEndDate:'2020-05-25',
-          state:'1'
-        },
-        {
+          id: "1",
           managerAria: "明珠城（商业）",
           houseName: "A区6号楼",
           roomCode: "FR-QDJ5",
           buildUpArea: "892.6",
-          customerName: "王二",
-          decorateStartDate: "2020-04-17",
-          decorateEndDate:'2020-05-25',
+          customerName: "张三",
+          decorateStartDate: "2020-07-28",
+          decorateEndDate:'2020-08-15',
           state:'1'
         },
         {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ4",
-          buildUpArea: "892.6",
-          customerName: "王三",
-          decorateStartDate: "2020-04-17",
-          decorateEndDate:'2020-05-25',
+          id: "2",
+          managerAria: "时代佳苑（住宅）",
+          houseName: "B区10号楼",
+          roomCode: "FR-MD7",
+          buildUpArea: "700.6",
+          customerName: "李四",
+          decorateStartDate: "2020-10-01",
+          decorateEndDate:'2020-10-15',
           state:'0'
+        },
+        {
+          id: "3",
+          managerAria: "绿岛物业",
+          houseName: "C区1号楼",
+          roomCode: "QA-TY7",
+          buildUpArea: "700.6",
+          customerName: "王五",
+          decorateStartDate: "2020-12-01",
+          decorateEndDate:'2020-12-12',
+          state:'0'
+        },
+        {
+          id: "4",
+          managerAria: "筑业物业",
+          houseName: "D区21号楼",
+          roomCode: "KS-TE7",
+          buildUpArea: "500.6",
+          customerName: "刘六",
+          decorateStartDate: "2020-06-12",
+          decorateEndDate:'2020-07-15',
+          state:'1'
+        },
+        {
+          id: "5",
+          managerAria: "绿岛物业",
+          houseName: "H区21号楼",
+          roomCode: "UA-SY7",
+          buildUpArea: "300.6",
+          customerName: "曾七",
+          decorateStartDate: "2020-05-12",
+          decorateEndDate:'2020-07-19',
+          state:'1'
         }
       ],
       stateTxt:{

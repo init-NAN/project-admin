@@ -117,6 +117,9 @@ export default {};
   .el-table__body tr.hover-row > td {
     background-color: rgba(158, 162, 192, 0.5);
   }
+  .el-table__fixed-right::before {
+    height: 0;
+  }
   .el-table td {
     border: transparent;
   }

@@ -60,7 +60,10 @@ const patrolTask = () => import('./components/estateManagement/patrolTask.vue')
 const patrolProblems = () => import('./components/estateManagement/patrolProblems.vue')
 const overviewEstate = () => import('./components/estateManagement/overviewsEstate.vue')
 
-
+//财务中心
+const financialCenter = () => import('./components/financialCenter/index')
+const financialOverview = () => import('./components/financialCenter/financialOverview')
+const financialEcharts = () => import('./components/financialCenter/financialEcharts')
 let routes = [{
     path: '/',
     component: Main,
@@ -184,6 +187,21 @@ let routes = [{
             title: '巡查问题',
           },
         ]
+      },
+      {
+        path:'financialCenter',
+        component:financialCenter,
+        name:'',
+        redirect: '/financialCenter/financialEcharts',
+        title:'财务中心',
+        iconCls:'el-icon-bank-card',
+        children:[
+          {
+            path:'financialOverview',
+            component: financialOverview,
+            title:'应收总账'
+          }
+        ]
       }
     ]
   },
@@ -225,6 +243,14 @@ let routes = [{
           component: overviewEstate
         }, ]
       },
+      {
+        path: '/financialCenter',
+        component: financialCenter,
+        children: [{
+          path:'/financialCenter/financialEcharts',
+          component:financialEcharts
+        }]
+      }
     ]
   }
 ];

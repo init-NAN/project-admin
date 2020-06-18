@@ -120,7 +120,6 @@
                 v-loading="listLoading"
                 ref="table"
                 @selection-change="handleSelectionChange"
-                @sort-change="handleSortChange"
                 :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
         <el-table-column prop="management"
                          label="管理区"
@@ -301,17 +300,8 @@ export default {
     },
     // context menu
     handleSelectionChange: function (sels) {
-      window.console.log(sels)
+      // window.console.log(sels)
       this.checkedBox = sels;
-      //console.log(this.ids);
-    },
-    handleSortChange (col) {
-      if (col.prop == null) {
-        return;
-      }
-      this.order = (col.order === 'ascending') ? 'asc' : 'desc';
-      this.sort = col.prop;
-      this.searchDevice();
     },
     searchDevice () {
       this.page = 1;

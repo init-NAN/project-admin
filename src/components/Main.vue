@@ -264,6 +264,9 @@ export default {
 }
 .el-submenu {
   height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .el-submenu:focus {
   background: linear-gradient(

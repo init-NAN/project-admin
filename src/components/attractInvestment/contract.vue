@@ -24,42 +24,60 @@
                        width="55">
       </el-table-column>
       <el-table-column prop="management"
-                       label="管理区"></el-table-column>
+                       label="管理区"
+                       width="150"></el-table-column>
 
       <el-table-column prop="contractNo"
-                       label="合同编号"></el-table-column>
+                       label="合同编号"
+                       width="100"></el-table-column>
 
       <el-table-column prop="contractName"
-                       label="合同名称"></el-table-column>
+                       label="合同名称"
+                       width="100"></el-table-column>
 
       <el-table-column prop="peoName"
-                       label="租户姓名"></el-table-column>
+                       label="租户姓名"
+                       width="100"></el-table-column>
 
       <el-table-column prop="resourceCode"
-                       label="资源代码"></el-table-column>
+                       label="资源代码"
+                       width="90"></el-table-column>
+
+      <el-table-column prop="resourcePropertyType"
+                       label="产权类型"
+                       width="100"></el-table-column>
 
       <el-table-column prop="per"
-                       label="收费标准"></el-table-column>
+                       label="收费标准"
+                       width="80"></el-table-column>
 
       <el-table-column prop="date"
-                       label="费用应收日期"></el-table-column>
+                       label="费用应收日期"
+                       width="130"></el-table-column>
 
       <el-table-column prop="costCycle"
-                       label="费用周期"></el-table-column>
+                       label="费用周期"
+                       width="100"></el-table-column>
 
       <el-table-column prop="amountReceivable"
-                       label="应收金额"></el-table-column>
+                       label="应收金额"
+                       width="100"></el-table-column>
 
       <el-table-column prop="amountPaid"
-                       label="已缴金额"></el-table-column>
+                       label="已缴金额"
+                       width="100"></el-table-column>
 
       <el-table-column prop="refundAmount"
-                       label="退款金额"></el-table-column>
+                       label="退款金额"
+                       width="100"></el-table-column>
 
       <el-table-column prop="amountOwed"
-                       label="欠费金额"></el-table-column>
+                       label="欠费金额"
+                       width="100"></el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作"
+                       fixed="right"
+                       width="100">
         <template slot-scope="scope">
           <el-button type="text"
                      size="small"
@@ -196,6 +214,19 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-row :gutter="30">
+              <el-col :span="12">
+                <el-form-item label="产权类型:">
+                  <el-select v-model="form.resourcePropertyType"
+                             placeholder="请选择产权类型">
+                    <el-option label="全部产权"
+                               value="全部产权"></el-option>
+                    <el-option label="小产权"
+                               value="小产权"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-form>
         </el-card>
       </div>
@@ -211,11 +242,111 @@
 </template>
 
 <script>
-import { getattrContract,creatAttrContract } from '../../http/attrContract';
+// import { getattrContract, creatAttrContract, editAttrContract, deletAttrContract } from '../../http/attract/attrContract';
 export default {
   data () {
     return {
-      contract: [],
+      contract: [
+        {
+          date: "2016-06-02",
+          contractName: "名称",
+          management: "上海市普陀区",
+          contractNo: "1231222",
+          peoName: "王小黑",
+          resourcePropertyType: '全部产权',
+          per: "0",
+          costCycle: "一年",
+          amountReceivable: "100000",
+          amountPaid: "12322",
+          refundAmount: "0",
+          amountOwed: "23123",
+          id: 1
+        }, {
+          date: "2016-05-02",
+          contractName: "名称",
+          management: "上海市普陀区",
+          contractNo: "1231222",
+          peoName: "虎",
+          resourcePropertyType: '全部产权',
+          per: "0",
+          costCycle: "半年",
+          amountReceivable: "100000",
+          amountPaid: "22",
+          refundAmount: "0",
+          amountOwed: "123",
+          id: 2
+        }, {
+          date: "2016-05-02",
+          contractName: "名称",
+          management: "上海市普陀区",
+          contractNo: "1231222",
+          peoName: "王小虎",
+          resourcePropertyType: '全部产权',
+          per: "0",
+          costCycle: "一年",
+          amountReceivable: "100000",
+          amountPaid: "12322",
+          refundAmount: "0",
+          amountOwed: "23123",
+          id: 3
+        }, {
+          date: "2016-05-02",
+          contractName: "名称",
+          management: "上海市普陀区",
+          contractNo: "1231222",
+          peoName: "王小虎",
+          resourcePropertyType: '全部产权',
+          per: "0",
+          costCycle: "一年",
+          amountReceivable: "100000",
+          amountPaid: "12322",
+          refundAmount: "0",
+          amountOwed: "23123",
+          id: 4
+        }, {
+          date: "2016-05-02",
+          contractName: "名称",
+          management: "上海市普陀区",
+          contractNo: "1231222",
+          peoName: "王小虎",
+          resourcePropertyType: '全部产权',
+          per: "0",
+          costCycle: "一年",
+          amountReceivable: "100000",
+          amountPaid: "12322",
+          refundAmount: "0",
+          amountOwed: "23123",
+          id: 5
+        }, {
+          date: "2016-05-02",
+          contractName: "名称",
+          management: "上海市普陀区",
+          contractNo: "1231222",
+          peoName: "王小虎",
+          resourcePropertyType: '全部产权',
+          per: "0",
+          costCycle: "一年",
+          amountReceivable: "100000",
+          amountPaid: "12322",
+          refundAmount: "0",
+          amountOwed: "23123",
+          id: 6
+        }, {
+          date: "2016-05-02",
+          contractName: "名称",
+          management: "上海市普陀区",
+          contractNo: "1231222",
+          peoName: "王小虎",
+          resourcePropertyType: '全部产权',
+          per: "0",
+          costCycle: "一年",
+          amountReceivable: "100000",
+          amountPaid: "12322",
+          refundAmount: "0",
+          amountOwed: "23123",
+          id: 7
+        },
+      ],
       page1: 1,
       listLoading: false,
       total: 0,
@@ -223,7 +354,20 @@ export default {
       pageSize: 10,
 
       checkedBox: [],
-      form: {},
+      form: {
+        date: '',
+        contractName: '',
+        management: '',
+        contractNo: '',
+        peoName: '',
+        per: '',
+        costCycle: '',
+        amountReceivable: '',
+        amountPaid: '',
+        refundAmount: '',
+        amountOwed: '',
+        id: '',
+      },
 
 
 
@@ -239,13 +383,14 @@ export default {
       addDialogTitle: '',
       addCustomerVisibel: false,
 
-      editIndex: ''
+      editIndex: '',
+      editId: ''
     }
   },
   methods: {
-    handleDelete (index, row) {
+    handleDelete (index, item) {
       // 设置类似于console类型的功能
-      window.console.log(row)
+      window.console.log(item)
       this.$confirm("永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -254,10 +399,17 @@ export default {
         .then(() => {
           // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
           this.contract.splice(index, 1);
+          this.form.id = this.editId
+          // deletAttrContract(item.id).then(res => {
+          //   window.console.log(res);
+          //   if (res.status == 200) {
           this.$message({
             type: "success",
             message: "删除成功!"
-          });
+            //   });
+            //   this.loadData();
+            // }
+          })
         })
         .catch(() => {
           this.$message({
@@ -278,38 +430,6 @@ export default {
       if (col.prop == null) {
         return;
       }
-      this.order = (col.order === 'ascending') ? 'asc' : 'desc';
-      this.sort = col.prop;
-      this.searchDevice();
-    },
-    searchDevice () {
-      this.page = 1;
-      this.getDeviceList();
-    },
-    getDeviceList () {
-
-      var searchParams = _.omitBy(this.searchForm, (item) => item == "" || _.isNil(item));
-      searchParams.page = this.page - 1;
-      searchParams.size = this.pageSize;
-      searchParams.sort = this.sort;//"deviceNo";
-      searchParams.order = this.order;//"asc";
-
-      this.listLoading = true;
-      AdminAPI.searchDevice(searchParams).then(({
-        data: jsonData
-      }) => {
-        if (jsonData.status === 0) {
-          this.total = jsonData.data.total;
-          this.devices = jsonData.data.content;
-          this.total = jsonData.data.totalElements;
-          this.listLoading = false;
-        } else {
-          this.$message({
-            messsage: `获取设备列表失败:${data.msg}`,
-            type: 'error'
-          })
-        }
-      });
     },
     // context menu
     handleSelectionChange: function (sels) {
@@ -362,10 +482,13 @@ export default {
     },
 
     handleEdit (index, item) {
+      window.console.log(index)
+      window.console.log(item)
       this.addCustomerVisibel = true
       this.form = { ...item }
       this.addDialogTitle = '编辑合同'
       this.editIndex = index
+      this.editId = item.id
     },
 
 
@@ -374,13 +497,26 @@ export default {
         if (valid) {
           // alert('submit')
           if (this.addDialogTitle == '新建合同') {
-            this.form.id = this.contract.length;
-            creatAttrContract(this.form).then(res=>{
-              window.console.log(res)
-            })
+            // this.form.id = this.contract.length + 1;
+            // creatAttrContract(this.form).then(res => {
+            //   window.console.log(res)
+            //   if (res.status == 201) {
+            //     this.$message.success('新增成功');
+            //     this.addCustomerVisibel = false;
+            //     this.loadData();
+            //   }
+            // })
             this.contract.unshift({ ...this.form });
             this.addCustomerVisibel = false
           } else if (this.addDialogTitle == '编辑合同') {
+            // editAttrContract(this.form).then(res => {
+            //   window.console.log(res)
+            //   if (res.status == 200) {
+            //     this.$message.success('修改成功');
+            //     this.addCustomerVisibel = false;
+            //     this.loadData();
+            //   }
+            // })
             this.contract[this.editIndex] = this.form
             this.addCustomerVisibel = false
           }
@@ -391,16 +527,16 @@ export default {
       });
     },
 
-    loadData () {
-      getattrContract().then(res => {
-        window.console.log(res);
-        this.contract = res.data.contract
-      })
-    }
+    // loadData () {
+    //   getattrContract().then(res => {
+    //     window.console.log(res);
+    //     this.contract = res.data
+    //   })
+    // }
   },
-  created () {
-    this.loadData();
-  }
+  // created () {
+  // this.loadData();
+  // }
 
 
 }

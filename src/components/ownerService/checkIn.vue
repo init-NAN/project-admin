@@ -115,7 +115,7 @@
                   @change="changeAria"
                   placeholder="请选择管理区">
                   <el-option
-                    v-for="item in managerAriaList"
+                    v-for="item in managerAriaList.slice(1)"
                     :key="item.value"
                     :label="item.label"
                     :value="{value:item.value,label:item.label}">
@@ -183,7 +183,7 @@
                   @change="newManagerAriaData"
                   placeholder="请选择管理区">
                   <el-option
-                    v-for="item in managerAriaList"
+                    v-for="item in managerAriaList.slice(1)"
                     :key="item.value"
                     :label="item.label"
                     :value="{value:item.value,label:item.label}">
@@ -252,6 +252,7 @@
         :total="total"
       ></el-pagination>
     </el-col>
+    <div style="width:100%;height:120px;"></div>
   </div>
 </template>
 
@@ -261,31 +262,54 @@ export default {
     return {
       tableData: [
         {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ6",
-          buildUpArea: "892.6",
-          customerName: "王光",
-          roomState:'0',
-          checkInDate: "2020-04-17"
-        },
-        {
+          id: "1",
           managerAria: "明珠城（商业）",
           houseName: "A区6号楼",
           roomCode: "FR-QDJ5",
           buildUpArea: "892.6",
-          customerName: "王浩",
-          roomState:'1',
-          checkInDate: "2020-04-17"
+          customerName: "张三",
+          roomState: "0",
+          checkInDate: "2020-05-26"
         },
         {
-          managerAria: "明珠城（商业）",
-          houseName: "A区6号楼",
-          roomCode: "FR-QDJ4",
-          buildUpArea: "892.6",
-          customerName: "王浩光",
-          roomState:'1',
-          checkInDate: "2020-04-17"
+          id: "2",
+          managerAria: "时代佳苑（住宅）",
+          houseName: "B区10号楼",
+          roomCode: "FR-MD7",
+          buildUpArea: "700.6",
+          customerName: "李四",
+          roomState: "1",
+          checkInDate: "2020-10-12"
+        },
+        {
+          id: "3",
+          managerAria: "绿岛物业",
+          houseName: "C区1号楼",
+          roomCode: "QA-TY7",
+          buildUpArea: "700.6",
+          customerName: "王五",
+          roomState: "0",
+          checkInDate: "2020-12-4"
+        },
+        {
+          id: "4",
+          managerAria: "筑业物业",
+          houseName: "D区21号楼",
+          roomCode: "KS-TE7",
+          buildUpArea: "500.6",
+          customerName: "刘六",
+          roomState: "1",
+          checkInDate: "2020-8-24"
+        },
+        {
+          id: "5",
+          managerAria: "绿岛物业",
+          houseName: "H区21号楼",
+          roomCode: "UA-SY7",
+          buildUpArea: "300.6",
+          customerName: "曾七",
+          roomState: "0",
+          checkInDate: "2020-11-24"
         }
       ],
       total: 0,

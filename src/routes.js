@@ -10,8 +10,6 @@ import Overview from './components/overview/Overview.vue';
 import BaseTabs from './components/basestation/basetabs.vue';
 
 
-
-
 //招商
 const attractInvestment = () => import('./components/attractInvestment/attractInvestment.vue')
 //资源
@@ -27,6 +25,7 @@ const overviewAttractInvestment = () => import('./components/attractInvestment/o
 //合同预警
 const contractWarning = () => import('./components/attractInvestment/contractWarning.vue')
 
+
 //业主服务路由
 const ownerService = () => import('./components/ownerService/index.vue')
 //交房登记
@@ -39,11 +38,10 @@ const checkIn = () => import('./components/ownerService/checkIn.vue')
 const decorate = () => import('./components/ownerService/decorate.vue')
 //报修管理
 const repairApplication = () => import('./components/ownerService/repairApplication.vue')
+//租赁详情
+const rentDetail = () => import('.//components/ownerService/rentDetail.vue')
 //业主echarts
 const ownerEcharts = () => import('./components/ownerService/ownerEcharts.vue')
-
-
-
 
 
 //物业管理
@@ -139,6 +137,11 @@ let routes = [{
             path: 'repairApplication',
             component: repairApplication,
             title: '报修管理'
+          },
+          {
+            path: 'rentDetail',
+            component: rentDetail,
+            title:'租赁详情'
           }
         ]
       },

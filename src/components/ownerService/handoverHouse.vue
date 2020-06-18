@@ -261,7 +261,7 @@
             <el-form-item label="管理区" prop="managerAria">
               <el-select v-model="registrationForm.managerAria" placeholder="请选择管理区">
                 <el-option
-                  v-for="item in managerAriaList"
+                  v-for="item in managerAriaList.slice(1)"
                   :key="item.value"
                   :label="item.label"
                   :value="item.label"
@@ -403,7 +403,7 @@
                 @change="customerChooseAria"
               >
                 <el-option
-                  v-for="item in managerAriaList"
+                  v-for="item in managerAriaList.slice(1)"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -472,11 +472,57 @@
 </template>
 
 <script>
-import handover from '@/http/ownerService/handover'
+import HandOver from '@/http/ownerService/handover'
 export default {
   data() {
     return {
-      tableData: [],
+      tableData: [
+        {
+          id: "1",
+          managerAria: "明珠城（商业）",
+          houseName: "A区6号楼",
+          roomCode: "FR-QDJ5",
+          buildUpArea: "892.6",
+          customerName: "张三",
+          handoverDate: "2020-06-26"
+        },
+        {
+          id: "2",
+          managerAria: "时代佳苑（住宅）",
+          houseName: "B区10号楼",
+          roomCode: "FR-MD7",
+          buildUpArea: "700.6",
+          customerName: "李四",
+          handoverDate: "2020-8-12"
+        },
+        {
+          id: "3",
+          managerAria: "绿岛物业",
+          houseName: "C区1号楼",
+          roomCode: "QA-TY7",
+          buildUpArea: "700.6",
+          customerName: "王五",
+          handoverDate: "2020-8-4"
+        },
+        {
+          id: "4",
+          managerAria: "筑业物业",
+          houseName: "D区21号楼",
+          roomCode: "KS-TE7",
+          buildUpArea: "500.6",
+          customerName: "刘六",
+          handoverDate: "2020-5-24"
+        },
+        {
+          id: "5",
+          managerAria: "绿岛物业",
+          houseName: "H区21号楼",
+          roomCode: "UA-SY7",
+          buildUpArea: "300.6",
+          customerName: "曾七",
+          handoverDate: "2020-9-24"
+        }
+      ],
       ownerTable: [
         {
           ownerName: "王志远（费用承担人）",
@@ -655,13 +701,17 @@ export default {
     };
   },
   mounted() {
-    handover.getHandOverTable().then(res => {
-      if(res.status == 200) {
-        this.tableData = res.data
-      }
-    })
+    // this.loadingData()
   },
   methods: {
+    //获取data数据
+    // loadingData() {
+    //   HandOver.getHandOverTable().then(res => {
+    //     if(res.status == 200) {
+    //       this.tableData = res.data
+    //     }
+    //   })
+    // },
     handleSelectionChange(val) {
       this.arrayIndex = [];
       this.multipleSelection = val;
@@ -705,7 +755,12 @@ export default {
           this.multipleSelection.forEach(element => {
             this.tableData.forEach((e, i) => {
               if (element.id == e.id) {
-                this.tableData.splice(i, 1);
+                this.tableData.splice(i,1)
+                // HandOver.delHandOver(element.id,1).then(res => {
+                //   if(res.status == 200) {
+                //     this.loadingData()
+                //   }
+                // })
               }
             });
           });
@@ -751,19 +806,25 @@ export default {
     submitChangeDate(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.tableData[
-            this.changeDateIndex
-          ].handoverDate = this.changeDateForm.handoverDate;
+          this.tableData[this.changeDateIndex].handoverDate = this.changeDateForm.handoverDate;
+          // HandOver.changeHDate(this.multipleSelection[0].id, this.changeDateForm.handoverDate).then(res => {
+          //   if(res.status == 200) {
+          //     this.loadingData()
+          //   }
+          // })
         } else {
           return false;
         }
-      });
+      })
       this.isShowChangeDateDialog = false;
     },
     submitNewRegistration(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.tableData.push({ ...this.registrationForm });
+          // this.registrationForm.id = (this.tableData.length + 1).toString()
+          // HandOver.addHandOver(this.registrationForm)
+          // this.loadingData()
+          this.tableData.push(this.registrationForm)
           this.isShowrRegistation = false;
         } else {
           return false;
@@ -904,20 +965,20 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       })
-        .then(() => {
-          // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
-          this.tableData.splice(this.currentRow.index, 1);
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
+      .then(() => {
+        // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+        this.tableData.splice(this.currentRow.index, 1);
+        this.$message({
+          type: "success",
+          message: "删除成功!"
         });
+      })
+      .catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      })
     },
     //切换业主Tab
     changeOwnerTab(tab, event) {

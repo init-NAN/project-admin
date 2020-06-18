@@ -22,6 +22,8 @@ const customer = () => import('./components/attractInvestment/customer.vue')
 //合同模板
 const contractTemplate = () => import('./components/attractInvestment/contractTemplate.vue')
 const overviewAttractInvestment = () => import('./components/attractInvestment/overviewAttractInvestment.vue')
+//合同预警
+const contractWarning = () => import('./components/attractInvestment/contractWarning.vue')
 
 
 //业主服务路由
@@ -59,17 +61,23 @@ const patrolTask = () => import('./components/estateManagement/patrolTask.vue')
 //巡查问题
 const patrolProblems = () => import('./components/estateManagement/patrolProblems.vue')
 const overviewEstate = () => import('./components/estateManagement/overviewsEstate.vue')
+//抄表计费管理
+const billingMeter = () => import('./components/estateManagement/billingMeter.vue')
+
 
 //财务中心
 const financialCenter = () => import('./components/financialCenter/index')
 const financialOverview = () => import('./components/financialCenter/financialOverview')
 const financialEcharts = () => import('./components/financialCenter/financialEcharts')
+
+
 let routes = [{
     path: '/',
     component: Main,
     name: '',
     redirect: '/attractInvestment/overviewAttractInvestment',
-    children: [{
+    children: [
+      {
         path: 'attractInvestment',
         component: attractInvestment,
         name: '',
@@ -97,11 +105,11 @@ let routes = [{
             component: contractTemplate,
             title: '合同模板',
           },
-          // {
-          //   path: 'charts',
-          //   component: charts,
-          //   title: '资源图示'
-          // }
+          {
+            path: 'contractWarning',
+            component: contractWarning,
+            title: '合同预警'
+          }
         ]
 
       },
@@ -186,6 +194,11 @@ let routes = [{
             component: patrolProblems,
             title: '巡查问题',
           },
+          {
+            path: 'billingMeter',
+            component: billingMeter,
+            title: '抄表计费管理'
+          }
         ]
       },
       {

@@ -390,7 +390,7 @@ export default {
         dat: 0,
         deviceNo: 0,
         id: 1,
-        weight:3
+        weight: 3
       }, {
         management: '绿岛物业2',
         eCode: '1#',
@@ -456,18 +456,35 @@ export default {
     },
     //批量删除
     delectAll () {
-      for (let i = 0; i < this.tableData.length; i++) {
-        const element = this.tableData[i];
-        element.id = i
-      }
-      this.checkedBox.forEach(element => {
-        this.tableData.forEach((e, i) => {
-
-          if (element.id == e.id) {
-            this.tableData.splice(i, 1)
+      this.$confirm("永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          for (let i = 0; i < this.tableData.length; i++) {
+            const element = this.tableData[i];
+            element.id = i
           }
+          this.checkedBox.forEach(element => {
+            this.tableData.forEach((e, i) => {
+
+              if (element.id == e.id) {
+                this.tableData.splice(i, 1)
+              }
+            });
+          });
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
         });
-      });
     },
 
     handleSortChange (col) {
@@ -539,7 +556,7 @@ export default {
       console.log(value);
     },
     resetForm (formName) {
-      this.isEquipment = false
+      // this.isEquipment = false
       if (this.$refs[formName] !== undefined) {
         this.$refs[formName].resetFields();
       }
@@ -555,7 +572,7 @@ export default {
       this.$refs['form'].resetFields();
       done();
     },
-    copyList(index,item){
+    copyList (index, item) {
       this.isEquipment = true
       this.form = { ...item }
       this.addEquipFiles = '复制设备档案'
@@ -563,7 +580,7 @@ export default {
     editList (index, item) {
       // window.console.log(item)
       // window.console.log(index)
-      this.copyList(index,item)
+      this.copyList(index, item)
       // window.console.log(this.form)
       this.addEquipFiles = '编辑设备档案'
       this.equipRowIndex = index
@@ -573,12 +590,12 @@ export default {
         if (valid) {
           // alert('submit')
           if (this.addEquipFiles == '新增设备档案') {
-            this.tableData.unshift({...this.form});
+            this.tableData.unshift({ ...this.form });
             this.isEquipment = false
           } else if (this.addEquipFiles == '编辑设备档案') {
             this.tableData[this.equipRowIndex] = this.form
             this.isEquipment = false
-          }else {
+          } else {
             this.$message('页面已关闭')
             this.isEquipment = false
           }

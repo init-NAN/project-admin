@@ -90,17 +90,40 @@ export default {
     text-decoration: underline;
   }
 
-   .el-dialog__header {
+  .el-dialog__header {
     background: url("../../assets/comment/type(1).png") no-repeat;
     padding: 10px 20px 10px;
   }
-   .el-dialog__footer {
+  .el-dialog__footer {
     background: url("../../assets/comment/type(2).png") no-repeat right;
     padding: 50px 20px 20px;
   }
 
   .hidden-card {
     height: 100px;
+    width: 100%;
+  }
+  .el-table__fixed-right:before,
+  .el-table__fixed:before {
+    height: 0;
+  }
+  .el-table th,
+  .el-table tr {
+    background-color: rgba(0, 0, 0, 1);
+  }
+  .el-table__body tr.hover-row > td {
+    background-color: rgba(158, 162, 192, 0.5);
+  }
+  .el-table td {
+    border: transparent;
+  }
+  .el-select .el-input .is-disabled .el-input__inner {
+    background-color: transparent !important;
+  }
+  .el-input.is-disabled .el-input__inner {
+    background-color: transparent !important;
+  }
+  .el-select {
     width: 100%;
   }
 }

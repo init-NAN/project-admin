@@ -127,6 +127,137 @@
         "resourceslease": "230",
         "id": "9"
       }
+<<<<<<< HEAD
+    ],
+    "total": 9
+  },
+  "attrContract": [
+    {
+      "date": "2016-05-02",
+      "contractName": "名称",
+      "management": "上海市普陀区",
+      "contractNo": "1231222",
+      "peoName": "王小虎",
+      "per": "0",
+      "costCycle": "一年",
+      "amountReceivable": "100000",
+      "amountPaid": "12322",
+      "refundAmount": "0",
+      "amountOwed": "23123",
+      "id": 1
+    },
+    {
+      "date": "2016-05-02",
+      "contractName": "名称",
+      "management": "上海市普陀区",
+      "contractNo": "1231222",
+      "peoName": "王小虎",
+      "per": "0",
+      "costCycle": "一年",
+      "amountReceivable": "100000",
+      "amountPaid": "12322",
+      "refundAmount": "0",
+      "amountOwed": "23123",
+      "id": 2
+    },
+    {
+      "date": "2016-05-02",
+      "contractName": "名称",
+      "management": "上海市普陀区",
+      "contractNo": "1231222",
+      "peoName": "王小虎",
+      "per": "0",
+      "costCycle": "一年",
+      "amountReceivable": "100000",
+      "amountPaid": "12322",
+      "refundAmount": "0",
+      "amountOwed": "23123",
+      "id": 3
+    },
+    {
+      "date": "2016-05-02",
+      "contractName": "名称",
+      "management": "上海市普陀区",
+      "contractNo": "1231222",
+      "peoName": "王小虎",
+      "per": "0",
+      "costCycle": "一年",
+      "amountReceivable": "100000",
+      "amountPaid": "12322",
+      "refundAmount": "0",
+      "amountOwed": "23123",
+      "id": 4
+    },
+    {
+      "date": "2016-05-02",
+      "contractName": "名称",
+      "management": "上海市普陀区",
+      "contractNo": "1231222",
+      "peoName": "王小虎",
+      "per": "0",
+      "costCycle": "一年",
+      "amountReceivable": "100000",
+      "amountPaid": "12322",
+      "refundAmount": "0",
+      "amountOwed": "23123",
+      "id": 5
+    },
+    {
+      "date": "2016-05-02",
+      "contractName": "名称",
+      "management": "上海市普陀区",
+      "contractNo": "1231222",
+      "peoName": "王小虎",
+      "per": "0",
+      "costCycle": "一年",
+      "amountReceivable": "100000",
+      "amountPaid": "12322",
+      "refundAmount": "0",
+      "amountOwed": "23123",
+      "id": 6
+    },
+    {
+      "date": "2016-05-02",
+      "contractName": "名称",
+      "management": "上海市普陀区",
+      "contractNo": "1231222",
+      "peoName": "王小虎",
+      "per": "0",
+      "costCycle": "一年",
+      "amountReceivable": "100000",
+      "amountPaid": "12322",
+      "refundAmount": "0",
+      "amountOwed": "23123",
+      "id": 7
+    },
+    {
+      "date": "2016-05-02",
+      "contractName": "名称",
+      "management": "上海市普陀区",
+      "contractNo": "1231222",
+      "peoName": "王小虎",
+      "per": "0",
+      "costCycle": "一年",
+      "amountReceivable": "100000",
+      "amountPaid": "12322",
+      "refundAmount": "0",
+      "amountOwed": "23123",
+      "id": 8
+    }
+  ],
+  "handoverTable": [
+    {
+      "id": "01",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ6",
+      "buildUpArea": "892.6",
+      "customerName": "王光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "02",
+=======
     ]
   },
   "arrtContract": {
@@ -248,25 +379,151 @@
   "handoverTable": [
     {
       "id": "1",
+>>>>>>> aa1e1db4f55f70d7fba7c89b17e196924842daa8
       "managerAria": "明珠城（商业）",
       "houseName": "A区6号楼",
       "roomCode": "FR-QDJ5",
       "buildUpArea": "892.6",
+<<<<<<< HEAD
+      "customerName": "王浩",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "03",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "04",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "05",
+=======
       "customerName": "王",
       "handoverDate": "2020-06-26"
     },
     {
       "id": "2",
+>>>>>>> aa1e1db4f55f70d7fba7c89b17e196924842daa8
       "managerAria": "明珠城（商业）",
       "houseName": "A区6号楼",
       "roomCode": "FR-QDJ4",
       "buildUpArea": "892.6",
+<<<<<<< HEAD
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "06",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "07",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "08",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "09",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "10",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "11",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "12",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "13",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "14",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "15",
+      "managerAria": "明珠城（商业）",
+      "houseName": "A区6号楼",
+      "roomCode": "FR-QDJ4",
+      "buildUpArea": "892.6",
+      "customerName": "王浩光",
+      "handoverDate": "2020-04-17"
+    },
+    {
+      "id": "16",
+      "managerAria": "明珠城（商业）",
+=======
       "customerName": "王浩",
       "handoverDate": "2020-06-18"
     },
     {
       "id": "3",
       "managerAria": "绿岛物业",
+>>>>>>> aa1e1db4f55f70d7fba7c89b17e196924842daa8
       "houseName": "A区6号楼",
       "roomCode": "FR-QDJ4",
       "buildUpArea": "892.6",

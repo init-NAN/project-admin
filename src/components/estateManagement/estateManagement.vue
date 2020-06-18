@@ -244,5 +244,9 @@ export default {
   .el-range-input {
     color: #fff;
   }
+  .hidden-card {
+    height: 100px;
+    width: 100%;
+  }
 }
 </style>

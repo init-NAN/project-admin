@@ -62,7 +62,6 @@
                 v-loading="listLoading"
                 ref="table"
                 @selection-change="handleSelectionChange"
-                @sort-change="handleSortChange"
                 :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
 
         <el-table-column prop="resourcesName"
@@ -101,7 +100,6 @@
       </el-pagination>
     </el-col>
 
-
     <el-col class="hidden-card"
             :sm="22"
             :md="15"
@@ -111,36 +109,64 @@
 </template>
 
 <script>
-import { getattrResours } from '../../http/attrResours.js';
+// import { getattrResours } from '../../http/attract/attrResours';
 export default {
   data () {
     return {
-      resources: [],
+      resources: [
+        {
+        date: "2019-05-03",
+        resourcesName: "王小虎",
+        address: "上海市普陀区金沙江路 1518 弄",
+        resourcesRoomS: "213",
+        resourcesArea: "20000",
+        resourcesLease: "18000",
+        resourcesl: "90",
+        resourcesVacant: "2000",
+        resourcesRate: "10",
+        resourcesUtilization: "90",
+        resourceslease: "230",
+        id: 1
+      },{
+        date: "2019-10-02",
+        resourcesName: "李二狗",
+        address: "上海市普陀区虹梅路 1518 弄",
+        resourcesRoomS: "124",
+        resourcesArea: "29000",
+        resourcesLease: "10000",
+        resourcesl: "34.4827",
+        resourcesVacant: "2000",
+        resourcesRate: "10",
+        resourcesUtilization: "90",
+        resourceslease: "230",
+        id: 2
+      },{
+        date: "2020-03-02",
+        resourcesName: "茄子",
+        address: "江苏普陀区金沙江路 1518 弄",
+        resourcesRoomS: "323",
+        resourcesArea: "20000",
+        resourcesLease: "18000",
+        resourcesl: "90",
+        resourcesVacant: "2000",
+        resourcesRate: "10",
+        resourcesUtilization: "90",
+        resourceslease: "230",
+        id: 3
+      },
+      
+      ],
+      checkedBox:[],
       page1: 1,
       listLoading: false,
-      total: 3,
+      total: 1,
       page: 1,
       pageSize: 10,
     }
   },
   methods: {
-    handleSortChange (col) {
-      if (col.prop == null) {
-        return;
-      }
-      this.order = (col.order === 'ascending') ? 'asc' : 'desc';
-      this.sort = col.prop;
-      this.searchDevice();
-    },
-    handleEdit (index, row) {
-      window.console.log(index, row);
-    },
-    handleDelete (index, row) {
-      window.console.log(index, row);
-    },
     handleSelectionChange: function (sels) {
-      this.sels = sels;
-      //console.log(this.ids);
+      this.checkedBox = sels;
     },
     handleSizeChange (size) {
       this.pageSize = size;
@@ -148,45 +174,23 @@ export default {
     },
     handleCurrentChange (val) {
       this.page = val;
-      this.getDeviceList();
+      this.getResourcesList();
     },
-    getDeviceList () {
+    getResourcesList () {
 
-      var searchParams = _.omitBy(this.searchForm, (item) => item == "" || _.isNil(item));
-      searchParams.page = this.page - 1;
-      searchParams.size = this.pageSize;
-      searchParams.sort = this.sort;//"deviceNo";
-      searchParams.order = this.order;//"asc";
-
-      this.listLoading = true;
-      AdminAPI.searchDevice(searchParams).then(({
-        data: jsonData
-      }) => {
-        if (jsonData.status === 0) {
-          this.total = jsonData.data.total;
-          this.devices = jsonData.data.content;
-          this.total = jsonData.data.totalElements;
-          this.listLoading = false;
-        } else {
-          this.$message({
-            messsage: `获取设备列表失败:${data.msg}`,
-            type: 'error'
-          })
-        }
-      });
-    },
-    loadData () {
-      
-      getattrResours().then(res => {
-        window.console.log(res);
-        this.resources = res.data.resources
-      })
+      // getattrResours().then(res => {
+      //   window.console.log(res);
+      //   if (res.status == 200) {
+      //     this.resources = res.data.resources
+      //     this.total = res.data.length
+      //   }
+      // })
 
     }
   },
-  created () {
-    this.loadData();
-  }
+  // created () {
+  //   this.getResourcesList();
+  // }
 }
 
 </script>

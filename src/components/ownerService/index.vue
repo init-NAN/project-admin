@@ -9,7 +9,6 @@ export default {};
 </script>
 
 <style lang="less" scope>
-// 右边固定的操作列样式
 .rec {
   .main-content {
     .registration-content {
@@ -116,6 +115,9 @@ export default {};
   }
   .el-table__body tr.hover-row > td {
     background-color: rgba(158, 162, 192, 0.5);
+  }
+  .el-table__fixed-right::before {
+    height: 0;
   }
   .el-table td {
     border: transparent;

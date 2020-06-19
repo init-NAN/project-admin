@@ -289,9 +289,11 @@ export default {
     },
     //编辑
     editCurrentRow() {
+      this.isShowNewEdit = true
       this.formTitle = '修改租赁详情'
       this.currentDiaType = 'edit'
       console.log(this.arrayIndex[0])
+      this.newEditForm = this.rentTable[this.arrayIndex[0]]
     },
     //删除
     deleteSelections() {
@@ -319,10 +321,10 @@ export default {
               console.log(this.newEditForm, 'this.newEditForm')
               this.rentTable.push({...this.newEditForm})
             } 
-            // else if(this.currentDiaType == 'edit') {
-            //   this.tableData[this.currentIndexEdit] = this.newEditForm
-            //   console.log(this.tableData[this.currentIndexEdit],'table')
-            // }
+            else if(this.currentDiaType == 'edit') {
+              this.rentTable[this.arrayIndex[0]] = this.newEditForm
+              console.log(this.rentTable[this.arrayIndex[0]],'table')
+            }
             this.isShowNewEdit = false
           } else {
             return false;

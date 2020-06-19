@@ -2,13 +2,13 @@
   <div class="main-content">
     <el-row class="overviewItem" type="flex">
       <el-col :span="11" :offset="1" class="overviewCard" :lg="11" :sm="23">
-        <div class="cardHead">交房总览</div>
+        <div class="cardHead">交房总览<i class="el-icon-refresh-right refresh"></i></div>
         <div class="cardBody">
           <div ref="handoverOverView" style="width:100%;height:280px;" class="handoverOverView"></div>
         </div>
       </el-col>
       <el-col :span="11" class="overviewCard" :offset="1" :lg="11" :sm="23">
-        <div class="cardHead">收房总览</div>
+        <div class="cardHead">收房总览<i class="el-icon-refresh-right refresh"></i></div>
         <div class="cardBody" style="width:100%;height:280px;">
           <div class="cCard">
             <div class="content">
@@ -50,13 +50,13 @@
     </el-row>
     <el-row class="overviewItem" type="flex">
       <el-col :span="8" class="overviewCard" :offset="1">
-        <div class="cardHead">入住总览</div>
+        <div class="cardHead">入住总览<i class="el-icon-refresh-right refresh"></i></div>
         <div class="cardBody">
           <div ref="checkInOverView" style="width:100%;height:280px;"></div>
         </div>
       </el-col>
       <el-col :span="14" class="overviewCard" :offset="1">
-        <div class="cardHead">装修登记总览</div>
+        <div class="cardHead">装修登记总览<i class="el-icon-refresh-right refresh"></i></div>
         <div class="cardBody" style="width:100%;height:280px;">
           <div class="cCard">
             <div class="content">
@@ -98,7 +98,7 @@
     </el-row>
     <el-row class="overviewItem" type="flex">
       <el-col :span="15" class="overviewCard" :offset="1">
-        <div class="cardHead">报修总览</div>
+        <div class="cardHead">报修总览<i class="el-icon-refresh-right refresh"></i></div>
         <div class="cardBody">
           <div ref="overViewRepaireApplication" style="width:100%;height:400px;"></div>
         </div>
@@ -391,6 +391,18 @@ export default {
         background-size: 100%;
         background-position: center 0;
         background: url("../../assets/type.png") no-repeat rgba(10, 13, 51, 0.3);
+        position: relative;
+        .refresh {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          color: #fff;
+          font-size: 20px;
+          cursor: pointer;
+          &:hover {
+            color: rgba(167, 166, 166, 0.89);
+          }
+        }
       }
       .cardBody {
         background: rgba(10, 13, 51, 0.7);

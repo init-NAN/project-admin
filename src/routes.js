@@ -64,6 +64,15 @@ const overviewEstate = () => import('./components/estateManagement/overviewsEsta
 //抄表计费管理
 const billingMeter = () => import('./components/estateManagement/billingMeter.vue')
 
+
+//财务中心
+const financialCenter = () => import('./components/financialCenter/index')
+const financialOverview = () => import('./components/financialCenter/financialOverview')
+const financialEcharts = () => import('./components/financialCenter/financialEcharts')
+const intentionMoney = () => import('./components/financialCenter/intentionMoney')
+const deposit = () => import('./components/financialCenter/deposit')
+const settlement = () => import('./components/financialCenter/settlement')
+
 let routes = [{
     path: '/',
     component: Main,
@@ -193,6 +202,36 @@ let routes = [{
             title: '抄表计费管理'
           }
         ]
+      },
+      {
+        path:'financialCenter',
+        component:financialCenter,
+        name:'',
+        redirect: '/financialCenter/financialEcharts',
+        title:'财务中心',
+        iconCls:'el-icon-bank-card',
+        children:[
+          {
+            path:'financialOverview',
+            component: financialOverview,
+            title:'应收总账'
+          },
+          {
+            path:'intentionMoney',
+            component: intentionMoney,
+            title:'意向金管理'
+          },
+          {
+            path:'deposit',
+            component:deposit,
+            title:'押金管理'
+          },
+          {
+            path:'settlement',
+            component:settlement,
+            title:'结算单'
+          }
+        ]
       }
     ]
   },
@@ -234,6 +273,14 @@ let routes = [{
           component: overviewEstate
         }, ]
       },
+      {
+        path: '/financialCenter',
+        component: financialCenter,
+        children: [{
+          path:'/financialCenter/financialEcharts',
+          component:financialEcharts
+        }]
+      }
     ]
   }
 ];

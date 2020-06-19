@@ -9,7 +9,6 @@ export default {};
 </script>
 
 <style lang="less" scope>
-// 右边固定的操作列样式
 .rec {
   .main-content {
     .registration-content {

@@ -81,11 +81,7 @@
         <el-table-column prop="customerName" label="客户名称" width="140"></el-table-column>
         <el-table-column prop="chargeItem" label="收费项" width="140"></el-table-column>
         <el-table-column prop="billMonth" label="账单月份" width="140"></el-table-column>
-        <el-table-column prop="shouldReceive" label="应收(元)" width="140">
-          <template slot-scope="scope">
-            <el-button type="text" class="table-show">{{scope.row.shouldReceive}}</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column prop="shouldReceive" label="应收(元)" width="140"></el-table-column>
         <el-table-column prop="havenReceive" label="已收(元)" width="140"></el-table-column>
         <el-table-column prop="notReceive" label="未收(元)" width="140"></el-table-column>
         <el-table-column prop="adjustMoney" label="调整金额(元)" width="140"></el-table-column>
@@ -121,8 +117,8 @@
           </el-row>
           <el-row type="flex" justify="space-between">
             <el-col :span="10">
-              <el-form-item label="收费项" prop="roomCode">
-                <el-select v-model="editForm.charge" placeholder="请选择收费项">
+              <el-form-item label="收费项" prop="chargeItem">
+                <el-select v-model="editForm.chargeItem" placeholder="请选择收费项">
                   <el-option
                     v-for="item in chargesList"
                     :key="item.value"
@@ -137,6 +133,7 @@
                 <el-date-picker
                   v-model="editForm.billMonth"
                   type="month"
+                  value-format="yyyy-MM"
                   placeholder="请选择账单月份">
                 </el-date-picker>
               </el-form-item>
@@ -145,33 +142,28 @@
           <el-row type="flex" justify="space-between">
             <el-col :span="10">
               <el-form-item label="应收款" prop="shouldReceive">
-                <el-input type="text" placeholder="请输入应收款" v-model="editForm.shouldReceive"></el-input>
+                <el-input type="text" placeholder="请输入应收款" v-model.number="editForm.shouldReceive"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="已收款" prop="havenReceive">
-                <el-input type="text" placeholder="请输入已收款" v-model="editForm.havenReceive"></el-input>
+                <el-input type="text" placeholder="请输入已收款" v-model.number="editForm.havenReceive"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row type="flex" justify="space-between">
-            <el-col :span="10">
-              <el-form-item label="未收款" prop="notReceive">
-                <el-input type="text" placeholder="请输入未收款" v-model="editForm.notReceive"></el-input>
-              </el-form-item>
-            </el-col>
             <el-col :span="10">
               <el-form-item label="调整金" prop="adjustMoney">
                 <el-input type="text" placeholder="请输入调整金" v-model="editForm.adjustMoney"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row type="flex" justify="space-between">
             <el-col :span="10">
               <el-form-item label="滞纳金" prop="LatePayment">
                 <el-input type="text" placeholder="请输入滞纳金" v-model="editForm.LatePayment"></el-input>
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
             <el-col :span="10">
               <el-form-item label="账单生成日期" prop="buildDate">
                 <el-date-picker
@@ -183,8 +175,6 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row type="flex" justify="space-between">
             <el-col :span="10">
               <el-form-item label="缴纳状态" prop="state">
                 <el-radio v-model="editForm.state" label="0">未缴清</el-radio>
@@ -207,6 +197,7 @@ export default {
     return {
       searchForm:{},
       searchFormRules:{},
+      editIndex:0,
       chargesList:[
         {value:'ZJ', label:'租金'},
         {value:'GLF', label:'管理费'},
@@ -229,20 +220,51 @@ export default {
       totalCharTable:[
         {
           roomCode:'R1',
-          customerName:'客户名称',
-          chargeItem:'电费',
-          billMonth:'2020-5',
-          shouldReceive:'10000',
-          havenReceive:'8000',
-          notReceive:'2000',
-          adjustMoney:'1000',
-          LatePayment:'1000',
+          customerName:'袁华',
+          chargeItem:'水费',
+          billMonth:'2020-6',
+          shouldReceive:1000,
+          havenReceive:800,
+          notReceive:200,
+          adjustMoney:100,
+          LatePayment:1000,
           state:'0',
           buildDate:'2020-6-11'
+        },
+        {
+          roomCode:'R2',
+          customerName:'马冬梅',
+          chargeItem:'电费',
+          billMonth:'2020-5',
+          shouldReceive:10000,
+          havenReceive:8000,
+          notReceive:2000,
+          adjustMoney:1000,
+          LatePayment:1000,
+          state:'1',
+          buildDate:'2020-6-1'
         }
       ],
       editForm:{},
-      editFormRules:{}
+      editFormRules:{
+        roomCode:[{ required: true, message: "请输入房间号", trigger: "blur" }],
+        customerName:[{ required: true, message: "请输入客户姓名", trigger: "blur" }],
+        chargeItem:[{ required: true, message: "请选择收费项", trigger: "blur" }],
+        billMonth:[{ required: true, message: "请选择账单月份", trigger: "blur" }],
+        shouldReceive:[
+          { required: true, message: "请输入应收款", trigger: "blur" },
+          { type:'number', message: "应收款必须为数值"}
+        ],
+        havenReceive:[
+          { required: true, message: "请输入已收款", trigger: "blur" },
+          { type:'number', message: "已收款必须为数值"}
+        ],
+        notReceive:[{ required: true, message: "请输入未收款", trigger: "blur" }],
+        adjustMoney:[{ required: true, message: "请输入调整金", trigger: "blur" }],
+        LatePayment:[{ required: true, message: "请输入滞纳金", trigger: "blur" }],
+        state:[{ required: true, message: "请选择缴费状态", trigger: "blur" }],
+        buildDate:[{ required: true, message: "请选择账单生成日期", trigger: "blur" }]
+      }
     }
   },
   methods:{
@@ -272,14 +294,19 @@ export default {
     },
     editCurrentRow(index, row) {
       this.showEditDia = true
-      console.log(this.editForm)
       this.editForm = {...this.totalCharTable[index]}
+      this.editIndex = index
     },
     cancelEdit(formName) {
       this.showEditDia = false
     },
+    showReceiveTotal() {
+      
+    },
     submitEdit(formName) {
-
+      this.editForm['notReceive'] = this.editForm.shouldReceive - this.editForm.havenReceive
+      this.totalCharTable[this.editIndex] = this.editForm
+      this.showEditDia = false
     }
   }
 }

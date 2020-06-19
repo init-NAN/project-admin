@@ -12,6 +12,17 @@ export default {
 
 <style lang="less">
 .wraper {
+  .main-content {
+    .grid-content {
+      .btnHeader {
+        display: flex;
+        justify-content: space-between;
+        .right {
+          display: flex;
+        }
+      }
+    } 
+  }
   .btn-addmore {
     border: none;
     background: linear-gradient(

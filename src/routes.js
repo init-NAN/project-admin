@@ -69,7 +69,9 @@ const billingMeter = () => import('./components/estateManagement/billingMeter.vu
 const financialCenter = () => import('./components/financialCenter/index')
 const financialOverview = () => import('./components/financialCenter/financialOverview')
 const financialEcharts = () => import('./components/financialCenter/financialEcharts')
-
+const intentionMoney = () => import('./components/financialCenter/intentionMoney')
+const deposit = () => import('./components/financialCenter/deposit')
+const settlement = () => import('./components/financialCenter/settlement')
 
 let routes = [{
     path: '/',
@@ -213,6 +215,21 @@ let routes = [{
             path:'financialOverview',
             component: financialOverview,
             title:'应收总账'
+          },
+          {
+            path:'intentionMoney',
+            component: intentionMoney,
+            title:'意向金管理'
+          },
+          {
+            path:'deposit',
+            component:deposit,
+            title:'押金管理'
+          },
+          {
+            path:'settlement',
+            component:settlement,
+            title:'结算单'
           }
         ]
       }

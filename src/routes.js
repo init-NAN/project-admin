@@ -86,7 +86,7 @@ let routes = [{
           {
             path: 'contract',
             component: contract,
-            title: '合同',
+            title: '合同列表',
           },
           {
             path: 'customer',

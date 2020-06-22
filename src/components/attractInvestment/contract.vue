@@ -99,7 +99,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="当前合同">
+      <el-tab-pane label="销售当前合同">
         <el-row class="margin-bottom">
           <el-col :span="2">
             <el-button class="btn-addmore"
@@ -702,7 +702,7 @@ export default {
             //     this.loadData();
             //   }
             // })
-            this.contract[this.editIndex] = this.form
+            this.contract[this.editIndex] = { ...this.form }
             this.addCustomerVisibel = false
           }
         } else {

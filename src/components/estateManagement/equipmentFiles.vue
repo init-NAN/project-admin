@@ -593,7 +593,7 @@ export default {
             this.tableData.unshift({ ...this.form });
             this.isEquipment = false
           } else if (this.addEquipFiles == '编辑设备档案') {
-            this.tableData[this.equipRowIndex] = this.form
+            this.tableData[this.equipRowIndex] = { ...this.form }
             this.isEquipment = false
           } else {
             this.$message('页面已关闭')

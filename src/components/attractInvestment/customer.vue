@@ -451,7 +451,7 @@ export default {
           }
           else if (this.addDialogTitle == '编辑客户') {
             window.console.log(this.form)
-            this.tableData[this.editIndex] = this.form
+            this.tableData[this.editIndex] = { ...this.form }
             window.console.log(this.tableData[this.editIndex])
             this.addCustomerVisibel = false;
           }

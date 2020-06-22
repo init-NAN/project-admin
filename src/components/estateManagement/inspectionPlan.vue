@@ -275,7 +275,8 @@
             </el-row>
             <el-row :gutter="30">
               <el-col :span="24">
-                <el-form-item prop="label" label="保养状态:">
+                <el-form-item prop="label"
+                              label="保养状态:">
                   <el-select v-model="form.label"
                              placeholder="">
                     <el-option label="已启用"
@@ -376,7 +377,7 @@ export default {
           { required: true, message: "名称不能为空", trigger: "blur" },
           { min: 1, message: "名称不能为空", trigger: "blur" }
         ],
-        label:[{ required: true, message: "请选择状态", trigger: "change" },]
+        label: [{ required: true, message: "请选择状态", trigger: "change" },]
       },
       inspectionIndex: '',
     }
@@ -393,31 +394,6 @@ export default {
     searchDevice () {
       this.page = 1;
       this.getDeviceList();
-    },
-    getDeviceList () {
-
-      var searchParams = _.omitBy(this.searchForm, (item) => item == "" || _.isNil(item));
-      searchParams.page = this.page - 1;
-      searchParams.size = this.pageSize;
-      searchParams.sort = this.sort;//"deviceNo";
-      searchParams.order = this.order;//"asc";
-
-      this.listLoading = true;
-      AdminAPI.searchDevice(searchParams).then(({
-        data: jsonData
-      }) => {
-        if (jsonData.status === 0) {
-          this.total = jsonData.data.total;
-          this.devices = jsonData.data.content;
-          this.total = jsonData.data.totalElements;
-          this.listLoading = false;
-        } else {
-          this.$message({
-            messsage: `获取设备列表失败:${data.msg}`,
-            type: 'error'
-          })
-        }
-      });
     },
     // context menu
     handleSelectionChange: function (sels) {
@@ -499,17 +475,17 @@ export default {
         if (valid) {
           // alert('submit')
           if (this.inspectionTitle == '新建巡检计划') {
-            this.tableData.unshift({...this.form});
+            this.tableData.unshift({ ...this.form });
             this.isInspection = false
           } else if (this.inspectionTitle == '编辑巡检计划') {
-            this.tableData[this.inspectionIndex] = this.form
+            this.tableData[this.inspectionIndex] = { ...this.form }
             this.isInspection = false
           } else {
             this.$message('页面已关闭')
             this.isInspection = false
           }
         } else {
-          console.log('error submit!!');
+          // console.log('error submit!!');
           return false;
         }
       });

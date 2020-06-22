@@ -14,6 +14,7 @@ export default {
 .wraper {
   .main-content {
     .grid-content {
+      margin-bottom: 15px;
       .btnHeader {
         display: flex;
         justify-content: space-between;

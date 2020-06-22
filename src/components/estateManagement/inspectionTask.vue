@@ -386,7 +386,7 @@ export default {
     changeRegion(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.tableData[this.inTaskIndex] = this.form
+          this.tableData[this.inTaskIndex] = { ...this.form }
           this.tableData[this.inTaskIndex].pType = '已分配'
           this.$message('分派成功')
           this.isInscection = false
@@ -404,7 +404,7 @@ export default {
       this.inTaskIndex = index
     },
     changeVisit() {
-          this.tableData[this.inTaskIndex] = this.form
+          this.tableData[this.inTaskIndex] = { ...this.form }
           this.$message('备注成功')
           this.isVisit = false
     },

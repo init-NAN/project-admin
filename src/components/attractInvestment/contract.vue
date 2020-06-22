@@ -2,94 +2,168 @@
   <div class="contract">
     <div class="current-page-title">
       <span>合同列表</span>
+      <div class="line"></div>
     </div>
-    <el-row class="margin-bottom">
-      <el-col :span="2">
-        <el-button class="btn-addmore"
-                   @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
-      </el-col>
-      <el-col :span="3">
-        <el-button :disabled='this.checkedBox.length===0'
-                   class="btn-trans"
-                   @click="delectAll()">批量删除</el-button>
-      </el-col>
-    </el-row>
-    <el-table :data="contract"
-              v-loading="listLoading"
-              ref="table"
-              @selection-change="handleSelectionChange"
-              @sort-change="handleSortChange"
-              :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
-      <el-table-column type="selection"
-                       width="55">
-      </el-table-column>
-      <el-table-column prop="management"
-                       label="管理区"
-                       width="150"></el-table-column>
+    <el-tabs :tab-position="tabPosition"
+             style="height: 100%;">
+      <el-tab-pane label="合同列表总览">
+        <el-row class="margin-bottom">
+          <el-col :span="2">
+            <el-button class="btn-addmore"
+                       @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-button :disabled='this.checkedBox.length===0'
+                       class="btn-trans"
+                       @click="delectAll()">批量删除</el-button>
+          </el-col>
+        </el-row>
+        <el-table :data="contract"
+                  v-loading="listLoading"
+                  ref="table"
+                  @selection-change="handleSelectionChange"
+                  @sort-change="handleSortChange"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+          <el-table-column prop="management"
+                           label="管理区"
+                           width="150"></el-table-column>
 
-      <el-table-column prop="contractNo"
-                       label="合同编号"
-                       width="100"></el-table-column>
+          <el-table-column prop="contractNo"
+                           label="合同编号"
+                           width="100"></el-table-column>
 
-      <el-table-column prop="contractName"
-                       label="合同名称"
-                       width="100"></el-table-column>
+          <el-table-column prop="contractName"
+                           label="合同名称"
+                           width="100"></el-table-column>
 
-      <el-table-column prop="peoName"
-                       label="租户姓名"
-                       width="100"></el-table-column>
+          <el-table-column prop="peoName"
+                           label="租户姓名"
+                           width="110"></el-table-column>
 
-      <el-table-column prop="resourceCode"
-                       label="资源代码"
-                       width="90"></el-table-column>
+          <el-table-column prop="tel"
+                           label="联系方式"
+                           width="130"></el-table-column>
 
-      <el-table-column prop="resourcePropertyType"
-                       label="产权类型"
-                       width="100"></el-table-column>
+          <el-table-column prop="resourceCode"
+                           label="资源代码"
+                           width="90"></el-table-column>
 
-      <el-table-column prop="per"
-                       label="收费标准"
-                       width="80"></el-table-column>
+          <el-table-column prop="resourcePropertyType"
+                           label="产权类型"
+                           width="100"></el-table-column>
 
-      <el-table-column prop="date"
-                       label="费用应收日期"
-                       width="130"></el-table-column>
+          <el-table-column prop="per"
+                           label="收费标准"
+                           width="80"></el-table-column>
 
-      <el-table-column prop="costCycle"
-                       label="费用周期"
-                       width="100"></el-table-column>
+          <el-table-column prop="date"
+                           label="费用应收日期"
+                           width="130"></el-table-column>
 
-      <el-table-column prop="amountReceivable"
-                       label="应收金额"
-                       width="100"></el-table-column>
+          <el-table-column prop="costCycle"
+                           label="费用周期"
+                           width="100"></el-table-column>
 
-      <el-table-column prop="amountPaid"
-                       label="已缴金额"
-                       width="100"></el-table-column>
+          <el-table-column prop="amountReceivable"
+                           label="应收金额"
+                           width="100"></el-table-column>
 
-      <el-table-column prop="refundAmount"
-                       label="退款金额"
-                       width="100"></el-table-column>
+          <el-table-column prop="amountPaid"
+                           label="已缴金额"
+                           width="100"></el-table-column>
 
-      <el-table-column prop="amountOwed"
-                       label="欠费金额"
-                       width="100"></el-table-column>
+          <el-table-column prop="refundAmount"
+                           label="退款金额"
+                           width="100"></el-table-column>
 
-      <el-table-column label="操作"
-                       fixed="right"
-                       width="100">
-        <template slot-scope="scope">
-          <el-button type="text"
-                     size="small"
-                     class="table-show"
-                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="text"
-                     size="small"
-                     class="table-del"
-                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+          <el-table-column prop="amountOwed"
+                           label="欠费金额"
+                           width="100"></el-table-column>
+
+          <el-table-column label="操作"
+                           fixed="right"
+                           width="100">
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-del"
+                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="销售当前合同">
+        <el-row class="margin-bottom">
+          <el-col :span="2">
+            <el-button class="btn-addmore"
+                       @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-button :disabled='this.checkedBox.length===0'
+                       class="btn-trans"
+                       @click="delectAll()">批量删除</el-button>
+          </el-col>
+        </el-row>
+        <el-table :data="contract"
+                  v-loading="listLoading"
+                  ref="table1"
+                  @selection-change="handleSelectionChange"
+                  @sort-change="handleSortChange"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+
+          <el-table-column prop="contractName"
+                           label="合同名称"></el-table-column>
+
+          <el-table-column prop="contractNo"
+                           label="合同编号"></el-table-column>
+
+          <el-table-column prop="peoName"
+                           label="客户名称"></el-table-column>
+
+          <el-table-column prop="signingDate"
+                           label="签订日期"></el-table-column>
+
+          <el-table-column prop="startDate"
+                           label="起始日期"></el-table-column>
+
+          <el-table-column prop="endDate"
+                           label="截止日期"></el-table-column>
+
+          <el-table-column prop="contractSource"
+                           label="合同来源"></el-table-column>
+
+          <el-table-column prop="status"
+                           label="合同状态"></el-table-column>
+
+          <el-table-column prop="registrant"
+                           label="登记人"></el-table-column>
+
+          <el-table-column label="操作"
+                           width="150">
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-del"
+                         @click="handleDelete(scope.$index, scope.row)">合同退租</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
     <el-col class="toolbar">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
@@ -189,6 +263,55 @@
               </el-col>
             </el-row>
             <el-row :gutter="30">
+              <el-col :span="12">
+                <el-form-item label="产权类型:">
+                  <el-select v-model="form.resourcePropertyType"
+                             placeholder="请选择产权类型">
+                    <el-option label="全部产权"
+                               value="全部产权"></el-option>
+                    <el-option label="小产权"
+                               value="小产权"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="合同来源:">
+                  <el-select v-model="form.contractSource"
+                             placeholder="请选择合同来源">
+                    <el-option label="新签订"
+                               value="新签订"></el-option>
+                    <el-option label="续签"
+                               value="续签"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="12">
+                <el-form-item label="合同有效期:">
+                  <el-date-picker v-model="form.dateValidity"
+                                  type="daterange"
+                                  range-separator="~"
+                                  format="yyyy-MM-dd"
+                                  value-format="yyyy-MM-dd"
+                                  start-placeholder="开始日期"
+                                  end-placeholder="结束日期">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="合同状态:">
+                  <el-select v-model="form.status"
+                             placeholder="请选择合同状态">
+                    <el-option label="正常"
+                               value="正常"></el-option>
+                    <el-option label="失效"
+                               value="失效"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
               <el-col :span="6">
                 <el-form-item label="应收金额:">
                   <el-input v-model="form.amountReceivable"
@@ -214,19 +337,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row :gutter="30">
-              <el-col :span="12">
-                <el-form-item label="产权类型:">
-                  <el-select v-model="form.resourcePropertyType"
-                             placeholder="请选择产权类型">
-                    <el-option label="全部产权"
-                               value="全部产权"></el-option>
-                    <el-option label="小产权"
-                               value="小产权"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
           </el-form>
         </el-card>
       </div>
@@ -246,6 +356,7 @@
 export default {
   data () {
     return {
+      tabPosition: 'left',
       contract: [
         {
           date: "2016-06-02",
@@ -260,7 +371,15 @@ export default {
           amountPaid: "12322",
           refundAmount: "0",
           amountOwed: "23123",
-          id: 1
+          id: 1,
+          signingDate: '2020-03-12',
+          startDate: '2020-03-12',
+          endDate: '2021-03-06',
+          contractSource: '新签',
+          status: '正常',
+          registrant: '123222',
+          dateValidity: ['2020-03-12', '2021-03-06'],
+          tel:'13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -274,7 +393,15 @@ export default {
           amountPaid: "22",
           refundAmount: "0",
           amountOwed: "123",
-          id: 2
+          id: 2,
+          signingDate: '2020-03-12',
+          startDate: '2020-03-12',
+          endDate: '2021-03-06',
+          contractSource: '新签',
+          status: '正常',
+          registrant: '123222',
+          dateValidity: ['2020-03-12', '2021-03-06'],
+          tel:'13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -288,7 +415,15 @@ export default {
           amountPaid: "12322",
           refundAmount: "0",
           amountOwed: "23123",
-          id: 3
+          id: 3,
+          signingDate: '2020-03-12',
+          startDate: '2020-03-12',
+          endDate: '2021-03-06',
+          contractSource: '新签',
+          status: '正常',
+          registrant: '123222',
+          dateValidity: ['2020-03-12', '2021-03-06'],
+          tel:'13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -302,7 +437,15 @@ export default {
           amountPaid: "12322",
           refundAmount: "0",
           amountOwed: "23123",
-          id: 4
+          id: 4,
+          signingDate: '2020-03-12',
+          startDate: '2020-03-12',
+          endDate: '2021-03-06',
+          contractSource: '新签',
+          status: '正常',
+          registrant: '123222',
+          dateValidity: ['2020-03-12', '2021-03-06'],
+          tel:'13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -316,7 +459,15 @@ export default {
           amountPaid: "12322",
           refundAmount: "0",
           amountOwed: "23123",
-          id: 5
+          id: 5,
+          signingDate: '2020-03-12',
+          startDate: '2020-03-12',
+          endDate: '2021-03-06',
+          contractSource: '新签',
+          status: '正常',
+          registrant: '123222',
+          dateValidity: ['2020-03-12', '2021-03-06'],
+          tel:'13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -330,7 +481,15 @@ export default {
           amountPaid: "12322",
           refundAmount: "0",
           amountOwed: "23123",
-          id: 6
+          id: 6,
+          signingDate: '2020-03-12',
+          startDate: '2020-03-12',
+          endDate: '2021-03-06',
+          contractSource: '新签',
+          status: '正常',
+          registrant: '123222',
+          dateValidity: ['2020-03-12', '2021-03-06'],
+          tel:'13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -344,7 +503,15 @@ export default {
           amountPaid: "12322",
           refundAmount: "0",
           amountOwed: "23123",
-          id: 7
+          id: 7,
+          signingDate: '2020-03-12',
+          startDate: '2020-03-12',
+          endDate: '2021-03-06',
+          contractSource: '新签',
+          status: '正常',
+          registrant: '123222',
+          dateValidity: ['2020-03-12', '2021-03-06'],
+          tel:'13298235028'
         },
       ],
       page1: 1,
@@ -490,7 +657,21 @@ export default {
       this.editIndex = index
       this.editId = item.id
     },
-
+    getTimeNow () {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      return currentdate;
+    },
 
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
@@ -506,6 +687,10 @@ export default {
             //     this.loadData();
             //   }
             // })
+            this.form.startDate = this.form.dateValidity[0];
+            this.form.endDate = this.form.dateValidity[1];
+            this.form.signingDate = this.getTimeNow();
+
             this.contract.unshift({ ...this.form });
             this.addCustomerVisibel = false
           } else if (this.addDialogTitle == '编辑合同') {
@@ -517,7 +702,7 @@ export default {
             //     this.loadData();
             //   }
             // })
-            this.contract[this.editIndex] = this.form
+            this.contract[this.editIndex] = { ...this.form }
             this.addCustomerVisibel = false
           }
         } else {
@@ -609,6 +794,13 @@ export default {
   /deep/ .el-dialog__footer {
     background: url("./../../assets/comment/type(2).png") no-repeat right;
     padding: 50px 20px 20px;
+  }
+
+  .el-tabs__item {
+    color: rgba(255, 255, 255, 1);
+  }
+  .el-tabs__item.is-active {
+    color: #4094ff;
   }
 }
 </style>

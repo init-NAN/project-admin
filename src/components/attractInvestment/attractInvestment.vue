@@ -126,5 +126,15 @@ export default {
   .el-select {
     width: 100%;
   }
+  .el-range-input {
+    background-color: transparent;
+    color: #fff;
+  }
+  .el-date-editor .el-range-separator {
+    color: #fff;
+  }
+  .el-date-editor--daterange.el-input__inner {
+    width: 100%;
+  }
 }
 </style>

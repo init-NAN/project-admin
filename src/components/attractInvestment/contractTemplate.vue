@@ -249,31 +249,6 @@ export default {
       this.page = 1;
       this.getDeviceList();
     },
-    getDeviceList () {
-
-      var searchParams = _.omitBy(this.searchForm, (item) => item == "" || _.isNil(item));
-      searchParams.page = this.page - 1;
-      searchParams.size = this.pageSize;
-      searchParams.sort = this.sort;//"deviceNo";
-      searchParams.order = this.order;//"asc";
-
-      this.listLoading = true;
-      AdminAPI.searchDevice(searchParams).then(({
-        data: jsonData
-      }) => {
-        if (jsonData.status === 0) {
-          this.total = jsonData.data.total;
-          this.devices = jsonData.data.content;
-          this.total = jsonData.data.totalElements;
-          this.listLoading = false;
-        } else {
-          this.$message({
-            messsage: `获取设备列表失败:${data.msg}`,
-            type: 'error'
-          })
-        }
-      });
-    },
 
     showRole (item) {
       window.console.log(item);

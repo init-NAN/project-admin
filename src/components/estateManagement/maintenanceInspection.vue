@@ -408,7 +408,7 @@ export default {
     changeMaintenanceRegion(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.tableData[this.inMaintenceIndex] = this.form
+          this.tableData[this.inMaintenceIndex] = { ...this.form }
           this.tableData[this.inMaintenceIndex].pType = '已分配'
           this.$message('分派成功')
           this.isMaintenance = false
@@ -426,7 +426,7 @@ export default {
       this.inMaintenceIndex = index
     },
     changeDesc() {
-          this.tableData[this.inMaintenceIndex] = this.form
+          this.tableData[this.inMaintenceIndex] = { ...this.form }
           this.$message('备注成功')
           this.isDesc = false
     },

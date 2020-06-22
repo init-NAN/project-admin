@@ -22,7 +22,7 @@ export default {
           display: flex;
         }
       }
-    } 
+    }
   }
   .btn-addmore {
     border: none;
@@ -54,14 +54,13 @@ export default {
       .el-form-item__label-wrap {
         margin-left: 0 !important;
         .el-form-item__label {
-        font-size: 14px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: rgba(255, 255, 255, 1);
+          font-size: 14px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
         }
       }
     }
-    
   }
   .el-table th,
   .el-table tr {
@@ -88,7 +87,8 @@ export default {
       .el-form-item {
         .el-form-item__content {
           .el-date-editor {
-            .el-range-input, .el-range-separator {
+            .el-range-input,
+            .el-range-separator {
               background-color: transparent;
               color: rgba(255, 255, 255, 1);
             }
@@ -96,17 +96,17 @@ export default {
           .el-textarea {
             .el-textarea__inner {
               background: transparent;
-              color:rgba(255, 255, 255, 1);
-            } 
+              color: rgba(255, 255, 255, 1);
+            }
           }
         }
       }
     }
-    /deep/ .el-dialog__header  {
+    /deep/ .el-dialog__header {
       padding: 10px 20px 10px;
       background: url("../../assets/comment/type(1).png") no-repeat;
       .el-dialog__title {
-        color: #FFF;
+        color: #fff;
       }
     }
     /deep/ .el-dialog__footer {
@@ -152,10 +152,24 @@ export default {
   .el-date-editor {
     width: 100%;
   }
-  .el-input__inner,.el-input.is-disabled .el-input__inner {
+  .el-input__inner,
+  .el-input.is-disabled .el-input__inner {
     background-color: transparent;
     border: 1px solid rgba(158, 162, 192, 1);
     color: #fff;
+  }
+  .margin-bottom {
+    margin-bottom: 20px;
+  }
+  .margin-top {
+    margin-top: 20px;
+  }
+  .hidden-card {
+    height: 100px;
+    width: 100%;
+  }
+  .el-select {
+    width: 100%;
   }
 }
 </style>

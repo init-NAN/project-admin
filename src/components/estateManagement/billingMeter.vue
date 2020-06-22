@@ -339,7 +339,7 @@ export default {
     },
     //计数器
     handleChange (value) {
-      console.log(value);
+      window.console.log(value);
     },
     //fenye
     handleSizeChange (size) {
@@ -438,7 +438,7 @@ export default {
             this.billing.unshift({ ...this.form });
             this.isBillingMeter = false
           } else if (this.addBillingMeterTitle == '编辑抄表') {
-            this.billing[this.billingIndex] = this.form;
+            this.billing[this.billingIndex] = { ...this.form }
             this.isBillingMeter = false
           }
         } else {

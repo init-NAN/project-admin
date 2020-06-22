@@ -72,6 +72,7 @@ const financialEcharts = () => import('./components/financialCenter/financialEch
 const intentionMoney = () => import('./components/financialCenter/intentionMoney')
 const deposit = () => import('./components/financialCenter/deposit')
 const settlement = () => import('./components/financialCenter/settlement')
+const charges = () => import('./components/financialCenter/charges.vue')
 
 let routes = [{
     path: '/',
@@ -95,7 +96,7 @@ let routes = [{
           {
             path: 'contract',
             component: contract,
-            title: '合同',
+            title: '合同列表',
           },
           {
             path: 'customer',
@@ -230,7 +231,12 @@ let routes = [{
             path:'settlement',
             component:settlement,
             title:'结算单'
-          }
+          },
+          {
+            path:'charges',
+            component:charges,
+            title:'收费项'
+          },
         ]
       }
     ]

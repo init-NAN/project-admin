@@ -746,35 +746,35 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       })
-        .then(() => {
-          // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
-          for (let i = 0; i < this.tableData.length; i++) {
-            const element = this.tableData[i];
-            element.id = i;
-          }
-          this.multipleSelection.forEach(element => {
-            this.tableData.forEach((e, i) => {
-              if (element.id == e.id) {
-                this.tableData.splice(i,1)
-                // HandOver.delHandOver(element.id,1).then(res => {
-                //   if(res.status == 200) {
-                //     this.loadingData()
-                //   }
-                // })
-              }
-            });
-          });
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
+      .then(() => {
+        // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+        for (let i = 0; i < this.tableData.length; i++) {
+          const element = this.tableData[i];
+          element.id = i;
+        }
+        this.multipleSelection.forEach(element => {
+          this.tableData.forEach((e, i) => {
+            if (element.id == e.id) {
+              this.tableData.splice(i,1)
+              // HandOver.delHandOver(element.id,1).then(res => {
+              //   if(res.status == 200) {
+              //     this.loadingData()
+              //   }
+              // })
+            }
           });
         });
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+      })
+      .catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
     },
     showAddRegistration() {
       this.isShowrRegistation = true;

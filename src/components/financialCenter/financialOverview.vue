@@ -101,6 +101,17 @@
           </template>
         </el-table-column>
     </el-table>
+    <el-col class="toolbar">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
+    </el-col>
     <el-dialog title="编辑账单" :visible.sync="showEditDia" width="85%">
         <el-form ref="editForm" :model="editForm" :rules="editFormRules" label-width="auto">
           <el-row type="flex" justify="space-between">
@@ -195,6 +206,9 @@
 export default {
   data() {
     return {
+      total: 0,
+      page: 1,
+      pageSize: 10,
       searchForm:{},
       searchFormRules:{},
       editIndex:0,
@@ -268,6 +282,14 @@ export default {
     }
   },
   methods:{
+    handleSizeChange(size) {
+      this.pageSize = size;
+      this.handleCurrentChange(1);
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getDeviceList();
+    },
     reSeting(formName) {
       this.$refs[formName].resetFields();
     },

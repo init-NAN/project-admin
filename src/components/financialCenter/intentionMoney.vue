@@ -39,6 +39,15 @@
           </template>
         </el-table-column>
     </el-table>
+    <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+    </el-pagination>
     <el-dialog title="意向金详情" :visible.sync="isShowIntention" width="85%">
       <el-form ref="intentionForm" :model="intentionForm" :rules="intentionFormRules" label-width="auto">
         <el-row type="flex" justify="space-between">
@@ -105,6 +114,9 @@
 export default {
   data() {
     return {
+      total: 0,
+      page: 1,
+      pageSize: 10,
       listLoading: false,
       inputSearch:'',
       selectionLengh:0,
@@ -144,6 +156,14 @@ export default {
     }
   },
   methods:{
+    handleSizeChange(size) {
+      this.pageSize = size;
+      this.handleCurrentChange(1);
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getDeviceList();
+    },
     handleSelectionChange(val) {
       this.arrayIndex = [];
       this.selectionLengh = val.length;

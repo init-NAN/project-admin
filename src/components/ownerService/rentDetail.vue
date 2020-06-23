@@ -200,9 +200,9 @@ export default {
             trigger: "blur"
           }
         ],
-        roomType:[{required: true, min: 0, message: "请选择房间类型", trigger: "blur"}],
-        buildUpArea: [{required: true, min: 0, message: "请输入建筑面积", trigger: "blur"}],
-        isPay:[{required: true, min: 0, message: "请选择缴费情况", trigger: "blur"}]
+        roomType:[{required: true, message: "请选择房间类型", trigger: "blur"}],
+        buildUpArea: [{required: true, message: "请输入建筑面积", trigger: "blur"}],
+        isPay:[{required: true,message: "请选择缴费情况", trigger: "blur"}]
       },
       managerAreaList: [
         {

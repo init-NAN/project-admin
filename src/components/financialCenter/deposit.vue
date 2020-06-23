@@ -9,8 +9,8 @@
           <el-button  type="primary" class="btn-addmore" @click="newDeposit">新增</el-button>
           <el-button  type="primary" class="btn-addmore" @click="editDeposit">修改</el-button>
           <el-button  type="primary" class="btn-addmore" @click="deleteSelections">删除</el-button>
-          <el-button  type="primary" class="btn-addmore" @click="checkDeposit">查看</el-button>
-          <el-button  type="primary" class="btn-addmore" @click="checkHasSend">已发</el-button>
+          <el-button  type="primary" class="btn-addmore" @click="checkDeposit" :disabled="disCheck">查看</el-button>
+          <!-- <el-button  type="primary" class="btn-addmore" @click="checkHasSend">已发</el-button> -->
         </div>
         <div class="right">
           <el-input v-model="inputSearch"  placeholder="搜索..." class="searchInput"></el-input>
@@ -36,48 +36,53 @@
           </template>
         </el-table-column>
     </el-table>
+    <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+    </el-pagination>
     <el-dialog :title="depositTitle" :visible.sync="isShowDia" width="85%">
       <el-form ref="depositForm" :model="depositForm" :rules="depositFormRules" label-width="auto">
         <el-row type="flex" justify="space-between">
           <el-col :span="10">
             <el-form-item label="客户姓名" prop="customerName">
-              <el-input v-model="depositForm.customerName"></el-input>
+              <el-input v-model="depositForm.customerName" placeholder="请输入客户姓名" :disabled="checked"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label="合同编号" prop="contract">
-              <el-input v-model="depositForm.contract"></el-input>
+              <el-input v-model="depositForm.contract" placeholder="请输入合同编号" :disabled="checked"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="space-between">
           <el-col :span="10">
             <el-form-item label="押金总额" prop="allDeposit">
-              <el-input v-model="depositForm.allDeposit"></el-input>
+              <el-input v-model="depositForm.allDeposit" placeholder="请输入押金总额" :disabled="checked"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label="剩余押金" prop="restDeposit">
-              <el-input v-model="depositForm.restDeposit"></el-input>
+              <el-input v-model="depositForm.restDeposit" placeholder="请输入剩余押金" :disabled="checked"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="space-between">
           <el-col :span="10">
             <el-form-item label="退还状态" prop="isReturned">
-              <el-radio v-model="depositForm.isReturned" label="1">已退还</el-radio>
+              <el-radio v-model="depositForm.isReturned" label="1" >已退还</el-radio>
               <el-radio v-model="depositForm.isReturned" label="0">未退还</el-radio>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="isShowIntention = false" class="btn-trans">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="isShowIntention = false"
-          class="btn-addmore"
-        >确 定</el-button>
+        <el-button @click="cancelDialog('depositForm')" class="btn-trans">取 消</el-button>
+        <el-button @click="submitForm('depositForm')" class="btn-addmore">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -87,6 +92,16 @@
 export default {
   data() {
     return {
+      total: 0,
+      page: 1,
+      pageSize: 10,
+      inputSearch:'',
+      arrayIndex:[],
+      checked:false,
+      selectionLengh:0,
+      multipleSelection:[],
+      listLoading:false,
+      disCheck:true,
       depositTable:[
         {
           customerName:'张三',
@@ -106,14 +121,133 @@ export default {
       isShowDia:false,
       depositTitle:'',
       depositForm:{},
-      depositFormRules:{}
+      depositFormRules:{
+        customerName:[{required: true, message: "请输入客户名称", trigger: "blur"}],
+        contract:[{required: true, message: "请输入合同编号", trigger: "blur"}],
+        allDeposit:[{required: true, message: "请输入押金总额", trigger: "blur"}],
+        restDeposit:[{required: true, message: "请输入剩余押金", trigger: "blur"}],
+        isReturned:[{required: true, message: "请选择退还状态", trigger: "blur"}]
+      }
     }
   },
   methods:{
-    //新增押金
+    handleSizeChange(size) {
+      this.pageSize = size;
+      this.handleCurrentChange(1);
+    },
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getDeviceList();
+    },
+    //新增押金详情
     newDeposit() {
+      for (let key in this.depositForm) {
+        this.depositForm[key] = "";
+      }
       this.depositTitle = '新增押金记录'
+      this.checked = false
       this.isShowDia = true
+    },
+    //修改押金详情
+    editDeposit() {
+      this.checked = false
+      this.isShowDia = true
+      this.depositTitle = '修改押金记录'
+      console.log(this.multipleSelection[0],'11')
+      this.depositForm = this.multipleSelection[0]
+    },
+    //删除押金详情
+    deleteSelections() {
+      this.$confirm(`确定要删除吗?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        for (let i = 0; i < this.depositTable.length; i++) {
+          const element = this.depositTable[i];
+          element.id = i;
+        }
+        this.multipleSelection.forEach(element => {
+          this.depositTable.forEach((e, i) => {
+            if (element.id == e.id) {
+              this.depositTable.splice(i,1)
+            }
+          });
+        });
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+      })
+      .catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
+    //查看押金详情
+    checkDeposit() {
+      this.checked = true
+      let index = this.arrayIndex[0]
+      this.depositTitle = '查看押金记录'
+      this.isShowDia = true
+      this.depositForm = {...this.depositTable[index]}
+    },
+    //已发
+    checkHasSend() {
+
+    },
+    handleSelectionChange(val) {
+      this.arrayIndex = [];
+      this.selectionLengh = val.length;
+      this.multipleSelection = val;
+      val.forEach(value => {
+        this.depositTable.forEach((v, i) => {
+          if (value.contract == v.contract) {
+            this.arrayIndex.push(i);
+          }
+        });
+      });
+      console.log(this.arrayIndex,'arrindex')
+    },
+    cancelDialog(formName) {
+      this.$refs[formName].resetFields()
+      this.isShowDia = false
+    },
+    submitForm(formName) {
+      if(this.depositTitle == '新增押金记录') {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            this.depositTable.push({...this.depositForm})
+            this.isShowDia = false
+          } else {
+            return false
+          }
+        })
+      } else if(this.depositTitle == '查看押金记录') {
+        this.isShowDia = false
+      } else if(this.depositTitle == '修改押金记录') {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            // let index = 
+            this.depositTable[this.arrayIndex[0]] = this.depositForm
+            this.isShowDia = false
+          } else {
+            return false
+          }
+        })
+      }
+    }
+  },
+  watch:{
+    selectionLengh: function(newLen) {
+      if (newLen === 1) {
+        this.disCheck = false
+      } else {
+        this.disCheck = true
+      }
     }
   }
 }

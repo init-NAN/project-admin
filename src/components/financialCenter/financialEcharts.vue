@@ -241,84 +241,8 @@ export default {
 </script>
 
 <style lang="less" scope>
-.main-content {
-  min-width: 1000px;
-  
-  .overviewItem {
-    margin-bottom: 20px;
-    .overviewCard {
-      .cardHead {
-        color: #fff;
-        box-sizing: border-box;
-        height: 37px;
-        line-height: 37px;
-        padding-left: 18px;
-        width: 100%;
-        background-size: 100%;
-        background-position: center 0;
-        background: url("../../assets/type.png") no-repeat rgba(10, 13, 51, 0.3);
-        position: relative;
-        .refresh {
-          position: absolute;
-          top: 10px;
-          right: 15px;
-          color: #fff;
-          font-size: 20px;
-          cursor: pointer;
-          &:hover {
-            color: rgba(167, 166, 166, 0.89);
-          }
-        }
-      }
-      .cardBody {
-        .article-box {
-          height: 400px;
-        }
-        background: rgba(10, 13, 51, 0.7);
-        color: #9ea2c0;
-        .cCard {
-          .content {
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-
-            .content-card {
-              display: inline-block;
-              width: 49%;
-              height: 66px;
-              text-align: center;
-              margin-bottom: 20px;
-              // background-color: #0f0;
-              .content-title {
-                color: #9ea2c0;
-                font-size: 14px;
-                font-family: PingFangSC-Regular, PingFang SC;
-                font-weight: 400;
-                line-height: 40px;
-              }
-              .content-num {
-                color: #0ffff3;
-                font-size: 14px;
-                font-family: PingFangSC-Regular, PingFang SC;
-                font-weight: 400;
-              }
-            }
-            .verticalLine {
-              display: inline-block;
-              width: 1px;
-              height: 66px;
-              background: linear-gradient(
-                to top,
-                #3669da 0%,
-                #e360ff 6%,
-                #57c8ff 100%
-              );
-            }
-          }
-        }
-      }
-    }
-  }
+@import '@/assets/css/echarts.less';
+.article-box {
+  height: 400px;
 }
 </style>

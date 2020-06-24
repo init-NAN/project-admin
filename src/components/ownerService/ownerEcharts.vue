@@ -2,13 +2,13 @@
   <div class="main-content">
     <el-row class="overviewItem" type="flex">
       <el-col :span="11" :offset="1" class="overviewCard" :lg="11" :sm="23">
-        <div class="cardHead">交房总览<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardHead">交房总览<Refresh></Refresh></div>
         <div class="cardBody">
           <div ref="handoverOverView" style="width:100%;height:280px;" class="handoverOverView"></div>
         </div>
       </el-col>
       <el-col :span="11" class="overviewCard" :offset="1" :lg="11" :sm="23">
-        <div class="cardHead">收房总览<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardHead">收房总览<Refresh></Refresh></div>
         <div class="cardBody" style="width:100%;height:280px;">
           <div class="cCard">
             <div class="content">
@@ -50,13 +50,13 @@
     </el-row>
     <el-row class="overviewItem" type="flex">
       <el-col :span="8" class="overviewCard" :offset="1">
-        <div class="cardHead">入住总览<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardHead">入住总览<Refresh></Refresh></div>
         <div class="cardBody">
           <div ref="checkInOverView" style="width:100%;height:280px;"></div>
         </div>
       </el-col>
       <el-col :span="14" class="overviewCard" :offset="1">
-        <div class="cardHead">装修登记总览<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardHead">装修登记总览<Refresh></Refresh></div>
         <div class="cardBody" style="width:100%;height:280px;">
           <div class="cCard">
             <div class="content">
@@ -98,7 +98,7 @@
     </el-row>
     <el-row class="overviewItem" type="flex">
       <el-col :span="15" class="overviewCard" :offset="1">
-        <div class="cardHead">报修总览<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardHead">报修总览<Refresh></Refresh></div>
         <div class="cardBody">
           <div ref="overViewRepaireApplication" style="width:100%;height:400px;"></div>
         </div>
@@ -110,7 +110,11 @@
 
 <script>
 import echarts from "echarts";
+import Refresh from "@/components/common/refresh.vue";
 export default {
+  components:{
+    Refresh
+  },
   mounted() {
     //交房总览饼图
     let echartsHandOver = echarts.init(this.$refs.handoverOverView);

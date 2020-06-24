@@ -2,7 +2,7 @@
   <div class="main-content">
     <el-row class="overviewItem" type="flex">
       <el-col :span="11" :offset="1" class="overviewCard" :lg="11" :sm="23">
-        <div class="cardHead">收账总览<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardHead">收账总览<Refresh></Refresh></div>
         <div class="cardBody" style="width:100%;height:280px;">
           <div class="cCard">
             <div class="content">
@@ -42,7 +42,7 @@
         </div>
       </el-col>
       <el-col :span="11" class="overviewCard" :offset="1" :lg="11" :sm="23">
-        <div class="cardHead">押金总览<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardHead">押金总览<Refresh></Refresh></div>
         <div class="cardBody" style="width:100%;height:280px;">
           <div class="cCard">
             <div class="content">
@@ -84,7 +84,7 @@
     </el-row>
     <el-row class="overviewItem" type="flex">
       <el-col :span="24" class="overviewCard" :offset="1">
-        <div class="cardHead">收费项总览<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardHead">收费项总览<Refresh></Refresh></div>
         <div class="cardBody" style="width:100%;height:400px;">
           <div class="article-box"
            ref="attractlArticle">
@@ -106,7 +106,11 @@
 
 <script>
 import echarts from "echarts";
+import Refresh from "@/components/common/refresh.vue";
 export default {
+  components:{
+    Refresh
+  },
   mounted() {
     var ecarrt = echarts.init(this.$refs.attractlArticle);
     var option = {

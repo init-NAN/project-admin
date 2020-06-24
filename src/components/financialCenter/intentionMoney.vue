@@ -4,18 +4,22 @@
       <span>意向金管理</span>
     </div>
     <section class="grid-content">
-      <div class="btnHeader">
-        <div class="left">
-          <el-button  type="primary" class="btn-addmore" :disabled="disCheckIntention" @click="showIntention">查看意向金</el-button>
-          <el-button  type="primary" class="btn-addmore" :disabled="disContract" @click="transformContract">转合同押金</el-button>
-          <el-button  type="primary" class="btn-addmore" :disabled="disReturn" @click="returnIntention">退还</el-button>
-          <!-- <el-button  type="primary" class="btn-addmore" :disabled="disCheckRecord">查看退还记录</el-button> -->
-        </div>
-        <div class="right">
-          <el-input v-model="inputSearch"  placeholder="搜索..." class="searchInput"></el-input>
-          <el-button  type="primary" class="el-icon-search btn-addmore"></el-button>
-        </div>
-      </div>
+      <el-row class="buttonHead">
+        <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
+          <div class="left">
+            <el-button  type="primary" class="btn-addmore" :disabled="disCheckIntention" @click="showIntention">查看意向金</el-button>
+            <el-button  type="primary" class="btn-addmore" :disabled="disContract" @click="transformContract">转合同押金</el-button>
+            <el-button  type="primary" class="btn-addmore" :disabled="disReturn" @click="returnIntention">退还</el-button>
+            <!-- <el-button  type="primary" class="btn-addmore" :disabled="disCheckRecord">查看退还记录</el-button> -->
+          </div>
+        </el-col>
+        <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
+          <div class="right">
+            <el-input v-model="inputSearch"  placeholder="搜索..." class="searchInput"></el-input>
+            <el-button  type="primary" class="el-icon-search btn-addmore"></el-button>
+          </div>
+        </el-col>
+      </el-row>
     </section>
     <el-table
         :data="intentionTable"

@@ -166,8 +166,8 @@ export default {
           name: '占比',
           nameTextStyle: { color: '#fff' },
           min: 0,
-          max: 100,
-          interval: 10,
+          max: 40,
+          interval: 20,
           axisLabel: {
             color: '#fff',
             formatter: '{value}%'
@@ -211,7 +211,7 @@ export default {
       }, '#0f0'],
       series: [
         {
-          name: '成交量',
+          name: '收费占比',
           type: 'bar',
           barWidth: 10,
           itemStyle: {
@@ -225,7 +225,7 @@ export default {
               barBorderRadius: [40, 40, 40, 40]
             }
           },
-          data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+          data: [5, 5, 5, 5, 5, 10, 15, 5, 20, 10, 5, 10]
         },
         {
           name: '每月平均收费',

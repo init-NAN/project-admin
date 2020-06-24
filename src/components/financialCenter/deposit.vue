@@ -4,19 +4,23 @@
       <span>押金管理</span>
     </div>
     <section class="grid-content">
-      <div class="btnHeader">
-        <div class="left">
-          <el-button  type="primary" class="btn-addmore" @click="newDeposit">新增</el-button>
-          <el-button  type="primary" class="btn-addmore" @click="editDeposit">修改</el-button>
-          <el-button  type="primary" class="btn-addmore" @click="deleteSelections">删除</el-button>
-          <el-button  type="primary" class="btn-addmore" @click="checkDeposit" :disabled="disCheck">查看</el-button>
-          <!-- <el-button  type="primary" class="btn-addmore" @click="checkHasSend">已发</el-button> -->
-        </div>
-        <div class="right">
-          <el-input v-model="inputSearch"  placeholder="搜索..." class="searchInput"></el-input>
-          <el-button  type="primary" class="el-icon-search btn-addmore"></el-button>
-        </div>
-      </div>
+      <el-row class="buttonHead">
+        <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
+          <div class="left">
+            <el-button  type="primary" class="btn-addmore" @click="newDeposit">新增</el-button>
+            <el-button  type="primary" class="btn-addmore" @click="editDeposit">修改</el-button>
+            <el-button  type="primary" class="btn-addmore" @click="deleteSelections">删除</el-button>
+            <el-button  type="primary" class="btn-addmore" @click="checkDeposit" :disabled="disCheck">查看</el-button>
+            <!-- <el-button  type="primary" class="btn-addmore" @click="checkHasSend">已发</el-button> -->
+          </div>
+        </el-col>
+        <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
+          <div class="right">
+            <el-input v-model="inputSearch"  placeholder="搜索..." class="searchInput"></el-input>
+            <el-button  type="primary" class="el-icon-search btn-addmore"></el-button>
+          </div>
+        </el-col>
+      </el-row>
     </section>
     <el-table
         :data="depositTable"

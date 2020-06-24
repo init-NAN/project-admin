@@ -343,7 +343,7 @@ export default {};
       color: rgba(255, 255, 255, 1);
     }
   }
-  @media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .main-content {
     .grid-content {
       .buttonHead {

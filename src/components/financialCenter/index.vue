@@ -15,11 +15,22 @@ export default {
   .main-content {
     .grid-content {
       margin-bottom: 15px;
-      .btnHeader {
-        display: flex;
-        justify-content: space-between;
+      .buttonHead {
+        margin-bottom: 20px;
+        .left {
+          display: flex;
+          justify-content: flex-start;
+        }
         .right {
           display: flex;
+          justify-content: flex-end;
+          .searchInput {
+            .el-input__inner {
+              background-color: transparent;
+              border: 1px solid #9ea2c0;
+            }
+            width: 40%;
+          }
         }
       }
     }
@@ -171,5 +182,40 @@ export default {
   .el-select {
     width: 100%;
   }
+  @media only screen and (min-width: 768px) {
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          .searchInput {
+            width: 40%;
+          }
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          .searchInput {
+            width: 100% !important;
+          }
+        }
+      }
+    }
+  }
+  .main-content {
+    .grid-content {
+      .buttonHead {
+        .right {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}
 }
 </style>

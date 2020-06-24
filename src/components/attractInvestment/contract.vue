@@ -12,7 +12,7 @@
             <el-button class="btn-addmore"
                        @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="3" :offset="1">
             <el-button :disabled='this.checkedBox.length===0'
                        class="btn-trans"
                        @click="delectAll()">批量删除</el-button>
@@ -105,7 +105,7 @@
             <el-button class="btn-addmore"
                        @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="3" :offset="1">
             <el-button :disabled='this.checkedBox.length===0'
                        class="btn-trans"
                        @click="delectAll()">批量删除</el-button>

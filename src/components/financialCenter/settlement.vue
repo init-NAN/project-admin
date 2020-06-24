@@ -12,9 +12,9 @@
               @selection-change="handleSelectionChange"
               :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
 
-      <el-table-column type="selection"
+      <!-- <el-table-column type="selection"
                        width="55">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="customerName"
                        label="客户名称">
       </el-table-column>
@@ -295,7 +295,7 @@ export default {
               reciveSubtotal: '8,101.21'
             },
           ],
-          totalReceivablesWords: '',
+          totalReceivablesWords: '叁万叁仟肆佰伍拾肆元玖角陆分',
           liquidationPayable: [
             {
               stor: '1',
@@ -304,6 +304,7 @@ export default {
               balance: '5,5000.00'
             }
           ],
+          totalPayableWords:'伍仟伍佰元整'
         },
         {
           customerName: '李小苗',

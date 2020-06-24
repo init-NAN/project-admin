@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img :class="[isRefresh?'loading':'refresh']" :src="isRefresh?require('@/assets/img/loading.png'):require('@/assets/img/refresh.png')" @click="refresh">
+    <i :class="[isRefresh?'loading el-icon-pms-Loading':'refresh el-icon-pms-ico_reset']"  @click="refresh" />
   </div>
 </template>
 
@@ -27,6 +27,7 @@ export default {
   .refresh, .loading {
     width:21px;
     height: 21px;
+    font-size: 21px;
     position: absolute;
     top: 10px;
     right: 15px;
@@ -34,10 +35,6 @@ export default {
     cursor: pointer;
   }
   .loading {
-    width: 18px;
-    height: 18px;
-    top: 12px;
-    right: 17px;
     animation: rotate 3s linear infinite;
   }
   @keyframes rotate{from{transform: rotate(0deg)}

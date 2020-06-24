@@ -6,8 +6,8 @@ import App from './App.vue'
 import routes from './routes';
 import store from './store';
 
-
 import '@/assets/css/base.css'
+import '@/assets/icon/iconfont.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.use(VueRouter);

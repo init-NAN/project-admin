@@ -1,0 +1,23 @@
+{
+  "id": "1905061",
+  "name": "pms",
+  "font_family": "fontFamily",
+  "css_prefix_text": "el-icon-pms-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2778399",
+      "name": "Loading",
+      "font_class": "Loading",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "3544204",
+      "name": "刷新",
+      "font_class": "ico_reset",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    }
+  ]
+}

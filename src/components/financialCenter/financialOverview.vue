@@ -48,8 +48,8 @@
           </el-row>
           <el-row>
             <el-col :span="20">
-              <el-button  type="primary" class="btn-addmore">查询</el-button>
-              <el-button  type="primary" class="btn-addmore" @click="reSeting('searchForm')">重置</el-button>
+              <el-button  type="primary" class="btn-addmore el-icon-search btn-addmore">查询</el-button>
+              <el-button  type="primary" class="btn-addmore el-icon-refresh-left" @click="reSeting('searchForm')">重置</el-button>
               <el-button type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
             </el-col>
           </el-row>

@@ -9,7 +9,7 @@
         <p class="title">
           招商项目总览
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="cCard">
         <div class="content">
@@ -56,7 +56,7 @@
         <p class="title">
           产业总览
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="cCard">
         <div class="content">
@@ -103,7 +103,7 @@
         <p class="title">
           项目最新动态
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="img-box">
         <img src="../../assets/img/login-poto.gif"
@@ -119,7 +119,7 @@
         <p class="title">
           月交易情况
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="article-box"
            ref="attractlArticle">
@@ -135,7 +135,7 @@
         <p class="title">
           招商负责人项目情况
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="table">
         <el-table :data="formCharge"
@@ -164,7 +164,7 @@
         <p class="title">
           近3年签约情况
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="table">
         <el-table :data="tableData"
@@ -197,7 +197,7 @@
         <p class="title">
           意向来源分析
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="article-box"
            ref="fromCustomer"></div>
@@ -211,7 +211,7 @@
         <p class="title">
           招商负责人动向
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="table">
         <el-table :data="formData"
@@ -253,7 +253,11 @@
 
 <script>
 import echarts from "echarts";
+import Refresh from "@/components/common/refresh.vue";
 export default {
+  components:{
+    Refresh
+  },
   data () {
     return {
       tableData: [{

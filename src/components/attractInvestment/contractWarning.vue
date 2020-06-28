@@ -41,7 +41,7 @@
       <el-table-column prop="overdueDays"
                        label="合同逾期天数"></el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="170">
         <template slot-scope="scope">
           <el-button type="text"
                      size="small"

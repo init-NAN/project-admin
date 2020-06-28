@@ -8,7 +8,7 @@
         <p class="title">
           物业总览
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="cCard">
         <div class="content">
@@ -54,7 +54,7 @@
         <p class="title">
           巡查计划
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="cCard">
         <div class="content">
@@ -100,7 +100,7 @@
         <p class="title">
           设备损耗
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="echarts"
            ref="estateCharts">
@@ -115,7 +115,7 @@
         <p class="title">
           保养巡检核查
         </p>
-        <i class="el-icon-refresh-right refresh"></i>
+        <Refresh></Refresh>
       </div>
       <div class="table">
         <el-table :data="tableData"
@@ -159,7 +159,11 @@
 
 <script>
 import echarts from 'echarts';
+import Refresh from "@/components/common/refresh.vue";
 export default {
+  components:{
+    Refresh
+  },
   data () {
     return {
       tableData: [{

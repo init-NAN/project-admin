@@ -12,7 +12,8 @@
             <el-button class="btn-addmore"
                        @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
           </el-col>
-          <el-col :span="3" :offset="1">
+          <el-col :span="3"
+                  :offset="1">
             <el-button :disabled='this.checkedBox.length===0'
                        class="btn-trans"
                        @click="delectAll()">批量删除</el-button>
@@ -99,16 +100,27 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="销售当前合同">
+      <el-tab-pane label="销售合同">
         <el-row class="margin-bottom">
           <el-col :span="2">
             <el-button class="btn-addmore"
                        @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
           </el-col>
-          <el-col :span="3" :offset="1">
+          <el-col :span="3"
+                  :offset="1">
             <el-button :disabled='this.checkedBox.length===0'
                        class="btn-trans"
                        @click="delectAll()">批量删除</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-select v-model="value"
+                       placeholder="请选择" @change="searchContract">
+              <el-option v-for="item in options"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
           </el-col>
         </el-row>
         <el-table :data="contract"
@@ -158,7 +170,307 @@
               <el-button type="text"
                          size="small"
                          class="table-del"
-                         @click="handleDelete(scope.$index, scope.row)">合同退租</el-button>
+                         @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="物业合同">
+        <el-row class="margin-bottom">
+          <el-col :span="2">
+            <el-button class="btn-addmore"
+                       @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
+          </el-col>
+          <el-col :span="3"
+                  :offset="1">
+            <el-button :disabled='this.checkedBox.length===0'
+                       class="btn-trans"
+                       @click="delectAll()">批量删除</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-select v-model="value"
+                       placeholder="请选择" @change="searchContract">
+              <el-option v-for="item in options"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-table :data="contract"
+                  v-loading="listLoading"
+                  ref="table1"
+                  @selection-change="handleSelectionChange"
+                  @sort-change="handleSortChange"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+
+          <el-table-column prop="contractName"
+                           label="合同名称"></el-table-column>
+
+          <el-table-column prop="contractNo"
+                           label="合同编号"></el-table-column>
+
+          <el-table-column prop="peoName"
+                           label="客户名称"></el-table-column>
+
+          <el-table-column prop="signingDate"
+                           label="签订日期"></el-table-column>
+
+          <el-table-column prop="startDate"
+                           label="起始日期"></el-table-column>
+
+          <el-table-column prop="endDate"
+                           label="截止日期"></el-table-column>
+
+          <el-table-column prop="contractSource"
+                           label="合同来源"></el-table-column>
+
+          <el-table-column prop="status"
+                           label="合同状态"></el-table-column>
+
+          <el-table-column prop="registrant"
+                           label="登记人"></el-table-column>
+
+          <el-table-column label="操作"
+                           width="150">
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-del"
+                         @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="外包合同">
+        <el-row class="margin-bottom">
+          <el-col :span="2">
+            <el-button class="btn-addmore"
+                       @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
+          </el-col>
+          <el-col :span="3"
+                  :offset="1">
+            <el-button :disabled='this.checkedBox.length===0'
+                       class="btn-trans"
+                       @click="delectAll()">批量删除</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-select v-model="value"
+                       placeholder="请选择" @change="searchContract">
+              <el-option v-for="item in options"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-table :data="contract"
+                  v-loading="listLoading"
+                  ref="table1"
+                  @selection-change="handleSelectionChange"
+                  @sort-change="handleSortChange"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+
+          <el-table-column prop="contractName"
+                           label="合同名称"></el-table-column>
+
+          <el-table-column prop="contractNo"
+                           label="合同编号"></el-table-column>
+
+          <el-table-column prop="peoName"
+                           label="客户名称"></el-table-column>
+
+          <el-table-column prop="signingDate"
+                           label="签订日期"></el-table-column>
+
+          <el-table-column prop="startDate"
+                           label="起始日期"></el-table-column>
+
+          <el-table-column prop="endDate"
+                           label="截止日期"></el-table-column>
+
+          <el-table-column prop="contractSource"
+                           label="合同来源"></el-table-column>
+
+          <el-table-column prop="status"
+                           label="合同状态"></el-table-column>
+
+          <el-table-column prop="registrant"
+                           label="登记人"></el-table-column>
+
+          <el-table-column label="操作"
+                           width="150">
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-del"
+                         @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="租赁合同">
+        <el-row class="margin-bottom">
+          <el-col :span="2">
+            <el-button class="btn-addmore"
+                       @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
+          </el-col>
+          <el-col :span="3"
+                  :offset="1">
+            <el-button :disabled='this.checkedBox.length===0'
+                       class="btn-trans"
+                       @click="delectAll()">批量删除</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-select v-model="value"
+                       placeholder="请选择" @change="searchContract">
+              <el-option v-for="item in options"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-table :data="contract"
+                  v-loading="listLoading"
+                  ref="table1"
+                  @selection-change="handleSelectionChange"
+                  @sort-change="handleSortChange"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+
+          <el-table-column prop="contractName"
+                           label="合同名称"></el-table-column>
+
+          <el-table-column prop="contractNo"
+                           label="合同编号"></el-table-column>
+
+          <el-table-column prop="peoName"
+                           label="客户名称"></el-table-column>
+
+          <el-table-column prop="signingDate"
+                           label="签订日期"></el-table-column>
+
+          <el-table-column prop="startDate"
+                           label="起始日期"></el-table-column>
+
+          <el-table-column prop="endDate"
+                           label="截止日期"></el-table-column>
+
+          <el-table-column prop="contractSource"
+                           label="合同来源"></el-table-column>
+
+          <el-table-column prop="status"
+                           label="合同状态"></el-table-column>
+
+          <el-table-column prop="registrant"
+                           label="登记人"></el-table-column>
+
+          <el-table-column label="操作"
+                           width="150">
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-del"
+                         @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="返租合同">
+        <el-row class="margin-bottom">
+          <el-col :span="2">
+            <el-button class="btn-addmore"
+                       @click="addDialogTitle = '新建合同', addCustomerVisibel=true ,form = {},resetForm ('form')">新建合同</el-button>
+          </el-col>
+          <el-col :span="3"
+                  :offset="1">
+            <el-button :disabled='this.checkedBox.length===0'
+                       class="btn-trans"
+                       @click="delectAll()">批量删除</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-select v-model="value"
+                       placeholder="请选择" @change="searchContract">
+              <el-option v-for="item in options"
+                         :key="item.value"
+                         :label="item.label"
+                         :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <el-table :data="contract"
+                  v-loading="listLoading"
+                  ref="table1"
+                  @selection-change="handleSelectionChange"
+                  @sort-change="handleSortChange"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+
+          <el-table-column prop="contractName"
+                           label="合同名称"></el-table-column>
+
+          <el-table-column prop="contractNo"
+                           label="合同编号"></el-table-column>
+
+          <el-table-column prop="peoName"
+                           label="客户名称"></el-table-column>
+
+          <el-table-column prop="signingDate"
+                           label="签订日期"></el-table-column>
+
+          <el-table-column prop="startDate"
+                           label="起始日期"></el-table-column>
+
+          <el-table-column prop="endDate"
+                           label="截止日期"></el-table-column>
+
+          <el-table-column prop="contractSource"
+                           label="合同来源"></el-table-column>
+
+          <el-table-column prop="status"
+                           label="合同状态"></el-table-column>
+
+          <el-table-column prop="registrant"
+                           label="登记人"></el-table-column>
+
+          <el-table-column label="操作"
+                           width="150">
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-del"
+                         @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -375,11 +687,11 @@ export default {
           signingDate: '2020-03-12',
           startDate: '2020-03-12',
           endDate: '2021-03-06',
-          contractSource: '新签',
+          contractSource: '退租',
           status: '正常',
           registrant: '123222',
           dateValidity: ['2020-03-12', '2021-03-06'],
-          tel:'13298235028'
+          tel: '13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -401,7 +713,7 @@ export default {
           status: '正常',
           registrant: '123222',
           dateValidity: ['2020-03-12', '2021-03-06'],
-          tel:'13298235028'
+          tel: '13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -423,7 +735,7 @@ export default {
           status: '正常',
           registrant: '123222',
           dateValidity: ['2020-03-12', '2021-03-06'],
-          tel:'13298235028'
+          tel: '13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -445,7 +757,7 @@ export default {
           status: '正常',
           registrant: '123222',
           dateValidity: ['2020-03-12', '2021-03-06'],
-          tel:'13298235028'
+          tel: '13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -467,7 +779,7 @@ export default {
           status: '正常',
           registrant: '123222',
           dateValidity: ['2020-03-12', '2021-03-06'],
-          tel:'13298235028'
+          tel: '13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -489,7 +801,7 @@ export default {
           status: '正常',
           registrant: '123222',
           dateValidity: ['2020-03-12', '2021-03-06'],
-          tel:'13298235028'
+          tel: '13298235028'
         }, {
           date: "2016-05-02",
           contractName: "名称",
@@ -511,7 +823,7 @@ export default {
           status: '正常',
           registrant: '123222',
           dateValidity: ['2020-03-12', '2021-03-06'],
-          tel:'13298235028'
+          tel: '13298235028'
         },
       ],
       page1: 1,
@@ -536,7 +848,23 @@ export default {
         id: '',
       },
 
-
+      options: [{
+        value: '当前合同',
+        label: '当前合同'
+      }, {
+        value: '历史合同',
+        label: '历史合同'
+      }, {
+        value: '终止合同',
+        label: '终止合同'
+      }, {
+        value: '新签合同',
+        label: '新签合同'
+      }, {
+        value: '续租合同',
+        label: '续租合同'
+      }],
+      value: '',
 
       rules: {
         management: [
@@ -711,7 +1039,9 @@ export default {
         }
       });
     },
-
+    searchContract(val) {
+      console.log(val)
+    }
     // loadData () {
     //   getattrContract().then(res => {
     //     window.console.log(res);

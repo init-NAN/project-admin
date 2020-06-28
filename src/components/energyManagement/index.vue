@@ -13,6 +13,24 @@ export default {
 
 <style lang="less" scope>
 .energy {
+  .buttonHead {
+    margin-bottom: 20px;
+    .left {
+      display: flex;
+      justify-content: flex-start;
+    }
+    .right {
+      display: flex;
+      justify-content: flex-end;
+      .searchInput {
+        .el-input__inner {
+          background-color: transparent;
+          border: 1px solid #9ea2c0;
+        }
+        width: 40%;
+      }
+    }
+  }
    .margin-bottom {
     margin-bottom: 20px;
   }
@@ -77,6 +95,9 @@ export default {
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
+    }
+    .el-form-item__content {
+      display: flex;
     }
   }
 
@@ -249,11 +270,40 @@ export default {
     height: 100px;
     width: 100%;
   }
-  .el-tabs__item {
+    .el-tabs__item {
     color: rgba(255, 255, 255, 1);
   }
   .el-tabs__item.is-active {
     color: #4094ff;
   }
+  @media only screen and (min-width: 768px) {
+  .energy { 
+    .buttonHead {
+      .right {
+        .searchInput {
+          width: 40%;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .energy { 
+    .buttonHead {
+      .right {
+        .searchInput {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .energy { 
+    .buttonHead {
+      .right {
+        margin-top: 10px;
+      }
+    }
+  }
+}
 }
 </style>

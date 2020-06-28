@@ -11,7 +11,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scope>
 .energy {
    .margin-bottom {
     margin-bottom: 20px;
@@ -248,6 +248,12 @@ export default {
   .hidden-card {
     height: 100px;
     width: 100%;
+  }
+  .el-tabs__item {
+    color: rgba(255, 255, 255, 1);
+  }
+  .el-tabs__item.is-active {
+    color: #4094ff;
   }
 }
 </style>

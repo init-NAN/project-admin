@@ -114,7 +114,8 @@
           </el-col>
           <el-col :span="3">
             <el-select v-model="value"
-                       placeholder="请选择" @change="searchContract">
+                       placeholder="请选择"
+                       @change="searchContract">
               <el-option v-for="item in options"
                          :key="item.value"
                          :label="item.label"
@@ -189,7 +190,8 @@
           </el-col>
           <el-col :span="3">
             <el-select v-model="value"
-                       placeholder="请选择" @change="searchContract">
+                       placeholder="请选择"
+                       @change="searchContract">
               <el-option v-for="item in options"
                          :key="item.value"
                          :label="item.label"
@@ -264,7 +266,8 @@
           </el-col>
           <el-col :span="3">
             <el-select v-model="value"
-                       placeholder="请选择" @change="searchContract">
+                       placeholder="请选择"
+                       @change="searchContract">
               <el-option v-for="item in options"
                          :key="item.value"
                          :label="item.label"
@@ -339,7 +342,8 @@
           </el-col>
           <el-col :span="3">
             <el-select v-model="value"
-                       placeholder="请选择" @change="searchContract">
+                       placeholder="请选择"
+                       @change="searchContract">
               <el-option v-for="item in options"
                          :key="item.value"
                          :label="item.label"
@@ -414,7 +418,8 @@
           </el-col>
           <el-col :span="3">
             <el-select v-model="value"
-                       placeholder="请选择" @change="searchContract">
+                       placeholder="请选择"
+                       @change="searchContract">
               <el-option v-for="item in options"
                          :key="item.value"
                          :label="item.label"
@@ -848,22 +853,24 @@ export default {
         id: '',
       },
 
-      options: [{
-        value: '当前合同',
-        label: '当前合同'
-      }, {
-        value: '历史合同',
-        label: '历史合同'
-      }, {
-        value: '终止合同',
-        label: '终止合同'
-      }, {
-        value: '新签合同',
-        label: '新签合同'
-      }, {
-        value: '续租合同',
-        label: '续租合同'
-      }],
+      options: [
+        {
+          value: '当前合同',
+          label: '当前合同'
+        }, {
+          value: '历史合同',
+          label: '历史合同'
+        }, {
+          value: '终止合同',
+          label: '终止合同'
+        }, {
+          value: '新签合同',
+          label: '新签合同'
+        }, {
+          value: '续租合同',
+          label: '续租合同'
+        }
+      ],
       value: '',
 
       rules: {
@@ -1039,7 +1046,7 @@ export default {
         }
       });
     },
-    searchContract(val) {
+    searchContract (val) {
       console.log(val)
     }
     // loadData () {

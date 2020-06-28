@@ -3,78 +3,156 @@
     <div class="current-page-title">
       <span>抄表计费管理</span>
     </div>
-    <el-row class="margin-bottom">
-      <el-col :span="2">
-        <el-button class="btn-addmore"
-                   @click="addBillingMeter()">新建</el-button>
-      </el-col>
-      <el-col :span="3">
-        <el-button class="btn-trans"
-                   :disabled='this.checkedBox.length===0'
-                   @click="delectAll()">批量删除</el-button>
-      </el-col>
-      <el-col :span="6"
-              :offset="7">
-        <el-input v-model="input"
-                  placeholder="请输入搜索关键字"></el-input>
-      </el-col>
-      <el-col :span="2"
-              :offset="1">
-        <el-button type="text">高级搜索</el-button>
-      </el-col>
-    </el-row>
 
-    <el-table :data="billing"
-              v-loading="listLoading"
-              ref="table"
-              @selection-change="handleSelectionChange"
-              :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
-      <el-table-column type="selection"
-                       width="55">
-      </el-table-column>
-      <el-table-column prop="billingFormNo"
-                       label="抄表单编号"></el-table-column>
+    <el-tabs :tab-position="tabPosition"
+             style="height: 100%;">
+      <el-tab-pane label="计费抄表单">
+        <el-row class="margin-bottom">
+          <el-col :span="5">
+            <el-button class="btn-addmore"
+                       @click="addBillingMeter(1)">新建非计费抄表单</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-button class="btn-trans"
+                       :disabled='this.checkedBox.length===0'
+                       @click="delectAll()">批量删除</el-button>
+          </el-col>
+          <el-col :span="6"
+                  :offset="7">
+            <el-input v-model="input"
+                      placeholder="请输入搜索关键字"></el-input>
+          </el-col>
+          <el-col :span="2"
+                  :offset="1">
+            <el-button type="text">搜索</el-button>
+          </el-col>
+        </el-row>
+        <el-table :data="noBilling"
+                  v-loading="listLoading"
+                  ref="table"
+                  @selection-change="handleSelectionChange"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+          <el-table-column prop="billingFormNo"
+                           label="抄表单编号" width="160"></el-table-column>
 
-      <el-table-column prop="billingMeterReader"
-                       label="抄表人"></el-table-column>
+          <el-table-column prop="billingMeterReader"
+                           label="抄表人" width="80"></el-table-column>
 
-      <el-table-column prop="billingYear"
-                       label="计费年月"></el-table-column>
+          <el-table-column prop="billingYear"
+                           label="计费年月" width="100"></el-table-column>
 
-      <el-table-column prop="billingType"
-                       label="表种类"></el-table-column>
+          <el-table-column prop="billingType"
+                           label="表种类" width="130"></el-table-column>
 
-      <el-table-column prop="billingGeneration"
-                       label="生成时间"></el-table-column>
+          <el-table-column prop="billingGeneration"
+                           label="生成时间" width="120"></el-table-column>
 
-      <el-table-column prop="billingEnergyMeters"
-                       label="能源表总数"></el-table-column>
+          <el-table-column prop="billingEnergyMeters"
+                           label="能源表总数"></el-table-column>
 
-      <el-table-column prop="billingCompleted"
-                       label="完成数量"></el-table-column>
+          <el-table-column prop="billingCompleted"
+                           label="完成数量"></el-table-column>
 
-      <el-table-column prop="billingReviewStatus"
-                       label="复核状态"></el-table-column>
+          <el-table-column prop="billingReviewStatus"
+                           label="复核状态" width="100"></el-table-column>
 
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button type="text"
-                     size="small"
-                     class="table-show"
-                     @click="editList(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="text"
-                     size="small"
-                     class="table-del"
-                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          <el-button type="text"
-                     size="small"
-                     class="table-show"
-                     @click="changStatus(scope.$index, scope.row)">
-            {{scope.row.billingReviewStatus=='未复核'?'复核':''}}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+          <el-table-column label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="editList(scope.$index, scope.row)">编辑</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-del"
+                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="changStatus(scope.$index, scope.row)">
+                {{scope.row.billingReviewStatus=='未复核'?'复核':''}}
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="非计费抄表单">
+        <el-row class="margin-bottom">
+          <el-col :span="5">
+            <el-button class="btn-addmore"
+                       @click="addBillingMeter(2)">新建非计费抄表单</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-button class="btn-trans"
+                       :disabled='this.checkedBox.length===0'
+                       @click="delectAll()">批量删除</el-button>
+          </el-col>
+          <el-col :span="6"
+                  :offset="7">
+            <el-input v-model="input"
+                      placeholder="请输入搜索关键字"></el-input>
+          </el-col>
+          <el-col :span="2"
+                  :offset="1">
+            <el-button type="text">搜索</el-button>
+          </el-col>
+        </el-row>
+        <el-table :data="noBilling"
+                  v-loading="listLoading"
+                  ref="table"
+                  @selection-change="handleSelectionChange"
+                  :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
+          <el-table-column prop="billingFormNo"
+                           label="抄表单编号" width="160"></el-table-column>
+
+          <el-table-column prop="billingMeterReader"
+                           label="抄表人" width="80"></el-table-column>
+
+          <el-table-column prop="billingYear"
+                           label="计费年月" width="100"></el-table-column>
+
+          <el-table-column prop="billingType"
+                           label="表种类" width="130"></el-table-column>
+
+          <el-table-column prop="billingGeneration"
+                           label="生成时间" width="120"></el-table-column>
+
+          <el-table-column prop="billingEnergyMeters"
+                           label="能源表总数"></el-table-column>
+
+          <el-table-column prop="billingCompleted"
+                           label="完成数量"></el-table-column>
+
+          <el-table-column prop="billingReviewStatus"
+                           label="复核状态" width="100"></el-table-column>
+
+          <el-table-column label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="editList(scope.$index, scope.row)">编辑</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-del"
+                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-button type="text"
+                         size="small"
+                         class="table-show"
+                         @click="changStatus(scope.$index, scope.row)">
+                {{scope.row.billingReviewStatus=='未复核'?'复核':''}}
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
     <el-col class="toolbar">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
@@ -125,7 +203,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="计费年月:" prop="billingYear">
+                <el-form-item label="计费年月:"
+                              prop="billingYear">
                   <el-date-picker type="month"
                                   placeholder="请选择日期"
                                   v-model="form.billingYear"
@@ -233,7 +312,9 @@
 export default {
   data () {
     return {
+      tabPosition: 'left',
       checkedBox: [],
+      //计费
       billing: [
         {
           billingFormNo: 'RT20200229-0001',
@@ -277,6 +358,51 @@ export default {
           id: 4
         }
       ],
+      // 非计费
+      noBilling: [
+        {
+          billingFormNo: 'RT20200229-0001',
+          billingMeterReader: '企业版',
+          billingYear: '2020-05',
+          billingType: '尖峰平谷电表',
+          billingGeneration: '2020-02-28',
+          billingEnergyMeters: '1',
+          billingCompleted: '1.00',
+          billingReviewStatus: '已复核',
+          id: 1
+        }, {
+          billingFormNo: 'RT20200304-0001',
+          billingMeterReader: '企业版',
+          billingYear: '2020-03',
+          billingType: '水表',
+          billingGeneration: '2020-03-04',
+          billingEnergyMeters: '1',
+          billingCompleted: '0.00',
+          billingReviewStatus: '未复核',
+          id: 2
+        }, {
+          billingFormNo: 'RT20200311-0001',
+          billingMeterReader: '企业版',
+          billingYear: '2020-02',
+          billingType: '水表',
+          billingGeneration: '2020-03-11',
+          billingEnergyMeters: '2',
+          billingCompleted: '0.00',
+          billingReviewStatus: '未复核',
+          id: 3
+        }, {
+          billingFormNo: 'RT20200311-0002',
+          billingMeterReader: '企业版',
+          billingYear: '2020-02',
+          billingType: '电表',
+          billingGeneration: '2020-03-11',
+          billingEnergyMeters: '1',
+          billingCompleted: '0.00',
+          billingReviewStatus: '未复核',
+          id: 4
+        }
+      ],
+
       listLoading: false,
       page: 1,
       pageSize: 10,
@@ -291,7 +417,7 @@ export default {
         billingReviewStatus: [
           { required: true, message: "请选择复核状态!", trigger: "change" }
         ],
-        billingYear:[
+        billingYear: [
           { required: true, message: "请选择计费年月!", trigger: "change" }
         ]
       },
@@ -374,25 +500,29 @@ export default {
       var currentdate = year + seperator1 + month + seperator1 + strDate;
       return currentdate;
     },
-    getTime(){
-       var date1=new Date();
-       var year=date1.getFullYear();
-       var month=date1.getMonth()+1;
-       var day=date1.getDate();
-       if (month >= 1 && month <= 9) {
+    getTime () {
+      var date1 = new Date();
+      var year = date1.getFullYear();
+      var month = date1.getMonth() + 1;
+      var day = date1.getDate();
+      if (month >= 1 && month <= 9) {
         month = "0" + month;
       }
       if (day >= 0 && day <= 9) {
         day = "0" + day;
       }
-       return year+month+day
-     },
+      return year + month + day
+    },
     //新增
-    addBillingMeter () {
+    addBillingMeter (val) {
       this.form = {}
       this.resetForm('form');
       this.isBillingMeter = true
-      this.addBillingMeterTitle = '新增抄表'
+      if (val == 1) {
+        this.addBillingMeterTitle = '新增计费抄表'
+      } else if (val == 2) {
+        this.addBillingMeterTitle = '新增非计费抄表'
+      }
     },
     //编辑
     editList (index, item) {
@@ -432,12 +562,18 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // alert('submit')
-          if (this.addBillingMeterTitle == '新增抄表') {
+          if (this.addBillingMeterTitle == '新增计费抄表') {
             this.form.billingGeneration = this.getTimeNow();
-            this.form.billingFormNo = 'RT'+this.getTime()+'-0001'
+            this.form.billingFormNo = 'RT' + this.getTime() + '-0001'
             this.billing.unshift({ ...this.form });
             this.isBillingMeter = false
-          } else if (this.addBillingMeterTitle == '编辑抄表') {
+          } else if (this.addBillingMeterTitle == '新增非计费抄表') {
+            this.form.billingGeneration = this.getTimeNow();
+            this.form.billingFormNo = 'RT' + this.getTime() + '-0001'
+            this.noBilling.unshift({ ...this.form });
+            this.isBillingMeter = false
+          }
+          else if (this.addBillingMeterTitle == '编辑抄表') {
             this.billing[this.billingIndex] = { ...this.form }
             this.isBillingMeter = false
           }

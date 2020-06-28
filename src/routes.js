@@ -61,8 +61,6 @@ const patrolTask = () => import('./components/estateManagement/patrolTask.vue')
 //巡查问题
 const patrolProblems = () => import('./components/estateManagement/patrolProblems.vue')
 const overviewEstate = () => import('./components/estateManagement/overviewsEstate.vue')
-//抄表计费管理
-const billingMeter = () => import('./components/estateManagement/billingMeter.vue')
 
 
 //财务中心
@@ -204,11 +202,6 @@ let routes = [{
             component: patrolProblems,
             title: '巡查问题',
           },
-          {
-            path: 'billingMeter',
-            component: billingMeter,
-            title: '抄表计费管理'
-          }
         ]
       },
       {

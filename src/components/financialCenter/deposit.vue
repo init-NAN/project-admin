@@ -8,8 +8,8 @@
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
           <div class="left">
             <el-button  type="primary" class="btn-addmore" @click="newDeposit">新增</el-button>
-            <el-button  type="primary" class="btn-addmore" @click="editDeposit">修改</el-button>
-            <el-button  type="primary" class="btn-addmore" @click="deleteSelections">删除</el-button>
+            <el-button  type="primary" class="btn-addmore" :disabled="isCanEdit" @click="editDeposit">修改</el-button>
+            <el-button  type="primary" class="btn-addmore" :disabled="isCanDelete" @click="deleteSelections">删除</el-button>
             <el-button  type="primary" class="btn-addmore" @click="checkDeposit" :disabled="disCheck">查看</el-button>
             <!-- <el-button  type="primary" class="btn-addmore" @click="checkHasSend">已发</el-button> -->
           </div>
@@ -106,6 +106,8 @@ export default {
       multipleSelection:[],
       listLoading:false,
       disCheck:true,
+      isCanDelete:true,
+      isCanEdit:true,
       depositTable:[
         {
           customerName:'张三',
@@ -247,9 +249,16 @@ export default {
   },
   watch:{
     selectionLengh: function(newLen) {
-      if (newLen === 1) {
+      if(newLen != 0) {
+        this.isCanDelete = false
+      } else {
+        this.isCanDelete = true
+      }
+      if (newLen === 1) { 
+        this.isCanEdit = false
         this.disCheck = false
       } else {
+        this.isCanEdit = true
         this.disCheck = true
       }
     }

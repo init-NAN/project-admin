@@ -74,6 +74,13 @@ const deposit = () => import('./components/financialCenter/deposit')
 const settlement = () => import('./components/financialCenter/settlement')
 const charges = () => import('./components/financialCenter/charges.vue')
 
+//能源管理
+const energyManagement = () => import('./components/energyManagement/index')
+const energyEcharts = () => import('./components/energyManagement/energyEcharts')
+const installationManagement = () => import('./components/energyManagement/installationManagement')
+const meterReading = () => import('./components/energyManagement/meterReading')
+const historicalSupplement = () => import('./components/energyManagement/historicalSupplement')
+
 let routes = [{
     path: '/',
     component: Main,
@@ -238,6 +245,31 @@ let routes = [{
             title:'收费项'
           },
         ]
+      },
+      {
+        path:'energyManagement',
+        component:energyManagement,
+        name:'',
+        redirect:'/energyManagement/energyEcharts',
+        title:'能源管理',
+        iconCls:'el-icon-s-opportunity',
+        children:[
+          {
+            path:'installationManagement',
+            component: installationManagement,
+            title:'装表管理'
+          },
+          {
+            path:'meterReading',
+            component: meterReading,
+            title:'抄表管理'
+          },
+          {
+            path:'historicalSupplement',
+            component: historicalSupplement,
+            title:'历史补抄'
+          }
+        ]
       }
     ]
   },
@@ -285,6 +317,14 @@ let routes = [{
         children: [{
           path:'/financialCenter/financialEcharts',
           component:financialEcharts
+        }]
+      },
+      {
+        path: '/energyManagement',
+        component: energyManagement,
+        children: [{
+          path:'/energyManagement/energyEcharts',
+          component:energyEcharts
         }]
       }
     ]

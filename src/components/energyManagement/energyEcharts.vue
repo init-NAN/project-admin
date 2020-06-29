@@ -6,7 +6,7 @@
             :offset="1">
       <div class="header">
         <p class="title">
-          招商项目总览
+          能源管理总览
         </p>
         <Refresh></Refresh>
       </div>
@@ -50,16 +50,46 @@
             :sm="22"
             :md="7"
             :offset="1">
-
       <div class="header">
         <p class="title">
-          表最新动态
+          装表总览
         </p>
         <Refresh></Refresh>
       </div>
-      <div class="img-box">
-        <img src="../../assets/img/login-poto.gif"
-             alt="">
+      <div class="cCard">
+        <div class="content">
+          <div class="content-card">
+            <p class="content-title">本月用电损耗</p>
+            <p class="content-num">600</p>
+          </div>
+          <i class="verticalLine"></i>
+          <div class="content-card">
+            <p class="content-title">本月抄表总数</p>
+            <p class="content-num">800</p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="content-card">
+            <p class="content-title">本月新增表数</p>
+            <p class="content-num">12</p>
+          </div>
+          <i class="verticalLine"></i>
+          <div class="content-card">
+            <p class="content-title">本年新增表数</p>
+            <p class="content-num">1348</p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="content-card">
+            <p class="content-title">电表数量</p>
+            <p class="content-num">300</p>
+          </div>
+          <i class="verticalLine"></i>
+          <div class="content-card">
+            <p class="content-title">水表数量</p>
+            <p class="content-num">400</p>
+          </div>
+        </div>
       </div>
     </el-col>
     <el-col class="overview-card"
@@ -69,13 +99,12 @@
 
       <div class="header">
         <p class="title">
-          表最新动态
+          本月抄表完成情况
         </p>
         <Refresh></Refresh>
       </div>
-      <div class="img-box">
-        <img src="../../assets/img/login-poto.gif"
-             alt="">
+      <div class="article-box"
+           ref="energyArticle">
       </div>
     </el-col>
     <el-col class="overview-card"
@@ -85,7 +114,7 @@
 
       <div class="header">
         <p class="title">
-          招商负责人动向
+          历史补抄总览
         </p>
         <Refresh></Refresh>
       </div>
@@ -129,9 +158,156 @@
 </template>
 
 <script>
+import echarts from "echarts";
 import Refresh from "@/components/common/refresh.vue";
 export default {
-  components:{
+  mounted () {
+    let echartsRepaireApplication = echarts.init(this.$refs.energyArticle);
+    let total = 200;
+    let placeHolderStyle =
+    {
+      normal: {
+        label: {
+          show: false
+        },
+        labelLine: {
+          show: false
+        }
+      }
+    };
+    let repaireApplicationOption =
+    {
+      title: {
+        text: "抄表数统计", //主标题
+        textStyle: {
+          //主标题样式
+          color: "#fff",
+          fontWeight: "bold",
+          fontSize: 20
+        },
+        left: "center",
+        top: "middle"
+      },
+      tooltip: {
+        show: true,
+        trigger: "item", //提示框触发类型，item数据项图形触发，主要应用于无类目轴的图表（散点图、饼形图等）
+        formatter: function (params, ticket, callback) {
+          //第一个参数数据集、第二个参数是异步回调标志、第三个参数是异步回调
+          return params.seriesName + ": " + params.value; //系列名称：数据值
+        }
+      },
+      color: ["#60FFAE", "#0497E0", "#B389FF"], //调色盘颜色列表，默认情况下图例和饼形环图颜色使用
+      legend: {
+        top: "0px",
+        left: "70%",
+        itemHeight: 10, //图例的高度
+        itemGap: 10, //图例之间的间距
+        data: ["已抄表数", "收费抄表数", "非收费抄表数"], //图例的数据数组
+        textStyle: {
+          color: "#fff"
+        },
+        selectedMode: true, //图例选择模式
+        orient: "vertical" //图例布局方式
+      },
+      series: [
+        {
+          name: "已抄表数",
+          type: "pie",
+          clockWise: false, //顺时加载
+          hoverAnimation: false, //鼠标移入变大
+          radius: [120, 130],
+          itemStyle: {
+            normal: {
+              label: {
+                show: false
+              },
+              labelLine: {
+                show: false
+              }
+            }
+          },
+          label: {
+            normal: {
+              show: false
+            }
+          },
+          data: [
+            {
+              value: 150,
+              itemStyle: {
+                normal: {
+                  color: "#60FFAE"
+                }
+              }
+            },
+            {
+              value: total - 150,
+              itemStyle: {
+                normal: {
+                  color: "transparent"
+                }
+              }
+            }
+          ]
+        },
+        {
+          name: "收费抄表数",
+          type: "pie",
+          clockWise: false, //顺时加载
+          hoverAnimation: false, //鼠标移入变大
+          radius: [90, 100],
+          itemStyle: placeHolderStyle,
+          data: [
+            {
+              value: 90,
+              itemStyle: {
+                normal: {
+                  color: "#0497E0"
+                }
+              }
+            },
+            {
+              value: total - 90,
+              itemStyle: {
+                normal: {
+                  color: "transparent"
+                }
+              }
+            }
+          ]
+        },
+        {
+          name: "非收费抄表数",
+          type: "pie",
+          clockWise: false, //顺时加载
+          hoverAnimation: false, //鼠标移入变大
+          radius: [60, 70],
+          itemStyle: placeHolderStyle,
+          data: [
+            {
+              value: 60,
+              itemStyle: {
+                normal: {
+                  color: "#B389FF"
+                }
+              }
+            },
+            {
+              value: total - 60,
+              itemStyle: {
+                normal: {
+                  color: "transparent"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    };
+    echartsRepaireApplication.setOption(repaireApplicationOption);
+
+  },
+  components: {
     Refresh
   },
   data () {
@@ -267,7 +443,7 @@ export default {
       }
     }
     .article-box {
-      height: 400px;
+      height: 259px;
     }
   }
   .hidden-card {

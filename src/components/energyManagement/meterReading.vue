@@ -5,12 +5,12 @@
     </div>
 
     <el-tabs :tab-position="tabPosition"
-             style="height: 100%;">
-      <el-tab-pane label="计费抄表单">
+             style="height: 100%;" @tab-click="toclick" v-model="activeName2">
+      <el-tab-pane label="计费抄表单" name="计费抄表单">
         <el-row class="margin-bottom">
           <el-col :span="5">
             <el-button class="btn-addmore"
-                       @click="addBillingMeter(1)">新建非计费抄表单</el-button>
+                       @click="addBillingMeter(1)">新建计费抄表单</el-button>
           </el-col>
           <el-col :span="3">
             <el-button class="btn-trans"
@@ -27,7 +27,7 @@
             <el-button type="text">搜索</el-button>
           </el-col>
         </el-row>
-        <el-table :data="noBilling"
+        <el-table :data="billing"
                   v-loading="listLoading"
                   ref="table"
                   @selection-change="handleSelectionChange"
@@ -79,7 +79,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="非计费抄表单">
+      <el-tab-pane label="非计费抄表单" name="非计费抄表单">
         <el-row class="margin-bottom">
           <el-col :span="5">
             <el-button class="btn-addmore"
@@ -364,11 +364,11 @@ export default {
           billingFormNo: 'RT20200229-0001',
           billingMeterReader: '企业版',
           billingYear: '2020-05',
-          billingType: '尖峰平谷电表',
+          billingType: '水表',
           billingGeneration: '2020-02-28',
           billingEnergyMeters: '1',
           billingCompleted: '1.00',
-          billingReviewStatus: '已复核',
+          billingReviewStatus: '未复核',
           id: 1
         }, {
           billingFormNo: 'RT20200304-0001',
@@ -381,17 +381,17 @@ export default {
           billingReviewStatus: '未复核',
           id: 2
         }, {
-          billingFormNo: 'RT20200311-0001',
+          billingFormNo: 'RT20200311-0002',
           billingMeterReader: '企业版',
           billingYear: '2020-02',
-          billingType: '水表',
+          billingType: '电表',
           billingGeneration: '2020-03-11',
           billingEnergyMeters: '2',
           billingCompleted: '0.00',
           billingReviewStatus: '未复核',
           id: 3
         }, {
-          billingFormNo: 'RT20200311-0002',
+          billingFormNo: 'RT20200311-0003',
           billingMeterReader: '企业版',
           billingYear: '2020-02',
           billingType: '电表',
@@ -402,7 +402,7 @@ export default {
           id: 4
         }
       ],
-
+      activeName2:'计费抄表单',
       listLoading: false,
       page: 1,
       pageSize: 10,
@@ -605,6 +605,11 @@ export default {
             message: "已取消复核"
           });
         });
+    },
+    //tabs切换
+    toclick (tab, event) {
+      window.console.log(tab.label)
+      window.console.log(event)
     }
   }
 }

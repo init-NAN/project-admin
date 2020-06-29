@@ -5,8 +5,11 @@
       <div class="line"></div>
     </div>
     <el-tabs :tab-position="tabPosition"
-             style="height: 100%;">
-      <el-tab-pane label="合同列表总览">
+             v-model="activeName2"
+             style="height: 100%;"
+             @tab-click="toclick">
+      <el-tab-pane label="合同列表总览"
+                   name="合同列表总览">
         <el-row class="margin-bottom">
           <el-col :span="2">
             <el-button class="btn-addmore"
@@ -100,7 +103,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="销售合同">
+      <el-tab-pane label="销售合同" name="销售合同">
         <el-row class="margin-bottom">
           <el-col :span="2">
             <el-button class="btn-addmore"
@@ -176,7 +179,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="物业合同">
+      <el-tab-pane label="物业合同" name="物业合同">
         <el-row class="margin-bottom">
           <el-col :span="2">
             <el-button class="btn-addmore"
@@ -252,7 +255,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="外包合同">
+      <el-tab-pane label="外包合同" name="外包合同">
         <el-row class="margin-bottom">
           <el-col :span="2">
             <el-button class="btn-addmore"
@@ -328,7 +331,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="租赁合同">
+      <el-tab-pane label="租赁合同" name="租赁合同">
         <el-row class="margin-bottom">
           <el-col :span="2">
             <el-button class="btn-addmore"
@@ -404,7 +407,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="返租合同">
+      <el-tab-pane label="返租合同" name="返租合同">
         <el-row class="margin-bottom">
           <el-col :span="2">
             <el-button class="btn-addmore"
@@ -481,7 +484,12 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-col class="toolbar">
+    <Pagings :total="total"
+             :page="page"
+             :pageSize="pageSize"
+             @handleSizeChangeSub="handleSizeChange"
+             @handleCurrentChangeSub="handleCurrentChange"></Pagings>
+    <!-- <el-col class="toolbar">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
                      :current-page="page"
@@ -490,7 +498,7 @@
                      layout="total, sizes, prev, pager, next, jumper"
                      :total="total">
       </el-pagination>
-    </el-col>
+    </el-col> -->
     <el-col class="hidden-card"
             :sm="22"
             :md="15"
@@ -670,7 +678,11 @@
 
 <script>
 // import { getattrContract, creatAttrContract, editAttrContract, deletAttrContract } from '../../http/attract/attrContract';
+import Pagings from "@/components/common/Pagings.vue";
 export default {
+  components: {
+    Pagings
+  },
   data () {
     return {
       tabPosition: 'left',
@@ -884,7 +896,7 @@ export default {
       },
       addDialogTitle: '',
       addCustomerVisibel: false,
-
+      activeName2: '合同列表总览',
       editIndex: '',
       editId: ''
     }
@@ -1048,6 +1060,11 @@ export default {
     },
     searchContract (val) {
       console.log(val)
+    },
+    //tabs切换
+    toclick (tab, event) {
+      window.console.log(tab.label)
+      window.console.log(event)
     }
     // loadData () {
     //   getattrContract().then(res => {

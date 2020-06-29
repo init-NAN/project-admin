@@ -312,14 +312,14 @@ export default {
         type: "warning"
       })
         .then(() => {
-          for (let i = 0; i < this.billing.length; i++) {
-            const element = this.billing[i];
+          for (let i = 0; i < this.history.length; i++) {
+            const element = this.history[i];
             element.id = i
           }
           this.checkedBox.forEach(element => {
-            this.billing.forEach((e, i) => {
+            this.history.forEach((e, i) => {
               if (element.id == e.id) {
-                this.billing.splice(i, 1)
+                this.history.splice(i, 1)
               }
             });
           });

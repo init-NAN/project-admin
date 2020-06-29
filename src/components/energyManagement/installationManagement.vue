@@ -239,14 +239,14 @@ export default {
       });
     },
     addUnitExcell() {
+      this.form = {}
       this.addTitle = '单元表装表导入'
       this.isShowDia = true
-      this.form = {}
     },
     addPublicExcell() {
+      this.form = {}
       this.addTitle = '公用表装表导入'
       this.isShowDia = true
-      this.form = {}
     },
     //文件上传--start
     handlePreview(file) {

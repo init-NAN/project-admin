@@ -39,8 +39,8 @@
               </i>
             </el-menu-item>
           </template>
+        <div class="hide-box"></div>
         </el-menu>
-        <!-- <el-col class="hide-card" :span="24"></el-col> -->
       </el-aside>
 
       <el-main id="elmain"
@@ -263,9 +263,9 @@ export default {
         background-color: rgba(125, 125, 125, 0.7);
         -webkit-border-radius: 6px;
       }
-      // .hide-card {
-      //   height: 40px;
-      // }
+      .hide-box {
+        height: 95px;
+      }
     }
   }
 }

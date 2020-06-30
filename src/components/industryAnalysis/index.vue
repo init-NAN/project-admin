@@ -1,6 +1,6 @@
 <template>
-  <div class="wraper">
-    <router-view></router-view>
+  <div class="industry">
+    <router-view />
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style lang="less" scope>
-.wraper {
+.industry {
   .main-content {
     .grid-content {
       margin-bottom: 15px;
@@ -181,6 +181,12 @@ export default {
   }
   .el-select {
     width: 100%;
+  }
+  .el-tabs__item {
+    color: rgba(255, 255, 255, 1);
+  }
+  .el-tabs__item.is-active {
+    color: #4094ff;
   }
   @media only screen and (min-width: 768px) {
   .main-content {

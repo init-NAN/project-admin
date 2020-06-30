@@ -270,7 +270,7 @@ export default {
     height: 100px;
     width: 100%;
   }
-    .el-tabs__item {
+  .el-tabs__item {
     color: rgba(255, 255, 255, 1);
   }
   .el-tabs__item.is-active {

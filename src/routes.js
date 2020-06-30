@@ -79,6 +79,14 @@ const installationManagement = () => import('./components/energyManagement/insta
 const meterReading = () => import('./components/energyManagement/meterReading')
 const historicalSupplement = () => import('./components/energyManagement/historicalSupplement')
 
+//产业分析 outputValue enterpriseArchives
+const industryAnalysis = () => import('./components/industryAnalysis/index')
+const enterpriseArchives = () => import('./components/industryAnalysis/enterpriseArchives')
+const retiredApplication = () => import('./components/industryAnalysis/retiredApplication')
+const outputValue = () => import('./components/industryAnalysis/outputValue')
+const taxRevenue = () => import('./components/industryAnalysis/taxRevenue')
+const industryEcharts = () => import('./components/industryAnalysis/industryEcharts')
+
 let routes = [{
     path: '/',
     component: Main,
@@ -127,7 +135,7 @@ let routes = [{
         name: '',
         redirect: '/ownerService/ownerEcharts',
         title: '业主服务',
-        iconCls: 'el-icon-data-analysis',
+        iconCls: 'el-icon-service',
         children: [{
             path: 'handoverHouse',
             component: handoverHouse,
@@ -263,6 +271,36 @@ let routes = [{
             title:'历史补抄'
           }
         ]
+      },
+      {
+        path:'industryAnalysis',
+        component:industryAnalysis,
+        name:'',
+        redirect: '/industryAnalysis/industryEcharts',
+        title:'产业分析',
+        iconCls:'el-icon-data-analysis',
+        children:[
+          {
+            path:'enterpriseArchives',
+            component:enterpriseArchives,
+            title:'企业档案'
+          },
+          {
+            path:'retiredApplication',
+            component:retiredApplication,
+            title:'退园申请'
+          },
+          {
+            path:'outputValue',
+            component:outputValue,
+            title:'产值采集'
+          },
+          {
+            path:'taxRevenue',
+            component:taxRevenue,
+            title:'税收采集'
+          }
+        ]
       }
     ]
   },
@@ -318,6 +356,14 @@ let routes = [{
         children: [{
           path:'/energyManagement/energyEcharts',
           component:energyEcharts
+        }]
+      },
+      {
+        path: '/industryAnalysis',
+        component: industryAnalysis,
+        children: [{
+          path:'/industryAnalysis/industryEcharts',
+          component:industryEcharts
         }]
       }
     ]

@@ -9,7 +9,6 @@
           <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
             <div class="left">
               <el-button  type="primary" class="btn-addmore el-icon-plus" @click="addUnitExcell">装表导入</el-button>
-              <!-- <el-button  type="primary" class="btn-addmore el-icon-delete" :disabled="isCanDeleteUnit" @click="deleteUnit">删除</el-button> -->
             </div>
           </el-col>
           <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
@@ -95,7 +94,7 @@
       </el-tab-pane>
     </el-tabs>
     <el-dialog :title="addTitle" :visible.sync="isShowDia" width="50%">
-      <el-form ref="form" :model="form" label-width="auto" :rules="formRules">
+      <el-form ref="form" :model="form" label-width="auto">
         <el-form-item label="文件：" prop="file"> 
           <el-upload
             class="upload-demo"
@@ -135,7 +134,6 @@ export default {
       pageSize: 10,
       tabIndex:'0',
       form:{},
-      formRules:{},
       unitTabLoading:false,
       publicTabLoading:false,
       isShowDia:false,
@@ -239,14 +237,14 @@ export default {
       });
     },
     addUnitExcell() {
+      this.form = {}
       this.addTitle = '单元表装表导入'
       this.isShowDia = true
-      this.form = {}
     },
     addPublicExcell() {
+      this.form = {}
       this.addTitle = '公用表装表导入'
       this.isShowDia = true
-      this.form = {}
     },
     //文件上传--start
     handlePreview(file) {

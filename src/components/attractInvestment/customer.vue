@@ -63,11 +63,11 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text"
-                     size="small"
+                       
                      class="table-show"
                      @click="showRole(scope.$index, scope.row)">编辑</el-button>
           <el-button type="text"
-                     size="small"
+                       
                      class="table-del"
                      @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
@@ -234,7 +234,7 @@
                 <template slot-scope="scope">
                   <el-button @click.native.prevent="deleteRow(scope.$index, tableData)"
                              type="text"
-                             size="small">
+                               >
                     移除
                   </el-button>
                 </template>

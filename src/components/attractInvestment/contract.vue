@@ -92,11 +92,11 @@
                            width="100">
             <template slot-scope="scope">
               <el-button type="text"
-                         size="small"
+                           
                          class="table-show"
                          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button type="text"
-                         size="small"
+                           
                          class="table-del"
                          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
@@ -168,11 +168,11 @@
                            width="150">
             <template slot-scope="scope">
               <el-button type="text"
-                         size="small"
+                           
                          class="table-show"
                          @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
               <el-button type="text"
-                         size="small"
+                           
                          class="table-del"
                          @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
             </template>
@@ -244,11 +244,11 @@
                            width="150">
             <template slot-scope="scope">
               <el-button type="text"
-                         size="small"
+                           
                          class="table-show"
                          @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
               <el-button type="text"
-                         size="small"
+                           
                          class="table-del"
                          @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
             </template>
@@ -320,11 +320,11 @@
                            width="150">
             <template slot-scope="scope">
               <el-button type="text"
-                         size="small"
+                           
                          class="table-show"
                          @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
               <el-button type="text"
-                         size="small"
+                           
                          class="table-del"
                          @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
             </template>
@@ -396,11 +396,11 @@
                            width="150">
             <template slot-scope="scope">
               <el-button type="text"
-                         size="small"
+                           
                          class="table-show"
                          @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
               <el-button type="text"
-                         size="small"
+                           
                          class="table-del"
                          @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
             </template>
@@ -472,11 +472,11 @@
                            width="150">
             <template slot-scope="scope">
               <el-button type="text"
-                         size="small"
+                           
                          class="table-show"
                          @click="handleEdit(scope.$index, scope.row)">合同变更</el-button>
               <el-button type="text"
-                         size="small"
+                           
                          class="table-del"
                          @click="handleDelete(scope.$index, scope.row)">{{scope.row.contractSource=='退租'?'':'合同退租'}}</el-button>
             </template>

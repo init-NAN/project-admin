@@ -149,7 +149,7 @@
             <el-button type="text"
                        class="table-del"
                        @click="handleDelete(scope.$index,scope.row)"
-                       size="small">删除</el-button>
+                         >删除</el-button>
           </template>
         </el-table-column>
 

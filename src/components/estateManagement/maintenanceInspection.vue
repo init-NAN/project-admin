@@ -185,15 +185,15 @@
                          width="200">
           <template slot-scope="scope">
             <el-button type="text"
-                       size="small"
+                         
                        class="table-change"
                        @click="assignment(scope.$index,scope.row)">分派</el-button>
             <el-button type="text"
                        class="table-del"
                        @click="handleDelete(scope.$index,scope.row)"
-                       size="small">删除</el-button>
+                         >删除</el-button>
             <el-button type="text"
-                       size="small"
+                         
                        class="table-change"
                        @click="assignmentVisit(scope.$index,scope.row)">添加备注</el-button>
           </template>

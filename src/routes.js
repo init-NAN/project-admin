@@ -79,6 +79,15 @@ const installationManagement = () => import('./components/energyManagement/insta
 const meterReading = () => import('./components/energyManagement/meterReading')
 const historicalSupplement = () => import('./components/energyManagement/historicalSupplement')
 
+
+
+//园付通
+const yuanFuTong = () => import('./components/Yuanfutong/yuanFuTong.vue')
+const businessRegistration = () => import('./components/Yuanfutong/businessRegistration.vue')
+const registerForCash = () => import('./components/Yuanfutong/registerForCash.vue')
+const memberInformation = () => import('./components/Yuanfutong/memberInformation.vue')
+
+
 let routes = [{
     path: '/',
     component: Main,
@@ -156,7 +165,7 @@ let routes = [{
           {
             path: 'rentDetail',
             component: rentDetail,
-            title:'租赁详情'
+            title: '租赁详情'
           }
         ]
       },
@@ -205,65 +214,87 @@ let routes = [{
         ]
       },
       {
-        path:'financialCenter',
-        component:financialCenter,
-        name:'',
+        path: 'financialCenter',
+        component: financialCenter,
+        name: '',
         redirect: '/financialCenter/financialEcharts',
-        title:'财务中心',
-        iconCls:'el-icon-bank-card',
-        children:[
-          {
-            path:'financialOverview',
+        title: '财务中心',
+        iconCls: 'el-icon-bank-card',
+        children: [{
+            path: 'financialOverview',
             component: financialOverview,
-            title:'应收总账'
+            title: '应收总账'
           },
           {
-            path:'intentionMoney',
+            path: 'intentionMoney',
             component: intentionMoney,
-            title:'意向金管理'
+            title: '意向金管理'
           },
           {
-            path:'deposit',
-            component:deposit,
-            title:'押金管理'
+            path: 'deposit',
+            component: deposit,
+            title: '押金管理'
           },
           {
-            path:'settlement',
-            component:settlement,
-            title:'结算单'
+            path: 'settlement',
+            component: settlement,
+            title: '结算单'
           },
           {
-            path:'charges',
-            component:charges,
-            title:'收费项'
+            path: 'charges',
+            component: charges,
+            title: '收费项'
           },
         ]
       },
       {
-        path:'energyManagement',
-        component:energyManagement,
-        name:'',
-        redirect:'/energyManagement/energyEcharts',
-        title:'能源管理',
-        iconCls:'el-icon-s-opportunity',
-        children:[
-          {
-            path:'installationManagement',
+        path: 'energyManagement',
+        component: energyManagement,
+        name: '',
+        redirect: '/energyManagement/energyEcharts',
+        title: '能源管理',
+        iconCls: 'el-icon-s-opportunity',
+        children: [{
+            path: 'installationManagement',
             component: installationManagement,
-            title:'装表管理'
+            title: '装表管理'
           },
           {
-            path:'meterReading',
+            path: 'meterReading',
             component: meterReading,
-            title:'抄表管理'
+            title: '抄表管理'
           },
           {
-            path:'historicalSupplement',
+            path: 'historicalSupplement',
             component: historicalSupplement,
-            title:'历史补抄'
+            title: '历史补抄'
           }
         ]
-      }
+      },
+      {
+        path: 'yuanFuTong',
+        component: yuanFuTong,
+        name: '',
+        redirect: '/yuanFuTong/yuanFuTongEcharts',
+        title: '园付通',
+        iconCls: 'el-icon-user-solid',
+        children: [{
+            path: 'businessRegistration',
+            component: businessRegistration,
+            title: '商家注册'
+          },
+          {
+            path: 'registerForCash',
+            component: registerForCash,
+            title: '收银机注册'
+          },
+          {
+            path: 'memberInformation',
+            component: memberInformation,
+            title: '会员信息'
+          }
+        ]
+      },
     ]
   },
   {
@@ -308,16 +339,16 @@ let routes = [{
         path: '/financialCenter',
         component: financialCenter,
         children: [{
-          path:'/financialCenter/financialEcharts',
-          component:financialEcharts
+          path: '/financialCenter/financialEcharts',
+          component: financialEcharts
         }]
       },
       {
         path: '/energyManagement',
         component: energyManagement,
         children: [{
-          path:'/energyManagement/energyEcharts',
-          component:energyEcharts
+          path: '/energyManagement/energyEcharts',
+          component: energyEcharts
         }]
       }
     ]

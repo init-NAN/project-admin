@@ -38,9 +38,9 @@
                 <div class="menu-text">{{item.title}}</div>
               </i>
             </el-menu-item>
-
           </template>
         </el-menu>
+        <!-- <el-col class="hide-card" :span="24"></el-col> -->
       </el-aside>
 
       <el-main id="elmain"
@@ -208,14 +208,14 @@ export default {
     // color: #67d0d5;
     line-height: 56px;
     span {
-      background: linear-gradient(to right, #825BFB , #0497E0,  #4B53F9);
+      background: linear-gradient(to right, #825bfb, #0497e0, #4b53f9);
       -webkit-background-clip: text;
       color: transparent;
     }
   }
 
   // 滚动条样式
-  /deep/ .el-table__body-wrapper::-webkit-scrollbar{
+  /deep/ .el-table__body-wrapper::-webkit-scrollbar {
     width: 6px; // 横向滚动条
     height: 6px; // 纵向滚动条 必写
   }
@@ -243,6 +243,29 @@ export default {
     margin-top: -140px;
     .pageside {
       width: 90px !important;
+      &::-webkit-scrollbar {
+        width: 5px;
+        height: 10px;
+      }
+      &::-webkit-scrollbar-track-piece {
+        background-color: rgba(0, 0, 0, 0.2);
+        -webkit-border-radius: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb:vertical {
+        height: 5px;
+        background-color: rgba(125, 125, 125, 0.7);
+        -webkit-border-radius: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb:horizontal {
+        width: 5px;
+        background-color: rgba(125, 125, 125, 0.7);
+        -webkit-border-radius: 6px;
+      }
+      // .hide-card {
+      //   height: 40px;
+      // }
     }
   }
 }

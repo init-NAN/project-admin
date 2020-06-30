@@ -40,11 +40,11 @@
         <template slot-scope="scope">
 
           <el-button type="text"
-                     size="small"
+                       
                      class="table-del"
                      @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           <el-button type="text"
-                     size="small"
+                       
                      class="table-show"
                      @click="filerightDown(index,fileName1)">下载</el-button>
         </template>

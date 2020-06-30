@@ -5,8 +5,11 @@
     </div>
 
     <el-tabs :tab-position="tabPosition"
-             style="height: 100%;" @tab-click="toclick" v-model="activeName2">
-      <el-tab-pane label="计费抄表单" name="计费抄表单">
+             style="height: 100%;"
+             @tab-click="toclick"
+             v-model="activeName2">
+      <el-tab-pane label="计费抄表单"
+                   name="计费抄表单">
         <el-row class="margin-bottom">
           <el-col :span="5">
             <el-button class="btn-addmore"
@@ -36,19 +39,24 @@
                            width="55">
           </el-table-column>
           <el-table-column prop="billingFormNo"
-                           label="抄表单编号" width="160"></el-table-column>
+                           label="抄表单编号"
+                           width="160"></el-table-column>
 
           <el-table-column prop="billingMeterReader"
-                           label="抄表人" width="80"></el-table-column>
+                           label="抄表人"
+                           width="80"></el-table-column>
 
           <el-table-column prop="billingYear"
-                           label="计费年月" width="100"></el-table-column>
+                           label="计费年月"
+                           width="100"></el-table-column>
 
           <el-table-column prop="billingType"
-                           label="表种类" width="130"></el-table-column>
+                           label="表种类"
+                           width="130"></el-table-column>
 
           <el-table-column prop="billingGeneration"
-                           label="生成时间" width="120"></el-table-column>
+                           label="生成时间"
+                           width="120"></el-table-column>
 
           <el-table-column prop="billingEnergyMeters"
                            label="能源表总数"></el-table-column>
@@ -57,20 +65,19 @@
                            label="完成数量"></el-table-column>
 
           <el-table-column prop="billingReviewStatus"
-                           label="复核状态" width="100"></el-table-column>
+                           label="复核状态"
+                           width="100"></el-table-column>
 
-          <el-table-column label="操作" width="150">
+          <el-table-column label="操作"
+                           width="150">
             <template slot-scope="scope">
               <el-button type="text"
-                         size="small"
                          class="table-show"
                          @click="editList(scope.$index, scope.row)">编辑</el-button>
               <el-button type="text"
-                         size="small"
                          class="table-del"
                          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               <el-button type="text"
-                         size="small"
                          class="table-show"
                          @click="changStatus(scope.$index, scope.row)">
                 {{scope.row.billingReviewStatus=='未复核'?'复核':''}}
@@ -79,7 +86,8 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="非计费抄表单" name="非计费抄表单">
+      <el-tab-pane label="非计费抄表单"
+                   name="非计费抄表单">
         <el-row class="margin-bottom">
           <el-col :span="5">
             <el-button class="btn-addmore"
@@ -109,19 +117,24 @@
                            width="55">
           </el-table-column>
           <el-table-column prop="billingFormNo"
-                           label="抄表单编号" width="160"></el-table-column>
+                           label="抄表单编号"
+                           width="160"></el-table-column>
 
           <el-table-column prop="billingMeterReader"
-                           label="抄表人" width="80"></el-table-column>
+                           label="抄表人"
+                           width="80"></el-table-column>
 
           <el-table-column prop="billingYear"
-                           label="计费年月" width="100"></el-table-column>
+                           label="计费年月"
+                           width="100"></el-table-column>
 
           <el-table-column prop="billingType"
-                           label="表种类" width="130"></el-table-column>
+                           label="表种类"
+                           width="130"></el-table-column>
 
           <el-table-column prop="billingGeneration"
-                           label="生成时间" width="120"></el-table-column>
+                           label="生成时间"
+                           width="120"></el-table-column>
 
           <el-table-column prop="billingEnergyMeters"
                            label="能源表总数"></el-table-column>
@@ -130,20 +143,22 @@
                            label="完成数量"></el-table-column>
 
           <el-table-column prop="billingReviewStatus"
-                           label="复核状态" width="100"></el-table-column>
+                           label="复核状态"
+                           width="100"></el-table-column>
 
-          <el-table-column label="操作" width="150">
+          <el-table-column label="操作"
+                           width="150">
             <template slot-scope="scope">
               <el-button type="text"
-                         size="small"
+                          
                          class="table-show"
                          @click="editList(scope.$index, scope.row)">编辑</el-button>
               <el-button type="text"
-                         size="small"
+                          
                          class="table-del"
                          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               <el-button type="text"
-                         size="small"
+                          
                          class="table-show"
                          @click="changStatus(scope.$index, scope.row)">
                 {{scope.row.billingReviewStatus=='未复核'?'复核':''}}
@@ -153,7 +168,7 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-col class="toolbar">
+    <!-- <el-col class="toolbar">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
                      :current-page="page"
@@ -162,7 +177,12 @@
                      layout="total, sizes, prev, pager, next, jumper"
                      :total="total">
       </el-pagination>
-    </el-col>
+    </el-col> -->
+    <Pagings :total="total"
+             :page="page"
+             :pageSize="pageSize"
+             @handleSizeChangeSub="handleSizeChange"
+             @handleCurrentChangeSub="handleCurrentChange"></Pagings>
     <el-col class="hidden-card"
             :sm="22"
             :md="15"
@@ -309,7 +329,11 @@
 </template>
 
 <script>
+import Pagings from "@/components/common/Pagings.vue";
 export default {
+  components: {
+    Pagings
+  },
   data () {
     return {
       tabPosition: 'left',
@@ -402,7 +426,7 @@ export default {
           id: 4
         }
       ],
-      activeName2:'计费抄表单',
+      activeName2: '计费抄表单',
       listLoading: false,
       page: 1,
       pageSize: 10,

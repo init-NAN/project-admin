@@ -78,17 +78,17 @@
                          width="130">
           <template slot-scope="scope">
             <el-button type="text"
-                       size="small"
+                         
                        class="table-change"
                        @click.native.prevent="editList(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text"
                        class="table-del"
                        @click="handleDelete(scope.$index,scope.row)"
-                       size="small">
+                         >
               {{scope.row.label=='已启用'?'停止':''}}
             </el-button>
             <el-button type="text"
-                       size="small"
+                         
                        class="table-change"
                        @click.native.prevent="editList(scope.$index, scope.row)">复制</el-button>
           </template>

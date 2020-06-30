@@ -70,20 +70,20 @@
                          width="200">
           <template slot-scope="scope">
             <el-button type="text"
-                       size="small"
+                         
                        class="table-show"
                        @click.native.prevent="editList(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text"
                        class="table-del"
                        @click.native.prevent="handleDelete(scope.$index,scope.row)"
-                       size="small">删除</el-button>
+                         >删除</el-button>
             <el-button type="text"
-                       size="small"
+                         
                        class="table-show"
                        @click="copyList(scope.$index, scope.row)">复制</el-button>
             <el-button type="text"
                        class="table-show"
-                       size="small">查看二维码</el-button>
+                         >查看二维码</el-button>
           </template>
         </el-table-column>
 

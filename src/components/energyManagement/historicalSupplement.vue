@@ -66,11 +66,11 @@
                        width="150">
         <template slot-scope="scope">
           <el-button type="text"
-                     size="small"
+                       
                      class="table-show"
                      @click="editList(scope.$index, scope.row)">编辑</el-button>
           <el-button type="text"
-                     size="small"
+                       
                      class="table-del"
                      @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>

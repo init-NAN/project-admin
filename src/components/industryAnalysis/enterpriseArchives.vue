@@ -206,7 +206,12 @@
             <el-row type="flex" justify="space-between">
               <el-col :span="10">
                 <el-form-item label="企业所属地区:">
-                  
+                  <el-cascader
+                    size="large"
+                    :options="addressOptions"
+                    v-model="selectedOptions"
+                    @change="addressChange">
+                  </el-cascader>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
@@ -701,6 +706,7 @@
 </template>
 
 <script>
+import { regionData,CodeToText } from 'element-china-area-data'
 export default {
   data() {
     return {
@@ -722,6 +728,8 @@ export default {
       memberFormRules:{},
       partyForm:{},//党建表单
       partyFormRules:{},
+      addressOptions:regionData,
+      selectedOptions: [],
       companyStatusOption:[
         {
           value: '0',
@@ -1025,6 +1033,11 @@ export default {
     }
   },
   methods:{
+    //地址选择完触发(获取选择的地址)
+    addressChange(arr) {
+      console.log(arr);
+      console.log(CodeToText[arr[0]], CodeToText[arr[1]], CodeToText[arr[2]]);
+    },
     handleSelectionChange() {
 
     },

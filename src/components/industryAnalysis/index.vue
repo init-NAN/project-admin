@@ -188,7 +188,7 @@ export default {
   .el-tabs__item.is-active {
     color: #4094ff;
   }
-  @media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1200px) {
   .main-content {
     .grid-content {
       .buttonHead {
@@ -201,13 +201,13 @@ export default {
     }
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1200px) {
   .main-content {
     .grid-content {
       .buttonHead {
         .right {
           .searchInput {
-            width: 100% !important;
+            width: 100%;
           }
         }
       }

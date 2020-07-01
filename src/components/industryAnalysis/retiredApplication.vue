@@ -5,7 +5,7 @@
     </div>
     <section class="grid-content">
       <el-row class="buttonHead">
-        <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
+        <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
           <div class="left">
             <el-button  type="primary" class="btn-addmore el-icon-plus" @click="applyRetire">申请</el-button>
             <el-button type="primary" class="el-icon-download btn-addmore">导出EXCEL表</el-button>
@@ -14,7 +14,7 @@
             <el-button  type="primary" class="btn-addmore el-icon-search" @click="checkRetire" :disabled="disCheck">查看</el-button>
           </div>
         </el-col>
-        <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
+        <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
           <div class="right">
             <el-input v-model="inputSearch"  placeholder="搜索..." class="searchInput"></el-input>
             <el-button  type="primary" class="el-icon-search btn-addmore"></el-button>

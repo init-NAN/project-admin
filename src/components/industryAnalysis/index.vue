@@ -84,6 +84,9 @@ export default {
     background-color: rgba(10, 13, 51, 0.7);
     transform-origin: 141px 134.563px;
     .el-form {
+      .el-card {
+        margin-bottom: 20px;
+      }
       .superiorOrganization {
         .el-select {
           width: 100%;

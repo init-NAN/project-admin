@@ -12,7 +12,6 @@
             <el-button  type="primary" class="btn-addmore el-icon-plus" @click="addOne">新增</el-button>
             <el-button  type="primary" class="btn-addmore el-icon-edit" :disabled="isCanEdit" @click="editArchives">修改</el-button>
             <el-button  type="primary" class="btn-addmore el-icon-delete" :disabled="isCanDelete" @click="deleteArchives">删除</el-button>
-            <el-button  type="primary" class="btn-addmore el-icon-search" @click="checkArchives" :disabled="disCheck">查看</el-button>
           </div>
         </el-col>
         <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
@@ -30,17 +29,11 @@
         @selection-change="handleSelectionChange"
         :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="enterpriseName" label="企业名称"></el-table-column>
-        <el-table-column prop="industryBigCategory" label="行业大类"></el-table-column>
-        <el-table-column prop="enteringFloor" label="入驻楼盘"></el-table-column>
-        <el-table-column prop="enteringDate" label="入驻时间"></el-table-column>
-        <el-table-column prop="enterpriseStatus" label="企业状态"></el-table-column>
-        <el-table-column prop="isRetired" label="是否退园">
-          <template slot-scope="scope">
-            <span v-if="scope.row.isRetired">是</span>
-            <span v-else>否</span>
-          </template>
-        </el-table-column>
+        <el-table-column prop="companyName" label="企业名称"></el-table-column>
+        <el-table-column prop="industryBigType" label="行业大类"></el-table-column>
+        <el-table-column prop="enterArea" label="入驻园区"></el-table-column>
+        <el-table-column prop="enterDate" label="入驻时间"></el-table-column>
+        <el-table-column prop="companyStatus" label="企业状态"></el-table-column>
     </el-table>
     <el-pagination
         @size-change="handleSizeChange"
@@ -80,455 +73,455 @@
         <el-button class="btn-addmore">导入</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="企业资料" :visible.sync="showNewDia" width="80%">
+    <el-dialog :title="newEditTile" :visible.sync="showNewEdit" width="80%">
+      <div style="display: flex;justify-content: flex-end;">
+        <el-button @click="showNewEdit = false" class="btn-trans">取 消</el-button>
+        <el-button @click="submitAchivement" class="btn-addmore">保 存</el-button>
+      </div>
       <el-tabs tab-position="top" >
         <el-tab-pane label="基本信息">
           <el-form ref="basicForm" :model="basicForm" :rules="basicFormRules" label-width="150px" label-position="right">
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="企业名称:" prop="companyName">
-                  <el-input v-model="basicForm.companyName"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="曾用名:">
-                  <el-input v-model="basicForm.usedName"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="企业状态:" prop="companyStatus">
-                  <el-select v-model="basicForm.companyStatus" placeholder="请选择">
-                    <el-option
-                      v-for="item in companyStatusOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="企业性质:">
-                  <el-select v-model="basicForm.companyNature" placeholder="请选择">
-                    <el-option
-                      v-for="item in companyNatureOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="入驻园区:">
-                  <el-select v-model="basicForm.enterArea" placeholder="请选择" @change="chooseArea">
-                    <el-option
-                      v-for="item in enterAreaOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.size">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="园区面积(m²):">
-                  <el-input v-model="basicForm.enterAreaSize"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="入驻时间:">
-                  <el-date-picker
-                    v-model="basicForm.enterDate"
-                    type="date"
-                    placeholder="请选择入驻时间"
-                    value-format="yyyy-MM-dd"
-                  ></el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="建设规模(m²):">
-                  <el-input v-model="basicForm.buildUpArea"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="拟申请办公面积(m²):">
-                  <el-input v-model="basicForm.applyOfficeArea"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="合同类型:">
-                  <el-select v-model="basicForm.contractType" placeholder="请选择合同类型" @change="chooseArea">
-                    <el-option
-                      v-for="item in contractTypeOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="来源方式:">
-                  <el-select v-model="basicForm.sourceMode" placeholder="请选择">
-                    <el-option
-                      v-for="item in sourceModeOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="来源类型:">
-                  <el-select v-model="basicForm.sourceType" placeholder="请选择">
-                    <el-option
-                      v-for="item in sourceTypeOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="企业所属地区:">
-                  <el-cascader
-                    size="large"
-                    :options="addressOptions"
-                    v-model="selectedOptions"
-                    @change="addressChange">
-                  </el-cascader>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="数据生成来源:">
-                  <el-select v-model="basicForm.sourceOriginType" placeholder="请选择">
-                    <el-option
-                      v-for="item in sourceOriginTypeOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="行业大类:">
-                  <el-select v-model="basicForm.industryBigType" placeholder="请选择">
-                    <el-option
-                      v-for="item in industryBigTypeOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="行业小类:">
-                  <el-select v-model="basicForm.industrySmallType" placeholder="请选择">
-                    <el-option
-                      v-for="item in industrySmallTypeOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="联系人员:" prop="concactName">
-                  <el-input v-model="basicForm.concactName"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                 <el-form-item label="联系人部门:">
-                  <el-input v-model="basicForm.concactDepartment"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="联系人电话:" prop="concactPhone">
-                  <el-input v-model="basicForm.concactPhone"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                 <el-form-item label="联系人职务:">
-                  <el-input v-model="basicForm.concactJob"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="联系QQ:">
-                  <el-input v-model="basicForm.concactQQ"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                 <el-form-item label="邮箱地址:">
-                  <el-input v-model="basicForm.concactEmail"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="公司电话:">
-                  <el-input v-model="basicForm.companyPhone"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                 <el-form-item label="公司传真:">
-                  <el-input v-model="basicForm.companyFax"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="公司网址:">
-                  <el-input v-model="basicForm.companyWebSite"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                 <el-form-item label="企业法人:">
-                  <el-input v-model="basicForm.companyLegalPerson"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="法人联系电话:">
-                  <el-input v-model="basicForm.legalPersonPhone"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                 <el-form-item label="法人身份证:">
-                  <el-input v-model="basicForm.legalPersonIdCard"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="工商注册类型:">
-                  <el-select v-model="basicForm.businessType" placeholder="请选择">
-                    <el-option
-                      v-for="item in businessTypeOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="统一社会信用代码:">
-                  <el-input v-model="basicForm.creditCode"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="登记状态:" prop="regitionType">
-                  <el-select v-model="basicForm.regitionType" placeholder="请选择">
-                    <el-option
-                      v-for="item in regitionTypeOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="登记机关:">
-                  <el-input v-model="basicForm.regitionDepartment"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="登记核准时间:">
-                  <el-date-picker
-                    v-model="basicForm.regitionDate"
-                    type="date"
-                    placeholder="请选择"
-                    value-format="yyyy-MM-dd"
-                  ></el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="注册资本(万):">
-                  <el-input v-model="basicForm.regitionMoney"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="年销售额(万):">
-                  <el-input v-model="basicForm.yearSaleMoney"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="年纳税额(万):">
-                  <el-input v-model="basicForm.yearTax"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="注册地址:">
-                  <el-input v-model="basicForm.regitionAdress"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="宣传视频:">
-                  <el-upload
-                    class="upload-demo"
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove" 
-                    accept=".avi, .wmv, .mpeg, .mpg, .mov, .rm, .ram, .swf, .flv, .mp4"
-                    :before-remove="beforeRemove"
-                    multiple
-                    :limit="1"
-                    :on-exceed="handleExceed"
-                    :file-list="fileList">
-                    <el-button type="primary" class="btn-addmore" style="margin-left:10px;">上传视频</el-button>
-                  </el-upload>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="办公地址:">
-                  <el-input v-model="basicForm.officeAdress"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="成立时间:">
-                  <el-date-picker
-                    v-model="basicForm.establishDate"
-                    type="date"
-                    placeholder="请选择"
-                    value-format="yyyy-MM-dd"
-                  ></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="是否高新技术企业:">
-                  <el-radio v-model="basicForm.isHighNewCompany" label="1">是</el-radio>
-                  <el-radio v-model="basicForm.isHighNewCompany" label="2">否</el-radio>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="高新技术证书编号:">
-                  <el-input v-model="basicForm.highNewCompanyCode"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="高新技术认定时间:">
-                  <el-date-picker
-                    v-model="basicForm.highNewCompanyDate"
-                    type="date"
-                    placeholder="请选择"
-                    value-format="yyyy-MM-dd"
-                  ></el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="股票名称:">
-                  <el-input v-model="basicForm.StockName"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="股票代码:">
-                  <el-input v-model="basicForm.StockCode"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="上市情况:">
-                  <el-select v-model="basicForm.inMarketStatus" placeholder="请选择">
-                    <el-option
-                      v-for="item in inMarketStatusOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="招商经理:">
-                  <el-input v-model="basicForm.leasingManager"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="申请人:">
-                  <el-input v-model="basicForm.applyer"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="申请时间:">
-                  <el-date-picker
-                    v-model="basicForm.applyDate"
-                    type="date"
-                    placeholder="请选择"
-                    value-format="yyyy-MM-dd"
-                  ></el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="是否导入:">
-                  <el-radio v-model="basicForm.isImported" label="1">是</el-radio>
-                  <el-radio v-model="basicForm.isImported" label="2">否</el-radio>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row type="flex" justify="space-between">
-              <el-col :span="10">
-                <el-form-item label="导入人:">
-                  <el-input v-model="basicForm.importPerson"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="导入时间:">
-                  <el-date-picker
-                    v-model="basicForm.importDate"
-                    type="date"
-                    placeholder="请选择"
-                    value-format="yyyy-MM-dd"
-                  ></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-row>
+            <el-card class="box-card">
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="企业名称:" prop="companyName">
+                    <el-input v-model="basicForm.companyName" placeholder="请输入企业名称"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="曾用名:">
+                    <el-input v-model="basicForm.usedName" placeholder="请输入企业曾用名"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="企业状态:" prop="companyStatus">
+                    <el-select v-model="basicForm.companyStatus" placeholder="请选择企业状态">
+                      <el-option
+                        v-for="item in companyStatusOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.label">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="企业性质:">
+                    <el-select v-model="basicForm.companyNature" placeholder="请选择企业性质">
+                      <el-option
+                        v-for="item in companyNatureOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="入驻园区:">
+                    <el-select v-model="basicForm.enterArea" placeholder="请选择入驻园区" @change="chooseArea">
+                      <el-option
+                        v-for="item in enterAreaOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.label">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="园区面积(m²):">
+                    <el-input v-model="basicForm.enterAreaSize" placeholder="请输入园区面积"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="入驻时间:">
+                    <el-date-picker
+                      v-model="basicForm.enterDate"
+                      type="date"
+                      placeholder="请选择入驻时间"
+                      value-format="yyyy-MM-dd"
+                    ></el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="建设规模(m²):">
+                    <el-input v-model="basicForm.buildUpArea" placeholder="请输入建设规模面积"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="拟申请办公面积(m²):">
+                    <el-input v-model="basicForm.applyOfficeArea" placeholder="请输入拟申请办公面积"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="合同类型:">
+                    <el-select v-model="basicForm.contractType" placeholder="请选择合同类型" @change="chooseArea">
+                      <el-option
+                        v-for="item in contractTypeOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="来源方式:">
+                    <el-select v-model="basicForm.sourceMode" placeholder="请选择来源方式">
+                      <el-option
+                        v-for="item in sourceModeOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="来源类型:">
+                    <el-select v-model="basicForm.sourceType" placeholder="请选择来源类型">
+                      <el-option
+                        v-for="item in sourceTypeOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+
+            <el-card class="box-card">
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="企业所属地区:">
+                    <el-cascader
+                      size="large"
+                      :options="addressOptions"
+                      v-model="selectedOptions"
+                      placeholder="请选择企业所属地区"
+                      @change="addressChange">
+                    </el-cascader>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="数据生成来源:">
+                    <el-select v-model="basicForm.sourceOriginType" placeholder="请选择数据生成来源">
+                      <el-option
+                        v-for="item in sourceOriginTypeOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="行业大类:">
+                    <el-select v-model="basicForm.industryBigType" placeholder="请选择行业大类">
+                      <el-option
+                        v-for="item in industryBigTypeOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.label">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="行业小类:">
+                    <el-select v-model="basicForm.industrySmallType" placeholder="请选择行业小类">
+                      <el-option
+                        v-for="item in industrySmallTypeOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="联系人员:" prop="concactName">
+                    <el-input v-model="basicForm.concactName" placeholder="请输入联系人员名称"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="联系人部门:">
+                    <el-input v-model="basicForm.concactDepartment" placeholder="请输入联系人部门"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="联系人电话:" prop="concactPhone">
+                    <el-input v-model="basicForm.concactPhone" placeholder="请输入联系人电话"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="联系人职务:">
+                    <el-input v-model="basicForm.concactJob" placeholder="请输入联系人职务"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="联系人QQ:">
+                    <el-input v-model="basicForm.concactQQ" placeholder="请输入联系人QQ"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="邮箱地址:">
+                    <el-input v-model="basicForm.concactEmail" placeholder="请输入邮箱地址"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="公司电话:">
+                    <el-input v-model="basicForm.companyPhone" placeholder="请输入公司电话"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="公司传真:">
+                    <el-input v-model="basicForm.companyFax" placeholder="请输入公司传真"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+          
+            <el-card class="box-card">
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="公司网址:">
+                    <el-input v-model="basicForm.companyWebSite" placeholder="请输入公司网址"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="企业法人:">
+                    <el-input v-model="basicForm.companyLegalPerson" placeholder="请输入企业法人"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="法人联系电话:">
+                    <el-input v-model="basicForm.legalPersonPhone" placeholder="请输入法人联系电话"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="法人身份证:">
+                    <el-input v-model="basicForm.legalPersonIdCard" placeholder="请输入法人身份证"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="工商注册类型:">
+                    <el-select v-model="basicForm.businessType" placeholder="请选择工商注册类型">
+                      <el-option
+                        v-for="item in businessTypeOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="统一社会信用代码:">
+                    <el-input v-model="basicForm.creditCode" placeholder="请输入统一社会信用代码"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="登记状态:" prop="regitionType">
+                    <el-select v-model="basicForm.regitionType" placeholder="请选择登记状态">
+                      <el-option
+                        v-for="item in regitionTypeOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="登记机关:">
+                    <el-input v-model="basicForm.regitionDepartment" placeholder="请输入登记机关"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="登记核准时间:">
+                    <el-date-picker
+                      v-model="basicForm.regitionDate"
+                      type="date"
+                      placeholder="请选择登记核准时间"
+                      value-format="yyyy-MM-dd"
+                    ></el-date-picker>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="注册资本(万):">
+                    <el-input v-model="basicForm.regitionMoney" placeholder="请输入注册资本"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="年销售额(万):">
+                    <el-input v-model="basicForm.yearSaleMoney" placeholder="请输入年销售额"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="年纳税额(万):">
+                    <el-input v-model="basicForm.yearTax" placeholder="请输入年纳税额"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+            
+            <el-card class="box-card">
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="注册地址:">
+                    <el-input v-model="basicForm.regitionAdress" placeholder="请输入注册地址"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="宣传视频:">
+                    <el-upload
+                      class="upload-demo"
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :on-preview="handlePreview"
+                      :on-remove="handleRemove" 
+                      accept=".avi, .wmv, .mpeg, .mpg, .mov, .rm, .ram, .swf, .flv, .mp4"
+                      :before-remove="beforeRemove"
+                      multiple
+                      :limit="1"
+                      :on-exceed="handleExceed"
+                      :file-list="fileList">
+                      <el-button type="primary" class="btn-addmore" style="margin-left:8px;">上传视频</el-button>
+                    </el-upload>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="办公地址:">
+                    <el-input v-model="basicForm.officeAdress" placeholder="请输入办公地址"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="成立时间:">
+                    <el-date-picker
+                      v-model="basicForm.establishDate"
+                      type="date"
+                      placeholder="请选择成立时间"
+                      value-format="yyyy-MM-dd"
+                    ></el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="是否高新技术企业:">
+                    <el-radio v-model="basicForm.isHighNewCompany" label="1">是</el-radio>
+                    <el-radio v-model="basicForm.isHighNewCompany" label="2">否</el-radio>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="高新技术证书编号:">
+                    <el-input v-model="basicForm.highNewCompanyCode" placeholder="请输入高新技术证书编号"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="高新技术认定时间:">
+                    <el-date-picker
+                      v-model="basicForm.highNewCompanyDate"
+                      type="date"
+                      placeholder="请选择高新技术认定时间"
+                      value-format="yyyy-MM-dd"
+                    ></el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="股票名称:">
+                    <el-input v-model="basicForm.StockName" placeholder="请输入股票名称"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="股票代码:">
+                    <el-input v-model="basicForm.StockCode" placeholder="请输入股票代码"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="上市情况:">
+                    <el-select v-model="basicForm.inMarketStatus" placeholder="请选择上市情况">
+                      <el-option
+                        v-for="item in inMarketStatusOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="招商经理:">
+                    <el-input v-model="basicForm.leasingManager" placeholder="请输入招商经理"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="申请人:">
+                    <el-input v-model="basicForm.applyer" placeholder="请输入申请人"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="8">
+                  <el-form-item label="申请时间:">
+                    <el-date-picker
+                      v-model="basicForm.applyDate"
+                      type="date"
+                      placeholder="请选择申请时间"
+                      value-format="yyyy-MM-dd"
+                    ></el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="是否导入:">
+                    <el-radio v-model="basicForm.isImported" label="1">是</el-radio>
+                    <el-radio v-model="basicForm.isImported" label="2">否</el-radio>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="导入人:">
+                    <el-input v-model="basicForm.importPerson" placeholder="请输入导入人"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row type="flex" >
+                <el-col :span="8">
+                  <el-form-item label="导入时间:">
+                    <el-date-picker
+                      v-model="basicForm.importDate"
+                      type="date"
+                      placeholder="请选择导入时间"
+                      value-format="yyyy-MM-dd"
+                    ></el-date-picker>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="企业简介">
@@ -572,7 +565,7 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="人员情况">
-          <el-form ref="memberForm" :mode="partyForm" :rules="memberFormRules" label-position="right" label-width="120px">
+          <el-form ref="memberForm" :mode="memberForm" :rules="memberFormRules" label-position="right" label-width="120px">
             <el-row type="flex" justify="space-between">
               <el-col :span="10">
                 <el-form-item label="公司总人数:">
@@ -641,7 +634,6 @@
             :data="bossTable"
             v-loading="listLoading"
             style="width: 100%"
-            @selection-change="handleSelectionChange"
             :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -699,8 +691,68 @@
               </el-col>
             </el-row>
           </el-form>
-        </el-tab-pane>
+        </el-tab-pane> 
       </el-tabs>
+    </el-dialog>
+    <el-dialog title="新增股东" :visible.sync="showNewBoss" width="80%">
+      <el-form ref="newBossForm" :model="newBossForm" :rules="newBossFormRules" label-width="110px" label-position="right">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="7">
+            <el-form-item label="股东姓名" prop="name">
+              <el-input v-model="newBossForm.name" placeholder="请输入股东姓名"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="股东性别:" prop="sex">
+              <el-radio v-model="newBossForm.sex" label="男">男</el-radio>
+              <el-radio v-model="newBossForm.sex" label="女">女</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="股东年龄" prop="age">
+              <el-input v-model="newBossForm.age" placeholder="请输入股东年龄"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="7">
+            <el-form-item label="学历" prop="education">
+              <el-input v-model="newBossForm.education" placeholder="请输入股东学历"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="专业:" prop="major">
+              <el-input v-model="newBossForm.major" placeholder="请输入股东所学专业"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="出资金额" prop="contribution">
+              <el-input v-model="newBossForm.contribution" placeholder="请输入股东年龄"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="7">
+            <el-form-item label="占股比例(%)" prop="ratio">
+              <el-input v-model="newBossForm.ratio" placeholder="请输入股东占股比例"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="职务:" prop="position">
+              <el-input v-model="newBossForm.position" placeholder="请输入股东职务"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="备注" prop="note">
+              <el-input v-model="newBossForm.note" placeholder="请输入股东备注"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelNewBoss('newBossForm')" class="btn-trans">取 消</el-button>
+        <el-button @click="submitNewBoss('newBossForm')" class="btn-addmore">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -713,13 +765,15 @@ export default {
       total: 0,
       page: 1,
       pageSize: 10,
+      selectionLengh:0,
+      multipleSelection:[],
       inputSearch:'',
-      isCanEdit:false,
+      isCanEdit:true,
       isCanDelete:true,
-      disCheck:true,
       listLoading:false,
       showImportDia:false,
-      showNewDia:false,
+      showNewEdit:false,
+      newEditTile:'',
       fileList:[],
       importForm:{},
       profileForm:{},//企业简介表单
@@ -728,8 +782,22 @@ export default {
       memberFormRules:{},
       partyForm:{},//党建表单
       partyFormRules:{},
-      addressOptions:regionData,
-      selectedOptions: [],
+      addressOptions:regionData,//城市选择地址
+      selectedOptions: [],//城市选择
+      //新增股东表单开始
+      showNewBoss:false,
+      newBossForm:{},
+      newBossFormRules:{
+        name:[{required: true, message: "请输入股东姓名", trigger: "blur"}],
+        sex:[{required: true, message: "请选择股东性别", trigger: "blur"}],
+        age:[{required: true, message: "请输入股东年龄", trigger: "blur"}],
+        major:[{required: true, message: "请输入股东专业", trigger: "blur"}],
+        education:[{required: true, message: "请选择股东教育程度", trigger: "blur"}],
+        contribution:[{required: true, message: "请输入股东出资占比", trigger: "blur"}],
+        ratio:[{required: true, message: "请输入股东占股比例", trigger: "blur"}],
+        position:[{required: true, message: "请选输入股东职务", trigger: "blur"}]
+      },
+      //新增股东表单结尾
       companyStatusOption:[
         {
           value: '0',
@@ -993,29 +1061,26 @@ export default {
       archivesTable:[
         // enterpriseName industryBigCategory enteringFloor enteringDate enterpriseStatus isRetired
         {
-          enterpriseName:'企业001',
-          industryBigCategory:'互联网',
-          enteringFloor:'楼盘001',
-          enteringDate:'2020-5-20',
-          enterpriseStatus:'正常',
-          isRetired:true
+          companyName:'企业001',
+          industryBigType:'互联网',
+          enterArea:'楼盘001',
+          enterDate:'2020-5-20',
+          companyStatus:'筹建'
         },
         {
-          enterpriseName:'企业002',
-          industryBigCategory:'医疗',
-          enteringFloor:'楼盘002',
-          enteringDate:'2020-5-21',
-          enterpriseStatus:'正常',
-          isRetired:false
+          companyName:'企业002',
+          industryBigType:'金融',
+          enterArea:'楼盘002',
+          enterDate:'2020-5-21',
+          companyStatus:'在建'
         },
         {
-          enterpriseName:'企业003',
-          industryBigCategory:'教育',
-          enteringFloor:'楼盘003',
-          enteringDate:'2020-5-22',
-          enterpriseStatus:'正常',
-          isRetired:true
-        },
+          companyName:'企业003',
+          industryBigType:'教育',
+          enterArea:'楼盘002',
+          enterDate:'2020-5-22',
+          companyStatus:'投产'
+        }
       ],
       bossTable:[
         {
@@ -1038,8 +1103,9 @@ export default {
       console.log(arr);
       console.log(CodeToText[arr[0]], CodeToText[arr[1]], CodeToText[arr[2]]);
     },
-    handleSelectionChange() {
-
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      this.selectionLengh = val.length;
     },
     handleSizeChange() {
 
@@ -1047,32 +1113,97 @@ export default {
     handleCurrentChange() {
 
     },
-    chooseArea(size) {
-      this.basicForm.enterAreaSize = size
+    chooseArea(label) {
+      console.log(label,'label')
+      this.enterAreaOption.forEach((item, index) => {
+        if(item.label == label)
+          this.basicForm.enterAreaSize = item.size
+      })
     },
     //导入
     importExcell() {
       this.showImportDia = true
     },
+    //重置企业表单数据
+    resetCompanyForm() {
+      for (let key in this.basicForm) {
+        this.basicForm[key] = "";
+      }
+      for (let key in this.profileForm) {
+        this.profileForm[key] = "";
+      }
+      for (let key in this.memberForm) {
+        this.memberForm[key] = "";
+      }
+      for (let key in this.partyForm) {
+        this.partyForm[key] = "";
+      }
+    },
     //新增
     addOne() {
-      this.showNewDia = true
+      this.resetCompanyForm()
+      this.newEditTile = '新增企业档案'
+      this.showNewEdit = true
+    },
+    //保存企业档案
+    submitAchivement() {
+      console.log(this.basicForm,'基本信息表单')
+      this.archivesTable.push({...this.basicForm})
+      this.showNewEdit = false
     },
     //修改
     editArchives() {
-
+      // console.log(this.multipleSelection,'selection')
+      this.resetCompanyForm()
+      this.newEditTile = '修改企业档案'
+      this.showNewEdit = true
     },
     //删除企业档案
     deleteArchives() {
-
-    },
-    //查看
-    checkArchives() {
-
+      this.$confirm(`确定要删除吗?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        for (let i = 0; i < this.archivesTable.length; i++) {
+          const element = this.archivesTable[i];
+          element.id = i;
+        }
+        this.multipleSelection.forEach(element => {
+          this.archivesTable.forEach((e, i) => {
+            if (element.id == e.id) {
+              this.archivesTable.splice(i,1)
+            }
+          });
+        });
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+      })
+      .catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
     },
     //新增股东
     addBoss() {
-      
+      for (let key in this.newBossForm) {
+        this.newBossForm[key] = "";
+      }
+      this.showNewBoss = true
+    },
+    cancelNewBoss(formName) {
+      this.showNewBoss = false
+      this.$refs[formName].resetFields();
+    },
+    submitNewBoss(formName) {
+      console.log(this.newBossForm,'表单')
+      this.bossTable.push({...this.newBossForm})
+      this.showNewBoss = false
     },
     //删除股东
     deleteCurrentBoss(row, index) {
@@ -1113,6 +1244,20 @@ export default {
     //文件上传--end
     cancelDialog(formName) {
       this.showImportDia = false
+    }
+  },
+  watch:{
+    selectionLengh: function(newLen) {
+      if (newLen != 0) {
+        this.isCanDelete = false;
+      } else {
+        this.isCanDelete = true;
+      }
+      if (newLen === 1) {
+        this.isCanEdit = false;
+      } else {
+        this.isCanEdit = true;
+      }
     }
   }
 }

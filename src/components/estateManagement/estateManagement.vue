@@ -26,6 +26,7 @@ export default {
   .el-table .el-button {
     color: #fff;
     background-color: transparent;
+    font-size: 13px;
   }
   .el-table__body tr.hover-row > td {
     background-color: rgba(158, 162, 192, 0.5);

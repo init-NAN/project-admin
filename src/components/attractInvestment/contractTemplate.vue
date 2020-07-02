@@ -60,7 +60,11 @@
                      :total="total">
       </el-pagination>
     </el-col>
-
+<el-col class="hidden-card"
+            :sm="22"
+            :md="15"
+            :offset="1">
+    </el-col>
     <el-dialog title="新建合同模板"
                :visible.sync="dialogAddList">
       <div class="todolist">

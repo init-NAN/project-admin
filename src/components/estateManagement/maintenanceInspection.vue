@@ -212,6 +212,11 @@
                      :total="total">
       </el-pagination>
     </el-col>
+    <el-col class="hidden-card"
+            :sm="22"
+            :md="15"
+            :offset="1">
+    </el-col>
 
     <el-dialog title="分派"
                :visible.sync="isMaintenance"
@@ -234,7 +239,7 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isMaintenance = false"
+        <el-button @click="isMaintenance = false,resetForm ('form')"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="changeMaintenanceRegion('form')">确 定</el-button>
@@ -253,7 +258,7 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isDesc = false"
+        <el-button @click="isDesc = false,resetForm ('form')"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="changeDesc">确 定</el-button>
@@ -315,10 +320,6 @@ export default {
       page: 1,
       pageSize: 10,
       form: {
-        username: "",
-        password: "",
-        email: "",
-        mobile: ""
       },
       rules: {
         doPer: [

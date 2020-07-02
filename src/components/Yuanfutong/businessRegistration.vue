@@ -85,8 +85,8 @@
         <el-form :model="form"
                  :rules="rules"
                  ref="form"
-                 label-width="100px"
-                 label-position="left">
+                 label-width="auto"
+                 label-position="right">
           <el-card class="box-card">
             <div slot="header"
                  class="clearfix">
@@ -148,7 +148,7 @@
       <div slot="footer"
            class="dialog-footer">
         <el-button class="btn-trans"
-                   @click="resetForm('form')">取 消</el-button>
+                   @click="isBusiness = false ,resetForm('form')">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="submitForm('form')">确 定</el-button>
       </div>

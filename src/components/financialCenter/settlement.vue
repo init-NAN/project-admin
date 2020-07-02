@@ -50,11 +50,11 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text"
-                     size="small"
+                      
                      class="table-show"
                      @click="watchForm(scope.$index, scope.row)">查看</el-button>
           <el-button type="text"
-                     size="small"
+                      
                      class="table-del"
                      @click="editRole(scope.$index, scope.row)">
             {{scope.row.status == '1'?'清除结算':'结算确认'}}

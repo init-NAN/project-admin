@@ -1,13 +1,12 @@
 <template>
-  <div class="">
+  <div class="discount">
     <div class="current-page-title">
-      <span>收银机注册</span>
+      <span>折扣配置</span>
     </div>
-
     <el-row class="margin-bottom">
       <el-col :span="2">
-        <el-button class="btn-addmore"
-                   @click="addBusiness('form')">新建</el-button>
+        <el-button class="btn-addmore "
+                   @click="addNewDiscount('form')">新建</el-button>
       </el-col>
       <el-col :span="3">
         <el-button :disabled='this.checkedBox.length===0'
@@ -16,7 +15,7 @@
       </el-col>
       <el-col :span="6"
               :offset="10">
-        <el-input v-model="input"
+        <el-input v-model="searchInput"
                   placeholder="请输入内容"></el-input>
       </el-col>
       <el-col :span="2"
@@ -28,23 +27,36 @@
       <el-table :data="tableData"
                 v-loading="listLoading"
                 ref="table"
-                @selection-change="handleSelectionChange"
                 @sort-change="handleSortChange"
+                @selection-change="handleSelectionChange"
                 :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
 
         <el-table-column type="selection"
                          width="55">
         </el-table-column>
-        <el-table-column prop="equipmentNumber"
-                         label="设备编号"></el-table-column>
-        <el-table-column prop="equipmentName"
-                         label="设备名称"></el-table-column>
-        <el-table-column prop="affiliatedBusinesses"
-                         label="所属商家"></el-table-column>
-        <el-table-column prop="deviceKey"
-                         label="设备key"></el-table-column>
+        <el-table-column prop="deviceName"
+                         label="设备名称">
+        </el-table-column>
+        <el-table-column prop="businessName"
+                         label="商家名称">
+        </el-table-column>
+        <el-table-column prop="discount"
+                         label="折扣(折)">
+        </el-table-column>
+        <el-table-column prop="creationTime"
+                         label="创建时间">
+        </el-table-column>
+        <el-table-column prop="discountDirection"
+                         label="折扣方向">
+        </el-table-column>
+        <el-table-column prop="enable"
+                         label="是否启用">
+          <template v-slot="scope">
+            {{scope.row.enable =='1'?'已启用':'未启用'}}
+          </template>
+        </el-table-column>
         <el-table-column label="操作"
-                         width="200">
+                         width="150">
           <template slot-scope="scope">
             <el-button type="text"
                        class="table-show"
@@ -53,102 +65,86 @@
                        class="table-del"
                        @click="handleDelete(scope.$index,scope.row)">删除</el-button>
             <el-button type="text"
-                       class="table-show">商家收款码</el-button>
+                       class="table-show"
+                       @click="showList(scope.$index,scope.row)">查看</el-button>
           </template>
         </el-table-column>
-
-        <!-- <el-table-column prop="dState"
-                         label="合同状态">
-          <template slot-scope="scope">
-            <el-switch v-model="scope.row.dState"
-                       :active-value=0
-                       :inactive-value=1
-                       @change="onoffDevice($event,scope.row,4)"
-                       active-color="#13ce66"
-                       inactive-color="#ff4949" />
-          </template>
-        </el-table-column> -->
-
       </el-table>
     </section>
-
     <Pagings :total="total"
              :page="page"
              :pageSize="pageSize"
              @handleSizeChangeSub="handleSizeChange"
              @handleCurrentChangeSub="handleCurrentChange"></Pagings>
 
-             <el-col class="hidden-card"
+    <el-col class="hidden-card"
             :sm="22"
             :md="15"
             :offset="1">
     </el-col>
 
-    <el-dialog :title="addRegisterTitle"
-               :visible.sync="isRegister"
+    <el-dialog :title="addDiscountTitle"
+               :visible.sync="isDiscount"
                :before-close="close"
-               width="600px">
+               width="900px">
       <div class="add-files">
         <el-form :model="form"
                  :rules="rules"
                  ref="form"
+                 :disabled="isDisabled"
                  label-width="auto"
                  label-position="right">
           <el-card class="box-card">
             <div slot="header"
                  class="clearfix">
-              <span>商家信息</span>
+              <span>折扣配置</span>
             </div>
             <el-row :gutter="30">
               <el-col :span="24">
-                <el-form-item label="所属商家:"
-                              prop="affiliatedBusinesses">
-                  <el-select v-model="form.affiliatedBusinesses"
-                             placeholder="请选择所属商家">
-                    <el-option v-for="(item,index) in affiliatedBusinessesOption"
-                               :label="item.label"
-                               :key="index"
-                               :value="item.value"></el-option>
+                <el-form-item label="商家名称:"
+                              prop="businessName">
+                  <el-input v-model="form.businessName"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="12">
+                <el-form-item label="折扣(折):"
+                              prop="discount">
+                  <el-input v-model="form.discount"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="是否启用:"
+                              prop="enable">
+                  <el-select v-model="form.enable">
+                    <el-option label="是"
+                               value="1"></el-option>
+                    <el-option label="否"
+                               value="0"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="30">
-              <el-col :span="24">
-                <el-form-item label="设备名称:"
-                              prop="equipmentName">
-                  <el-input v-model="form.equipmentName"
-                            autocomplete="off"
-                            placeholder="请输入商家手机号"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="30">
-              <el-col :span="24">
-                <el-form-item label="设备编号:"
-                              prop="equipmentNumber">
-                  <el-input v-model="form.equipmentNumber"
+              <el-col :span="12">
+                <el-form-item label="设备编号:">
+                  <el-input v-model="form.deviceNum"
                             autocomplete="off"></el-input>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row :gutter="30">
-              <el-col :span="24">
-                <el-form-item label="设备key:">
-                  <el-input v-model="form.deviceKey"
-                            autocomplete="off"></el-input>
+              <el-col :span="12">
+                <el-form-item label="折扣方向:"
+                              prop="discountDirection">
+                  <el-select v-model="form.discountDirection">
+                    <el-option label="设备折扣"
+                               value="设备折扣"></el-option>
+                    <el-option label="会员折扣"
+                               value="会员折扣"></el-option>
+                  </el-select>
                 </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="30">
-              <el-col :span="24">
-                <el-form-item label="店铺类型:">
-                  <el-input v-model="form.shopType"
-                            autocomplete="off"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="24">
-                <span>店铺类型,如:餐厅消费、小卖部、咖啡厅</span>
               </el-col>
             </el-row>
           </el-card>
@@ -157,7 +153,7 @@
       <div slot="footer"
            class="dialog-footer">
         <el-button class="btn-trans"
-                   @click="isRegister = false ,resetForm('form')">取 消</el-button>
+                   @click="isWhite = false ,resetForm('form')">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="submitForm('form')">确 定</el-button>
       </div>
@@ -173,49 +169,68 @@ export default {
   },
   data () {
     return {
-      listLoading: false,
-      tableData: [
-        {
-          affiliatedBusinesses: '喜茶',
-          equipmentNumber: '21312',
-          equipmentName: '支付宝1号',
-          deviceKey: '0e3d34asd234e099423das',
-          shopType:'奶茶店',
-          id: 1
-        }
-
-      ],
       checkedBox: [],
-      input: '',
+      searchInput: '',
+      listLoading: false,
       page: 1,
       pageSize: 10,
       total: 0,
-      form: {},
-      isRegister: false,
-      addRegisterTitle: '',
-      registerIndex: [],
+      tableData: [
+        {
+          deviceName: 'ccc收款机',
+          businessName: '喜茶',
+          discount: '3.8',
+          creationTime: '2020-03-13',
+          discountDirection: '设备折扣',
+          enable: 1
+        }
+      ],
+      form: {
+        deviceName: '',
+        businessName: '',
+        discount: '',
+        creationTime: '',
+        discountDirection: '',
+        enable: ''
+      },
       rules: {
-        affiliatedBusinesses: [
-          { required: true, message: "请选择所属商家!", trigger: "change" }
+        businessName: [
+          { required: true, message: "请输入名称！", trigger: "blur" },
+          { max: 30, message: "请输入名称！", trigger: "blur" }
         ],
-        equipmentName: [
-          { required: true, message: '请输入设备名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        discountDirection: [
+          { required: true, message: '请选择配置会员', trigger: 'change' }
         ],
-        equipmentNumber: [
-          { required: true, message: '请输入设备编号', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        enable: [
+          { required: true, message: '请选择是否启用', trigger: 'change' }
+        ],
+        discount: [
+          { required: true, message: "请输入折扣！", trigger: "blur" },
+          { min: 1, max: 5, message: "请输入折扣！", trigger: "blur" }
         ],
       },
-      affiliatedBusinessesOption: [
-        {
-          label: 'ccc',
-          value: 'ccc'
-        }
-      ]
+      addDiscountTitle: '',
+      isDiscount: false,
+      isDisabled: false,
+      discountIndex: '',
     }
   },
   methods: {
+    getTimeNow () {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      return currentdate;
+    },
     handleSortChange (col) {
       if (col.prop == null) {
         return;
@@ -223,12 +238,6 @@ export default {
       this.order = (col.order === 'ascending') ? 'asc' : 'desc';
       this.sort = col.prop;
       this.searchDevice();
-    },
-    // context menu
-    handleSelectionChange: function (sels) {
-      window.console.log(sels)
-      this.checkedBox = sels;
-      //console.log(this.ids);
     },
     //fenye
     handleSizeChange (size) {
@@ -238,6 +247,12 @@ export default {
     handleCurrentChange (val) {
       this.page = val;
       this.getDeviceList();
+    },
+    // context menu
+    handleSelectionChange: function (sels) {
+      window.console.log(sels)
+      this.checkedBox = sels;
+      //console.log(this.ids);
     },
     delectAll () {
       this.$confirm("永久删除该文件, 是否继续?", "提示", {
@@ -278,18 +293,33 @@ export default {
       this.$refs['form'].resetFields();
       done();
     },
-    addBusiness (formName) {
-      this.addRegisterTitle = '新增商家'
-      this.form = {}
+    addNewDiscount (formName) {
+      this.isDisabled = false
+      this.addDiscountTitle = '新增折扣'
+      this.form = {
+        deviceName: '',
+        businessName: '',
+        discount: '',
+        creationTime: '',
+        discountDirection: '',
+        enable: ''
+      }
       this.resetForm(formName)
-      this.isRegister = true
+      this.isDiscount = true
     },
     //编辑
     editList (index, item) {
+      this.isDisabled = false
       this.form = { ...item }
-      this.isRegister = true
-      this.addRegisterTitle = '编辑商家'
-      this.registerIndex = index
+      this.isDiscount = true
+      this.addDiscountTitle = '编辑折扣'
+      this.discountIndex = index
+    },
+    showList (index, item) {
+      this.isDisabled = true
+      this.form = { ...item }
+      this.isDiscount = true
+      this.addDiscountTitle = '查看折扣'
     },
     //delete
     handleDelete (index, row) {
@@ -322,12 +352,13 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // alert('submit')
-          if (this.addBusinessTitle == '新增商家') {
+          if (this.addDiscountTitle == '新增折扣') {
+            this.form.creationTime = this.getTimeNow();
             this.tableData.unshift({ ...this.form });
-            this.isRegister = false
-          } else if (this.addBusinessTitle == '编辑商家') {
-            this.tableData[this.registerIndex] = { ...this.form }
-            this.isRegister = false
+            this.isDiscount = false
+          } else if (this.addDiscountTitle == '编辑折扣') {
+            this.tableData[this.discountIndex] = { ...this.form }
+            this.isDiscount = false
           }
         } else {
           // console.log('error submit!!');

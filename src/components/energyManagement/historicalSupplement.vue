@@ -208,7 +208,7 @@
       <div slot="footer"
            class="dialog-footer">
         <el-button class="btn-trans"
-                   @click="resetForm('form')">取 消</el-button>
+                   @click="ishistorical = false ,resetForm('form')">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="submitForm('form')">确 定</el-button>
       </div>

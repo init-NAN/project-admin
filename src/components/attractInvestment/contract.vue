@@ -667,7 +667,7 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="addCustomerVisibel=false"
+        <el-button @click="addCustomerVisibel=false,resetForm ('form')"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="submitForm('form')">确 定</el-button>

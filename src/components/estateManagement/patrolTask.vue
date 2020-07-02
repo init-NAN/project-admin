@@ -166,7 +166,11 @@
                      :total="total">
       </el-pagination>
     </el-col>
-
+<el-col class="hidden-card"
+            :sm="22"
+            :md="15"
+            :offset="1">
+    </el-col>
     <el-dialog title="新建保养巡检计划"
                :visible.sync="isTask">
       <div class="add-files">
@@ -245,7 +249,7 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="isTask = false"
+        <el-button @click="isTask = false,resetForm ('form')"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="addPatrolTask('form')">确 定</el-button>

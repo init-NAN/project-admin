@@ -16,8 +16,6 @@
     </el-row>
 
     <el-form :model="form"
-             :rules="rules"
-             hide-required-asterisk
              label-width="auto"
              label-position="left"
              ref="form">
@@ -192,7 +190,11 @@
                      :total="total">
       </el-pagination>
     </el-col>
-
+<el-col class="hidden-card"
+            :sm="22"
+            :md="15"
+            :offset="1">
+    </el-col>
     <el-dialog title="分派"
                :visible.sync="isInscection"
                width="30%"
@@ -213,7 +215,7 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isInscection = false"
+        <el-button @click="isInscection = false,resetForm ('form')"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="changeRegion('form')">确 定</el-button>
@@ -233,7 +235,7 @@
 
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="isVisit = false"
+        <el-button @click="isVisit = false,resetForm ('form')"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="changeVisit">确 定</el-button>

@@ -26,6 +26,7 @@ export default {
   .el-table .el-button {
     color: #fff;
     background-color: transparent;
+    font-size: 13px;
   }
   .el-table__body tr.hover-row > td {
     background-color: rgba(158, 162, 192, 0.5);
@@ -86,6 +87,9 @@ export default {
     width: 100%;
   }
   .el-radio-group {
+    width: 100%;
+  }
+  .el-date-editor.el-input{
     width: 100%;
   }
   .el-dialog {
@@ -247,6 +251,7 @@ export default {
   .hidden-card {
     height: 100px;
     width: 100%;
+    background-color: transparent;
   }
 }
 </style>

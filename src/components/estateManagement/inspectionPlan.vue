@@ -75,7 +75,7 @@
 
         <el-table-column fixed="right"
                          label="操作"
-                         width="130">
+                         width="150">
           <template slot-scope="scope">
             <el-button type="text"
                          
@@ -106,7 +106,11 @@
                      :total="total">
       </el-pagination>
     </el-col>
-
+<el-col class="hidden-card"
+            :sm="22"
+            :md="15"
+            :offset="1">
+    </el-col>
     <el-dialog :title="inspectionTitle"
                :visible.sync="isInspection"
                :before-close="closeInspection">
@@ -292,7 +296,7 @@
       </div>
       <div slot="footer"
            class="dialog-footer">
-        <el-button @click="isInspection = false"
+        <el-button @click="isInspection = false,resetForm ('form')"
                    class="btn-trans">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="submitForm('form')">确 定</el-button>

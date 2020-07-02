@@ -51,15 +51,13 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text"
-                     size="small"
+                      
                      class="table-show"
                      @click="handleEdit(scope.$index, scope.row)">修改</el-button>
           <el-button type="text"
-                     size="small"
                      class="table-del"
                      @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           <el-button type="text"
-                     size="small"
                      class="table-show"
                      @click="showRole(scope.$index, scope.row)">
             {{scope.row.status=='常规项'?'':'查看'}}
@@ -91,7 +89,7 @@
         <el-card class="box-card margin-bottom">
           <el-form :model="form"
                    :rules="rules"
-                   label-position='left'
+                   label-position='right'
                    label-width="auto"
                    ref="form"
                    :disabled="isDisabled">

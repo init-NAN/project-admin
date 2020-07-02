@@ -86,6 +86,8 @@ const yuanFuTong = () => import('./components/Yuanfutong/yuanFuTong.vue')
 const businessRegistration = () => import('./components/Yuanfutong/businessRegistration.vue')
 const registerForCash = () => import('./components/Yuanfutong/registerForCash.vue')
 const memberInformation = () => import('./components/Yuanfutong/memberInformation.vue')
+const whiteConsumption = ()=> import('./components/Yuanfutong/whiteConsumption.vue')
+const discountConfiguration = ()=> import('./components/Yuanfutong/discountConfiguration.vue')
 
 //产业分析 outputValue enterpriseArchives
 const industryAnalysis = () => import('./components/industryAnalysis/index')
@@ -100,7 +102,8 @@ let routes = [{
     component: Main,
     name: '',
     redirect: '/attractInvestment/overviewAttractInvestment',
-    children: [{
+    children: [
+      {
         path: 'attractInvestment',
         component: attractInvestment,
         name: '',
@@ -298,6 +301,16 @@ let routes = [{
             path: 'memberInformation',
             component: memberInformation,
             title: '会员信息'
+          },
+          {
+            path: 'whiteConsumption',
+            component: whiteConsumption,
+            title: '消费白名单'
+          },
+          {
+            path: 'discountConfiguration',
+            component: discountConfiguration,
+            title: '折扣配置'
           }
         ]
       }, 

@@ -12,6 +12,11 @@ export default {
 
 <style lang="less" scope>
 .wraper {
+  .el-table .el-button {
+    color: #fff;
+    background-color: transparent;
+    font-size: 13px;
+  }
   .main-content {
     .grid-content {
       margin-bottom: 15px;

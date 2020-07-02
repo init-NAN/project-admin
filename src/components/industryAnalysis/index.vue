@@ -12,6 +12,11 @@ export default {
 
 <style lang="less" scope>
 .industry {
+  .el-table .el-button {
+    color: #fff;
+    background-color: transparent;
+    font-size: 13px;
+  }
   .main-content {
     .grid-content {
       margin-bottom: 15px;
@@ -191,40 +196,40 @@ export default {
   .el-tabs__item.is-active {
     color: #4094ff;
   }
-@media only screen and (min-width: 1200px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 40%;
+  @media only screen and (min-width: 1200px) {
+    .main-content {
+      .grid-content {
+        .buttonHead {
+          .right {
+            .searchInput {
+              width: 40%;
+            }
           }
         }
       }
     }
   }
-}
-@media only screen and (max-width: 1200px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 100%;
+  @media only screen and (max-width: 1200px) {
+    .main-content {
+      .grid-content {
+        .buttonHead {
+          .right {
+            .searchInput {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+    .main-content {
+      .grid-content {
+        .buttonHead {
+          .right {
+            margin-top: 10px;
           }
         }
       }
     }
   }
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          margin-top: 10px;
-        }
-      }
-    }
-  }
-}
 }
 </style>

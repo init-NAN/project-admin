@@ -120,7 +120,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="入驻园区:">
+                  <el-form-item label="入驻园区:" prop="enterArea">
                     <el-select v-model="basicForm.enterArea" placeholder="请选择入驻园区" @change="chooseArea">
                       <el-option
                         v-for="item in enterAreaOption"
@@ -139,7 +139,7 @@
               </el-row>
               <el-row type="flex" justify="space-between">
                 <el-col :span="8">
-                  <el-form-item label="入驻时间:">
+                  <el-form-item label="入驻时间:" prop="enterDate">
                     <el-date-picker
                       v-model="basicForm.enterDate"
                       type="date"
@@ -225,7 +225,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="行业大类:">
+                  <el-form-item label="行业大类:" prop="industryBigType">
                     <el-select v-model="basicForm.industryBigType" placeholder="请选择行业大类">
                       <el-option
                         v-for="item in industryBigTypeOption"
@@ -775,6 +775,7 @@ export default {
       showNewEdit:false,
       newEditTile:'',
       fileList:[],
+      arrayIndex:[],
       importForm:{},
       profileForm:{},//企业简介表单
       basicForm:{},//企业基本信息表单
@@ -1056,7 +1057,10 @@ export default {
         companyName:[{ required: true, message: "请输入企业名称", trigger: "blur" }],
         companyStatus:[{ required: true, message: "请选择企业状态", trigger: "blur" }],
         concactName:[{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
-        concactPhone:[{ required: true, message: "请输入联系人电话", trigger: "blur" }]
+        concactPhone:[{ required: true, message: "请输入联系人电话", trigger: "blur" }],
+        enterArea:[{ required: true, message: "请选择入驻园区", trigger: "blur" }],
+        enterDate:[{ required: true, message: "请选择入驻时间", trigger: "blur" }],
+        industryBigType:[{ required: true, message: "请选择行业大类", trigger: "blur" }]
       },
       archivesTable:[
         // enterpriseName industryBigCategory enteringFloor enteringDate enterpriseStatus isRetired
@@ -1106,6 +1110,14 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
       this.selectionLengh = val.length;
+       this.arrayIndex = [];
+      val.forEach((value, index) => {
+　　　　this.archivesTable.forEach((v, i) => {
+          if(value.companyName == v.companyName){
+            this.arrayIndex.push(i)
+          }
+        })
+      })
     },
     handleSizeChange() {
 
@@ -1147,16 +1159,22 @@ export default {
     },
     //保存企业档案
     submitAchivement() {
-      console.log(this.basicForm,'基本信息表单')
-      this.archivesTable.push({...this.basicForm})
-      this.showNewEdit = false
+      if(this.newEditTile == '新增企业档案') {
+        console.log(this.basicForm,'基本信息表单')
+        this.archivesTable.push({...this.basicForm})
+        this.showNewEdit = false
+      } else if(this.newEditTile == '修改企业档案') {
+        let index = this.arrayIndex[0]
+        this.archivesTable[index] = this.basicForm
+        this.showNewEdit = false
+      }
     },
     //修改
     editArchives() {
-      // console.log(this.multipleSelection,'selection')
-      this.resetCompanyForm()
+      // this.resetCompanyForm()
       this.newEditTile = '修改企业档案'
       this.showNewEdit = true
+      this.basicForm = this.multipleSelection[0]
     },
     //删除企业档案
     deleteArchives() {

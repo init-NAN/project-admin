@@ -86,8 +86,12 @@ const yuanFuTong = () => import('./components/Yuanfutong/yuanFuTong.vue')
 const businessRegistration = () => import('./components/Yuanfutong/businessRegistration.vue')
 const registerForCash = () => import('./components/Yuanfutong/registerForCash.vue')
 const memberInformation = () => import('./components/Yuanfutong/memberInformation.vue')
-const whiteConsumption = ()=> import('./components/Yuanfutong/whiteConsumption.vue')
-const discountConfiguration = ()=> import('./components/Yuanfutong/discountConfiguration.vue')
+const whiteConsumption = () => import('./components/Yuanfutong/whiteConsumption.vue')
+const discountConfiguration = () => import('./components/Yuanfutong/discountConfiguration.vue')
+const accountInformation = () => import('./components/Yuanfutong/accountInformation.vue')
+const monthlyFinancialStatements = () => import('./components/Yuanfutong/monthlyFinancialStatements.vue')
+
+
 
 //产业分析 outputValue enterpriseArchives
 const industryAnalysis = () => import('./components/industryAnalysis/index')
@@ -311,9 +315,19 @@ let routes = [{
             path: 'discountConfiguration',
             component: discountConfiguration,
             title: '折扣配置'
+          },
+          {
+            path: 'accountInformation',
+            component: accountInformation,
+            title: '账户信息'
+          },
+          {
+            path: 'monthlyFinancialStatements',
+            component: monthlyFinancialStatements,
+            title: '财务月报表'
           }
         ]
-      }, 
+      },
       {
         path: 'industryAnalysis',
         component: industryAnalysis,

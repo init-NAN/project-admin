@@ -34,9 +34,6 @@
         <el-table-column type="selection"
                          width="55">
         </el-table-column>
-        <el-table-column prop="deviceName"
-                         label="设备名称">
-        </el-table-column>
         <el-table-column prop="businessName"
                          label="商家名称">
         </el-table-column>
@@ -45,6 +42,9 @@
         </el-table-column>
         <el-table-column prop="creationTime"
                          label="创建时间">
+        </el-table-column>
+        <el-table-column prop="discountTimes"
+                         label="折扣次数">
         </el-table-column>
         <el-table-column prop="discountDirection"
                          label="折扣方向">
@@ -101,10 +101,43 @@
             </div>
             <el-row :gutter="30">
               <el-col :span="24">
+                <el-form-item label="配置名称:"
+                              prop="configurationName">
+                  <el-input v-model="form.configurationName"
+                            autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="24">
                 <el-form-item label="商家名称:"
                               prop="businessName">
                   <el-input v-model="form.businessName"
                             autocomplete="off"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="30">
+              <el-col :span="12">
+                <el-form-item label="生效时间:"
+                              prop="startTime">
+                  <el-date-picker v-model="form.startTime"
+                                  type="datetime"
+                                  format="yyyy-MM-dd HH:mm:ss"
+                                  value-format="yyyy-MM-dd HH:mm:ss"
+                                  placeholder="选择日期时间">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="截止时间:"
+                              prop="endTime">
+                  <el-date-picker v-model="form.endTime"
+                                  type="datetime"
+                                  format="yyyy-MM-dd HH:mm:ss"
+                                  value-format="yyyy-MM-dd HH:mm:ss"
+                                  placeholder="选择日期时间">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -128,32 +161,68 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row :gutter="30">
+            <el-row :gutter="30"
+                    class="flex">
               <el-col :span="12">
-                <el-form-item label="设备编号:">
-                  <el-input v-model="form.deviceNum"
-                            autocomplete="off"></el-input>
+                <el-form-item label="不打折:">
+                  <el-checkbox-group v-model="form.checked">
+                    <el-checkbox v-for="item in weeks"
+                                 :label="item"
+                                 :key="item">{{item}}</el-checkbox>
+                  </el-checkbox-group>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="折扣方向:"
-                              prop="discountDirection">
-                  <el-select v-model="form.discountDirection">
-                    <el-option label="设备折扣"
-                               value="设备折扣"></el-option>
-                    <el-option label="会员折扣"
-                               value="会员折扣"></el-option>
-                  </el-select>
+                <el-form-item label="折扣类型:"
+                              class="flex">
+                  <el-radio-group v-model="form.discountDirection">
+                    <el-radio label="设备折扣">设备折扣</el-radio>
+                    <el-radio label="会员折扣">会员折扣</el-radio>
+                    <el-radio label="全部配置">全部配置</el-radio>
+                    <el-radio label="全部设备">全部设备</el-radio>
+                    <el-radio label="全部会员">全部会员</el-radio>
+                    <el-radio label="饭票">饭票</el-radio>
+                  </el-radio-group>
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-row :gutter="30">
+              <el-col :span="12">
+                <el-form-item label="折扣次数:"
+                              v-if="this.form.discountDirection != '会员折扣' && this.form.discountDirection != '全部会员'">
+                  <el-input v-model="form.discountTimes ">
+                    <template slot="append">次</template>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12"
+                      v-if="this.form.discountDirection == '会员折扣' || this.form.discountDirection == '全部会员'">
+                <el-form-item label="消费次数:">
+                  <el-input v-model="form.consumptionTimes">
+                    <template slot="append">次</template>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12"
+                      v-if="this.form.discountDirection == '会员折扣' || this.form.discountDirection == '全部会员'"
+                      class="precautions line-hight-40">
+                <span>*该时间段内能消费多少次,0表示不限制次数</span>
+              </el-col>
+            </el-row>
+            <el-col :span="24"
+                    class="precautions">
+              <span>注意:</span>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;所有配置会员:是,则包含所有折扣会员里面的启用用户,否则不包含里面的用户</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;叠加用户: 指定的白名单会员账号,用英文的逗号隔开,必须是开通了园付通卡号的会员</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;*请谨慎配置该数据内容,配置后只有白名单才能使用消费功能</p>
+            </el-col>
           </el-card>
         </el-form>
       </div>
       <div slot="footer"
            class="dialog-footer">
         <el-button class="btn-trans"
-                   @click="isWhite = false ,resetForm('form')">取 消</el-button>
+                   @click="isDiscount = false ,resetForm('form')">取 消</el-button>
         <el-button class="btn-addmore"
                    @click="submitForm('form')">确 定</el-button>
       </div>
@@ -169,6 +238,7 @@ export default {
   },
   data () {
     return {
+      weeks: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
       checkedBox: [],
       searchInput: '',
       listLoading: false,
@@ -177,23 +247,34 @@ export default {
       total: 0,
       tableData: [
         {
-          deviceName: 'ccc收款机',
+          configurationName: '喜茶促销日',
           businessName: '喜茶',
           discount: '3.8',
           creationTime: '2020-03-13',
+          startTime:'2020-03-14 00:00:00',
+          endTime:'2020-03-14 23:59:59',
+          enable: '1',
+          checked: ['周三','周四'],
           discountDirection: '设备折扣',
-          enable: 1
+          discountTimes: '1',
+          consumptionTimes: ''
         }
       ],
       form: {
-        deviceName: '',
+        configurationName: '',
         businessName: '',
         discount: '',
         creationTime: '',
         discountDirection: '',
-        enable: ''
+        enable: '',
+        checked: [],
+        consumptionTimes: '',
       },
       rules: {
+        configurationName: [
+          { required: true, message: "请输入名称！", trigger: "blur" },
+          { max: 30, message: "请输入名称！", trigger: "blur" }
+        ],
         businessName: [
           { required: true, message: "请输入名称！", trigger: "blur" },
           { max: 30, message: "请输入名称！", trigger: "blur" }
@@ -202,6 +283,12 @@ export default {
           { required: true, message: '请选择配置会员', trigger: 'change' }
         ],
         enable: [
+          { required: true, message: '请选择是否启用', trigger: 'change' }
+        ],
+        startTime: [
+          { required: true, message: '请选择是否启用', trigger: 'change' }
+        ],
+        endTime: [
           { required: true, message: '请选择是否启用', trigger: 'change' }
         ],
         discount: [
@@ -297,12 +384,14 @@ export default {
       this.isDisabled = false
       this.addDiscountTitle = '新增折扣'
       this.form = {
-        deviceName: '',
+        configurationName: '',
         businessName: '',
         discount: '',
         creationTime: '',
         discountDirection: '',
-        enable: ''
+        enable: '',
+        checked: [],
+        consumptionTimes: ''
       }
       this.resetForm(formName)
       this.isDiscount = true
@@ -370,5 +459,31 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scope>
+.discount {
+  .el-radio {
+    display: block;
+    color: #fff !important;
+    line-height: 2;
+  }
+  .el-checkbox {
+    color: #fff !important;
+    line-height: 2;
+  }
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .precautions {
+    span,
+    p {
+      line-height: 24px;
+    }
+    margin-bottom: 20px;
+  }
+  .line-hight-40 {
+    line-height: 40px;
+  }
+}
 </style>

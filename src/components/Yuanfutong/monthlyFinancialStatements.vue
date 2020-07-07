@@ -39,36 +39,60 @@
     <el-table :data="rechargeData"
               v-loading="listLoading"
               ref="table"
+              class="margin-bottom-40 nomalTable"
               :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+
       <el-table-column label="项目"
-                       prop="text"
                        width="150">金额</el-table-column>
 
-      <el-table-column prop="rechargeAmount"
-                       label="充值金额(元)"
-                       width="110"></el-table-column>
+      <el-table-column label="充值金额">
+        <el-table-column prop="cumulativeRecharge"
+                         label="累计充值"></el-table-column>
+        <el-table-column prop="rechargeMonth"
+                         label="本月充值"></el-table-column>
 
-      <el-table-column prop="paymentTime"
-                       label="交易付款时间"
+      </el-table-column>
+
+      <el-table-column label="消费金额">
+        <el-table-column prop="cumulativeConsumption"
+                         label="累计消费"></el-table-column>
+        <el-table-column prop="consumptionMonth"
+                         label="本月消费"></el-table-column>
+
+      </el-table-column>
+
+      <el-table-column prop="balance"
+                       label="未消费金额"
                        width="130"></el-table-column>
 
-      <el-table-column prop="serialNumber"
-                       label="流水号"
-                       width="130"></el-table-column>
-
-      <el-table-column prop="paymentType"
-                       label="支付类型"></el-table-column>
-
-      <el-table-column prop="transactionStatus"
-                       label="交易状态"></el-table-column>
-
-      <el-table-column prop="describe"
-                       label="描述"></el-table-column>
+      <el-table-column prop="memberCardBalance"
+                       label="会员卡余额"></el-table-column>
 
     </el-table>
 
     <el-col :span="24">
       <p class="monthly-title">园付通收支情况表</p>
+    </el-col>
+    <el-table :data="summary"
+              v-loading="listLoading"
+              ref="table2"
+              :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+
+      <el-table-column label="充值途径"
+                       prop="rechargeChannels"></el-table-column>
+
+      <el-table-column prop="cumulativeRecharge"
+                       label="累计充值"></el-table-column>
+
+      <el-table-column prop="rechargeMonth"
+                       label="本月充值"></el-table-column>
+
+    </el-table>
+
+    <el-col class="hidden-card"
+            :sm="22"
+            :md="15"
+            :offset="1">
     </el-col>
   </div>
 </template>
@@ -86,8 +110,39 @@ export default {
       listLoading: false,
       rechargeData: [
         {
-          text: '金额',
-
+          cumulativeRecharge: '0.00',
+          rechargeMonth: '0.00',
+          cumulativeConsumption: '0.00',
+          consumptionMonth: '0.00',
+          balance: '0.00',
+          memberCardBalance: '0.00'
+        }
+      ],
+      summary: [
+        {
+          rechargeChannels: '微信充值',
+          cumulativeRecharge: '0.00',
+          rechargeMonth: '0.00'
+        },
+        {
+          rechargeChannels: '支付宝充值',
+          cumulativeRecharge: '0.00',
+          rechargeMonth: '0.00'
+        },
+        {
+          rechargeChannels: '银行转账',
+          cumulativeRecharge: '0.00',
+          rechargeMonth: '0.00'
+        },
+        {
+          rechargeChannels: '一网通充值',
+          cumulativeRecharge: '0.00',
+          rechargeMonth: '0.00'
+        },
+        {
+          rechargeChannels: '充值合计',
+          cumulativeRecharge: '0.00',
+          rechargeMonth: '0.00'
         }
       ],
 
@@ -108,23 +163,44 @@ export default {
     font-size: 18px;
     color: #e1ffff;
   }
-  .row-0 {
-    .el-table
-      .el-table__body-wrapper
-      .el-table__body
-      > tbody
-      > tr.row-0
-      td
-      .cell {
+  .el-table {
+    border: none;
+    text-align: center;
+  }
+  .el-table--border::after,
+  .el-table--group::after {
+    width: 0;
+  }
+  .nomalTable {
+    .el-table__header-wrapper .el-table__header > thead > tr th .cell {
+      text-align: center;
+    }
+
+    .el-table__body-wrapper .el-table__body > tbody > tr.row-0 td .cell {
+      text-align: center;
+    }
+    .el-table__body-wrapper .el-table__body > tbody > tr.row-0 {
       &:first-child {
-        color: #fff !important ;
-        font-weight: 800 !important;
+        .cell {
+          color: #fff;
+          font-weight: 800;
+        }
       }
     }
-    &:first-child {
-      color: #fff !important ;
-      font-weight: 800 !important;
-    }
+  }
+  .el-table .el-table__header-wrapper .el-table__header > thead > tr th .cell,
+  .el-table .el-table__body-wrapper .el-table__body > tbody > tr.row-0 td .cell,
+  .el-table
+    .el-table__body-wrapper
+    .el-table__body
+    > tbody
+    > tr.row-1
+    td
+    .cell {
+    text-align: center;
+  }
+  .margin-bottom-40 {
+    margin-bottom: 40px;
   }
 }
 </style>

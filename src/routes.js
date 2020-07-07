@@ -90,7 +90,7 @@ const whiteConsumption = () => import('./components/Yuanfutong/whiteConsumption.
 const discountConfiguration = () => import('./components/Yuanfutong/discountConfiguration.vue')
 const accountInformation = () => import('./components/Yuanfutong/accountInformation.vue')
 const monthlyFinancialStatements = () => import('./components/Yuanfutong/monthlyFinancialStatements.vue')
-
+const overviewYuan = () => import('./components/Yuanfutong/overviewYuan.vue')
 
 
 //产业分析
@@ -109,6 +109,16 @@ const meetingManage = () => import('./components/meetingManagement/meetingManage
 const meetingRoomMange = () => import('./components/meetingManagement/meetingRoomMange')
 const meetingType = () => import('./components/meetingManagement/meetingType')
 const meetingEcharts = () => import('./components/meetingManagement/meetingEcharts')
+
+
+
+//智慧停车
+const parkingManagement = ()=>import('./components/parkingManagement/parkingManagement.vue')
+const accessInquiry= ()=>import ('./components/parkingManagement/accessInquiry.vue')
+
+
+
+
 
 let routes = [{
     path: '/',
@@ -297,7 +307,7 @@ let routes = [{
         path: 'yuanFuTong',
         component: yuanFuTong,
         name: '',
-        redirect: '/yuanFuTong/yuanFuTongEcharts',
+        redirect: '/yuanFuTong/overviewYuan',
         title: '园付通',
         iconCls: 'el-icon-user-solid',
         children: [{
@@ -399,6 +409,19 @@ let routes = [{
             title: '会议类型'
           }
         ]
+      },
+      {
+        path: 'parkingManagement',
+        component: parkingManagement,
+        name: '',
+        redirect: '/parkingManagement/parkingEcharts',
+        title: '智慧停车',
+        iconCls: 'el-icon-s-home',
+        children: [{
+          path: 'accessInquiry',
+          component: accessInquiry,
+          title: '出入查询'
+        }]
       }
     ]
   },
@@ -454,6 +477,14 @@ let routes = [{
         children: [{
           path: '/energyManagement/energyEcharts',
           component: energyEcharts
+        }]
+      },
+      {
+        path: '/yuanFuTong',
+        component: yuanFuTong,
+        children: [{
+          path: '/yuanFuTong/overviewYuan',
+          component: overviewYuan
         }]
       },
       {

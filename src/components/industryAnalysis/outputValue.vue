@@ -87,6 +87,8 @@ export default {
       listLoading:false,
       showImportDia:false,
       selectionLengh:0,
+      fileList:[],
+      importForm:{},
       multipleSelection:[],
       archivesTable:[
         {

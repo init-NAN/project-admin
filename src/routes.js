@@ -93,13 +93,22 @@ const monthlyFinancialStatements = () => import('./components/Yuanfutong/monthly
 
 
 
-//产业分析 outputValue enterpriseArchives
+//产业分析
 const industryAnalysis = () => import('./components/industryAnalysis/index')
 const enterpriseArchives = () => import('./components/industryAnalysis/enterpriseArchives')
 const retiredApplication = () => import('./components/industryAnalysis/retiredApplication')
 const outputValue = () => import('./components/industryAnalysis/outputValue')
 const taxRevenue = () => import('./components/industryAnalysis/taxRevenue')
 const industryEcharts = () => import('./components/industryAnalysis/industryEcharts')
+
+//会议管理
+const meetingManagement = () => import('./components/meetingManagement/index')
+const meetingRoomApplication = () => import('./components/meetingManagement/meetingRoomApplication')
+const meetingOverView = () => import('./components/meetingManagement/meetingOverView')
+const meetingManage = () => import('./components/meetingManagement/meetingManage')
+const meetingRoomMange = () => import('./components/meetingManagement/meetingRoomMange')
+const meetingType = () => import('./components/meetingManagement/meetingType')
+const meetingEcharts = () => import('./components/meetingManagement/meetingEcharts')
 
 let routes = [{
     path: '/',
@@ -356,6 +365,40 @@ let routes = [{
             title: '税收采集'
           }
         ]
+      },
+      {
+        path: 'meetingManagement',
+        component: meetingManagement,
+        name: '',
+        redirect: '/meetingManagement/meetingEcharts',
+        title: '会议管理',
+        iconCls: 'el-icon-date',
+        children: [{
+            path: 'meetingRoomApplication',
+            component: meetingRoomApplication,
+            title: '会议申请'
+          },
+          {
+            path: 'meetingOverView',
+            component: meetingOverView,
+            title: '会议室看板'
+          },
+          {
+            path: 'meetingManage',
+            component: meetingManage,
+            title: '会议管理'
+          },
+          {
+            path: 'meetingRoomMange',
+            component: meetingRoomMange,
+            title: '会议室管理'
+          },
+          {
+            path: 'meetingType',
+            component: meetingType,
+            title: '会议类型'
+          }
+        ]
       }
     ]
   },
@@ -419,6 +462,14 @@ let routes = [{
         children: [{
           path: '/industryAnalysis/industryEcharts',
           component: industryEcharts
+        }]
+      },
+      {
+        path: '/meetingManagement',
+        component: meetingManagement,
+        children: [{
+          path: '/meetingManagement/meetingEcharts',
+          component: meetingEcharts
         }]
       }
     ]

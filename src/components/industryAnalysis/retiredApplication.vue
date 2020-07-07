@@ -30,7 +30,7 @@
         :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="companyName" label="企业名称"></el-table-column>
-        <el-table-column prop="industryCategory" label="行业类型"></el-table-column>
+        <el-table-column prop="industryBigType" label="行业类型"></el-table-column>
         <el-table-column prop="enterArea" label="入驻园区"></el-table-column>
         <el-table-column prop="enterDate" label="入驻时间"></el-table-column>
     </el-table>

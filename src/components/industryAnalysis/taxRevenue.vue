@@ -81,6 +81,8 @@ export default {
       pageSize: 10,
       selectionLengh:0,
       multipleSelection:[],
+      fileList:[],
+      importForm:{},
       inputSearch:'',
       isCanEdit:false,
       isCanDelete:true,

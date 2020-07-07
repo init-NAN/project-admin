@@ -62,6 +62,30 @@
         </div>
       </el-col>
     </el-row>
+    <el-row class="overviewItem" type="flex">
+      <el-col :span="12"  class="overviewCard" :offset="1">
+        <div class="cardHead">近期入驻企业及园龄<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardBody">
+          <div>
+            <el-table
+              :data="archivesTable"
+              style="width: 100%"
+              :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
+              <el-table-column prop="enterpriseName" label="企业名称"></el-table-column>
+              <el-table-column prop="date" label="入驻日期"></el-table-column>
+              <el-table-column prop="enterAge" label="园龄(年)"></el-table-column>
+              <el-table-column prop="outputValue" label="产值(万元)"></el-table-column>
+            </el-table>
+          </div>
+        </div>
+      </el-col>
+      <!-- <el-col :span="12" class="overviewCard" :offset="1">
+        <div class="cardHead">企业园龄<i class="el-icon-refresh-right refresh"></i></div>
+        <div class="cardBody">
+          <div style="height:400px;"></div>
+        </div>
+      </el-col> -->
+    </el-row>
     <div style="width:100%;height:120px;"></div>
   </div>
 </template>
@@ -72,6 +96,42 @@ import Refresh from "@/components/common/refresh.vue";
 export default {
   components:{
     Refresh
+  },
+  data() {
+    return {
+      archivesTable:[
+        {
+          enterpriseName:'腾讯',
+          date:'2015-5-20',
+          outputValue:100,
+          enterAge:5
+        },
+        {
+          enterpriseName:'联通',
+          date:'2016-5-21',
+          outputValue:200,
+          enterAge:4
+        },
+        {
+          enterpriseName:'小米',
+          date:'2017-5-28',
+          outputValue:400,
+          enterAge:3
+        },
+        {
+          enterpriseName:'联想',
+          date:'2018-5-28',
+          outputValue:500,
+          enterAge:2
+        },
+        {
+          enterpriseName:'碧桂园',
+          date:'2019-5-28',
+          outputValue:600,
+          enterAge:1
+        },
+      ],
+    }
   },
   mounted() {
     let areaAndOutput = echarts.init(this.$refs.areaAndOutput);
@@ -91,7 +151,7 @@ export default {
         nameTextStyle:{
           color:'#fff'
         },
-        data: ["移动", "腾讯", "联通", "联想", "碧桂园", "小米", "小辣椒"],
+        data: ["移动", "腾讯", "联通", "联想", "碧桂园", "小米", "百度"],
         axisLabel: {
           textStyle: {
             color: "#fff"
@@ -114,22 +174,24 @@ export default {
         {
           name: "产值(万元)",
           type: "bar",
+          barWidth:30,
+          itemStyle:{
+            color:function(params) {
+              let colorList = ["#66d364", "#dce090", "#4949c1", "#00f901", "#1ee9f3","#ffffff","#4487ff"]
+              return colorList[params.dataIndex]
+            }
+          },
           data: [100, 80, 70, 80, 90, 80, 50],
           label: {
             color: "rgba(255, 255, 255, 0.8)"
-          },
-          itemStyle: {
-            color: "#3e7bec",
-            shadowBlur: 200,
-            shadowColor: "rgba(0, 0, 0, 0.5)"
           }
         }
       ]
     };
     areaAndOutput.setOption(optionOutput);
 
-    var taxOverview = echarts.init(this.$refs.taxOverview);
-    var optionTaxOverview = {
+    let taxOverview = echarts.init(this.$refs.taxOverview);
+    let optionTaxOverview = {
       color: ["#66d364", "#dce090", "#4949c1", "#00f901", "#1ee9f3","#ffffff","#4487ff"],
       tooltip: {
         trigger: 'item',
@@ -150,13 +212,13 @@ export default {
           radius: '55%',
           center: ['50%', '60%'],
           data: [
-            { value: 230, name: '移动' },
-            { value: 250, name: '腾讯' },
-            { value: 100, name: '联通' },
-            { value: 130, name: '联想' },
-            { value: 180, name: '碧桂园' },
-            { value: 150, name: '小米' },
-            { value: 200, name: '百度' }
+            { value: 20, name: '移动' },
+            { value: 15, name: '腾讯' },
+            { value: 12, name: '联通' },
+            { value: 13, name: '联想' },
+            { value: 14, name: '碧桂园' },
+            { value: 12, name: '小米' },
+            { value: 9, name: '百度' }
           ],
           emphasis: {
             itemStyle: {
@@ -170,8 +232,8 @@ export default {
     };
     taxOverview.setOption(optionTaxOverview)
 
-    var taxRank = echarts.init(this.$refs.taxRank)
-    var taxRankOption = {
+    let taxRank = echarts.init(this.$refs.taxRank)
+    let taxRankOption = {
       tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -186,16 +248,34 @@ export default {
       },
       xAxis: {
           type: 'value',
-          boundaryGap: [0, 0.01]
+          boundaryGap: [0, 0.01],
+          axisLabel: {
+            textStyle: {
+              color: "#fff"
+            }
+          }
       },
       yAxis: {
           type: 'category',
-          data: ['小米', '碧桂园', '百度', '移动', '腾讯']
+          data: ['联通', '联想', '碧桂园', '腾讯', '移动'],
+          axisLabel: {
+            textStyle: {
+              color: "#fff"
+            }
+          }
       },
       series: [
         {
+          name: "税收(万元)",
           type: 'bar',
-          data: [150,180,200,230,250]
+          barWidth:30,
+          itemStyle:{
+            color:function(params) {
+              let colorList = ["#4949c1","#00f901","#1ee9f3","#dce090","#66d364"]
+              return colorList[params.dataIndex]
+            }
+          },
+          data: [12,13,14,15,20]
         }
       ]
     }

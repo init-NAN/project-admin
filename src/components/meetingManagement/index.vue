@@ -12,6 +12,9 @@ export default {
 
 <style lang="less" scope>
 .meeting {
+  .box-card {
+    margin-bottom: 20px;
+  }
   .el-table .el-button {
     color: #fff;
     background-color: transparent;
@@ -187,40 +190,6 @@ export default {
   .el-select {
     width: 100%;
   }
-  @media only screen and (min-width: 768px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 40%;
-          }
-        }
-      }
-    }
-  }
-}
-@media only screen and (max-width: 768px) {
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          .searchInput {
-            width: 100% !important;
-          }
-        }
-      }
-    }
-  }
-  .main-content {
-    .grid-content {
-      .buttonHead {
-        .right {
-          margin-top: 10px;
-        }
-      }
-    }
-  }
-}
+
 }
 </style>

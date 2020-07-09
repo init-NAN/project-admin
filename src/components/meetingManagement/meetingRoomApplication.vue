@@ -8,10 +8,10 @@
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
           <div class="left">
             <el-button  type="primary" class="btn-addmore el-icon-plus"  @click="apply">申请</el-button>
-            <el-button  type="primary" class="btn-addmore el-icon-edit" :disabled="isCanEdit" @click="editCurrent">修改</el-button>
-            <el-button  type="primary" class="btn-addmore el-icon-delete" :disabled="isCanDelete" @click="deleteMeeting">删除</el-button>
-            <el-button  type="primary" class="btn-addmore">待发</el-button>
-            <el-button  type="primary" class="btn-addmore">已发</el-button>
+            <el-button  type="primary" class="btn-addmore el-icon-edit" :disabled="isDisEdit" @click="editCurrent">修改</el-button>
+            <el-button  type="primary" class="btn-addmore el-icon-delete" :disabled="isDisDelete" @click="deleteMeeting">删除</el-button>
+            <!-- <el-button  type="primary" class="btn-addmore">待发</el-button>
+            <el-button  type="primary" class="btn-addmore">已发</el-button> -->
           </div>
         </el-col>
         <el-col :span="12" :xs="24" :sm="12" :lg="12" :xl="12">
@@ -38,11 +38,6 @@
     </el-table>
     <el-dialog :title="showApplytitle" :visible.sync="showApplication" width="85%">
       <el-form ref="applicationForm" :model="applicationForm" :rules="applicationFormRules" label-width="150px" label-position="right">
-        <div style="display: flex;justify-content: flex-end;margin-bottom:20px;">
-          <el-button class="btn-addmore" @click="sendExamine('applicationForm')">送 办</el-button>
-          <!-- <el-button class="btn-addmore">查看流程</el-button> -->
-          <el-button class="btn-addmore" @click="showApplication = false">返回</el-button>
-        </div>
         <el-card class="box-card">
           <el-row type="flex" justify="space-between">
             <el-col :span="10">
@@ -215,6 +210,10 @@
           </el-row>
         </el-card>
       </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button class="btn-addmore" @click="sendExamine('applicationForm')">送 办</el-button>
+        <el-button class="btn-addmore" @click="showApplication = false">返回</el-button>
+      </span>
     </el-dialog>
     <el-dialog title="人员信息" :visible.sync="showPersons" width="50%">
       <el-transfer
@@ -253,8 +252,8 @@ export default {
       showPersons:false,
       listLoading:false,
       showApplication:false,
-      isCanDelete:true,
-      isCanEdit:true,
+      isDisDelete:true,
+      isDisEdit:true,
       showApplytitle:'',
       selectionLengh:0,
       multipleSelection:[],
@@ -262,7 +261,6 @@ export default {
       applicationForm:{},
       applicationFormRules:{
         meetingTheme:[{required: true, message: "请输入会议主题", trigger: "blur"}],
-        //meetingTheme meetingRoom startEndDate host recorder meetingRemind meetingPersons
         meetingRoom:[{required: true, message: "请选择会议室", trigger: "blur"}],
         startEndDate:[{required: true, message: "请选择会议起始时间", trigger: "blur"}],
         host:[{required: true, message: "请选择主持人", trigger: "blur"}],
@@ -461,7 +459,6 @@ export default {
       });
     },
     sendExamine(formName) {
-      //meetingTheme meetingRoom startEndDate host recorder meetingRemind meetingPersons
       this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$message({
@@ -503,14 +500,14 @@ export default {
   watch:{
     selectionLengh: function(newLen, oldLen) {
       if(newLen != 0) {
-        this.isCanDelete = false
+        this.isDisDelete = false
       } else {
-        this.isCanDelete = true
+        this.isDisDelete = true
       }
       if (newLen === 1) {
-        this.isCanEdit = false;
+        this.isDisEdit = false;
       } else {
-        this.isCanEdit = true;
+        this.isDisEdit = true;
       }
     }
   },

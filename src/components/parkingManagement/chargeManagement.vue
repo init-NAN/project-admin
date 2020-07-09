@@ -1,8 +1,9 @@
 <template>
-  <div class="access">
+  <div class="charge">
     <div class="current-page-title">
-      <span>出入查询</span>
+      <span>收费管理</span>
     </div>
+
     <el-form :model="searchForm"
              label-width="auto"
              label-position="left"
@@ -34,7 +35,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6" :offset="4">
+        <el-col :span="6"
+                :offset="3"
+                class="text-align-right">
           <el-button class="btn-addmore">查询</el-button>
           <el-button class="btn-addmore">重置</el-button>
         </el-col>
@@ -61,6 +64,13 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
+        <el-col :span="7">
+          <el-form-item label="车牌号:">
+            <el-input v-model="searchForm.whitelistName"
+                      autocomplete="off"
+                      placeholder="请输入用户名"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
 
@@ -70,19 +80,12 @@
                 ref="table"
                 @sort-change="handleSortChange"
                 :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}">
-        
-        <el-table-column prop="serialNumber"
-                         label="序号"
-                         width="55">
-        </el-table-column>
+
         <el-table-column prop="parkingLot"
                          label="停车场">
         </el-table-column>
         <el-table-column prop="registrationNumber"
                          label="车牌号">
-        </el-table-column>
-        <el-table-column prop="trafficType"
-                         label="通行类型">
         </el-table-column>
         <el-table-column prop="parkingTime"
                          label="停车时长">
@@ -94,10 +97,10 @@
                          label="出场时间">
         </el-table-column>
         <el-table-column prop="accessTunnel"
-                         label="入场通道">
+                         label="缴费金额">
         </el-table-column>
         <el-table-column prop="exitChannel"
-                         label="出场通道">
+                         label="缴费方式">
         </el-table-column>
       </el-table>
     </section>
@@ -112,7 +115,6 @@
             :md="15"
             :offset="1">
     </el-col>
-
   </div>
 </template>
 
@@ -129,19 +131,7 @@ export default {
       page: 1,
       pageSize: 10,
       total: 1,
-      tableData:[
-        {
-          serialNumber:'1',
-          parkingLot:'明珠城',
-          registrationNumber:'粤A-29391',
-          trafficType:'临时缴费',
-          parkingTime:'31秒',
-          admissionTime:'2020-01-04 13:56:42',
-          outTime:'2020-01-04 13:57:13',
-          accessTunnel:'入口',
-          exitChannel:'出口'
-        }
-      ],
+      tableData: [],
     }
   },
   methods: {
@@ -166,8 +156,8 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-.access {
+<style lang="less" scope>
+.charge {
   .el-input {
     width: 100%;
   }

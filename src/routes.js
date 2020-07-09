@@ -113,12 +113,12 @@ const meetingEcharts = () => import('./components/meetingManagement/meetingEchar
 
 
 //智慧停车
-const parkingManagement = ()=>import('./components/parkingManagement/parkingManagement.vue')
-const accessInquiry= ()=>import ('./components/parkingManagement/accessInquiry.vue')
-
-
-
-
+const parkingManagement = () => import('./components/parkingManagement/parkingManagement.vue')
+const accessInquiry = () => import('./components/parkingManagement/accessInquiry.vue')
+const chargeManagement = () => import('./components/parkingManagement/chargeManagement.vue')
+const monthlyCardManagement = () => import('./components/parkingManagement/monthlyCardManagement.vue')
+const paymentStatistics = () => import('./components/parkingManagement/paymentStatistics.vue')
+const overviewParking = ()=>import ('./components/parkingManagement/overviewParking.vue')
 
 let routes = [{
     path: '/',
@@ -414,14 +414,30 @@ let routes = [{
         path: 'parkingManagement',
         component: parkingManagement,
         name: '',
-        redirect: '/parkingManagement/parkingEcharts',
+        redirect: '/parkingManagement/overviewParking',
         title: '智慧停车',
         iconCls: 'el-icon-s-home',
         children: [{
-          path: 'accessInquiry',
-          component: accessInquiry,
-          title: '出入查询'
-        }]
+            path: 'accessInquiry',
+            component: accessInquiry,
+            title: '出入查询'
+          },
+          {
+            path: 'chargeManagement',
+            component: chargeManagement,
+            title: '收费管理'
+          },
+          {
+            path: 'monthlyCardManagement',
+            component: monthlyCardManagement,
+            title: '月卡管理'
+          },
+          {
+            path: 'paymentStatistics',
+            component: paymentStatistics,
+            title: '缴费统计'
+          },
+        ]
       }
     ]
   },
@@ -501,6 +517,14 @@ let routes = [{
         children: [{
           path: '/meetingManagement/meetingEcharts',
           component: meetingEcharts
+        }]
+      },
+      {
+        path: '/parkingManagement',
+        component: parkingManagement,
+        children: [{
+          path: '/parkingManagement/overviewParking',
+          component: overviewParking
         }]
       }
     ]

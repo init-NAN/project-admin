@@ -241,12 +241,18 @@ export default {
   .el-date-editor--datetimerange.el-input__inner {
     width: 100%;
   }
+  .el-date-editor.el-input {
+    width: 100%;
+  }
   .el-range-input {
     color: #fff;
   }
   .hidden-card {
     height: 100px;
     width: 100%;
+  }
+  .text-align-right {
+    text-align: right;
   }
 }
 </style>

@@ -130,7 +130,6 @@
       </div>
       <div class="echarts"
            ref="overviewParkingCharts">
-
       </div>
     </el-col>
     <el-col class="overview-card"

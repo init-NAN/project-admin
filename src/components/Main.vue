@@ -285,6 +285,15 @@ export default {
   text-align: center;
   width: 100% !important;
 }
+.el-menu--collapse .el-menu .el-submenu, .el-menu--popup {
+  min-width: 150px;
+}
+.el-menu-item,
+.el-menu-item.is-active {
+  padding-left: 30px !important;
+  text-align: left;
+  width: 100px !important;
+}
 .el-submenu {
   height: 85px;
   display: flex;

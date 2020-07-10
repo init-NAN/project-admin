@@ -31,6 +31,15 @@
       <el-table-column prop="desc" label="描述"></el-table-column>
       <el-table-column prop="allowPerson" label="允许发起人"></el-table-column>
     </el-table>
+    <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+    </el-pagination>
     <el-dialog :title="typeTitle" :visible.sync="showTypeDia" width="80%">
       <el-form ref="typeForm" :model="typeForm" :rules="typeFormRules" label-width="150px" label-position="right">
         <el-row>
@@ -96,8 +105,14 @@ export default {
       return data;
     };
     return {
+      total: 0,
+      page: 1,
+      pageSize: 10,
       data: generateData(),
       checkedIndexs:[],
+      selectionLengh:0,
+      multipleSelection:[],
+      arrayIndex:[],
       isDisEdit:true,
       isDisDelete:true,
       listLoading:false,
@@ -129,14 +144,32 @@ export default {
     }
   },
   methods:{
-    handleSelectionChange() {
-      
+    handleSizeChange() {
+    },
+    handleCurrentChange() {
+    },
+    handleSelectionChange(val) {
+      this.arrayIndex = [];
+      this.selectionLengh = val.length
+      this.multipleSelection = val
+      val.forEach(value => {
+        this.meetingTypeTable.forEach((v, i) => {
+          if (value.meetingType == v.meetingType) {
+            this.arrayIndex.push(i);
+          }
+        });
+      });
     },
     save(formName) {
       this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.meetingTypeTable.push(this.typeForm)
-            this.showTypeDia = false
+            if(this.typeTitle == '新增会议类型') {
+              this.meetingTypeTable.push(this.typeForm)
+              this.showTypeDia = false
+            } else if(this.typeTitle == '修改会议类型') {
+              this.meetingTypeTable[this.arrayIndex[0]] = this.typeForm
+              this.showTypeDia = false
+            }
           } else {
             console.log('error submit!!');
             return false;
@@ -160,12 +193,55 @@ export default {
       this.showTypeDia = true
     },
     editCurrent() {
-
+      this.typeTitle = '修改会议类型'
+      this.showTypeDia = true
+      this.typeForm = this.multipleSelection[0]
     },
     deleteSelection() {
-
+      this.$confirm(`确定要删除吗?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        for (let i = 0; i < this.meetingTypeTable.length; i++) {
+          const element = this.meetingTypeTable[i];
+          element.id = i;
+        }
+        this.multipleSelection.forEach(element => {
+          this.meetingTypeTable.forEach((e, i) => {
+            if (element.id == e.id) {
+              this.meetingTypeTable.splice(i,1)
+            }
+          });
+        });
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+      })
+      .catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
     }
-  }
+  },
+  watch:{
+    selectionLengh: function(newLen, oldLen) {
+      if(newLen != 0) {
+        this.isDisDelete = false
+      } else {
+        this.isDisDelete = true
+      }
+      if (newLen === 1) {
+        this.isDisEdit = false;
+      } else {
+        this.isDisEdit = true;
+      }
+    }
+  },
 }
 </script>
 

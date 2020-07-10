@@ -36,6 +36,15 @@
       <el-table-column prop="host" label="主持人"></el-table-column>
       <el-table-column prop="recorder" label="会议记录人"></el-table-column>
     </el-table>
+    <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+    </el-pagination>
     <el-dialog :title="showApplytitle" :visible.sync="showApplication" width="85%">
       <el-form ref="applicationForm" :model="applicationForm" :rules="applicationFormRules" label-width="150px" label-position="right">
         <el-card class="box-card">
@@ -247,6 +256,9 @@ export default {
       return data;
     };
     return {
+      total: 0,
+      page: 1,
+      pageSize: 10,
       data: generateData(),
       checkedIndexs: [],
       showPersons:false,
@@ -416,6 +428,10 @@ export default {
     }
   },
   methods:{
+    handleSizeChange() {
+    },
+    handleCurrentChange() {
+    },
     // 取值树形下拉框
     getValue(value){
       this.valueId = value
@@ -494,7 +510,7 @@ export default {
         })
       })
       this.showPersons = false
-      this.applicationForm.meetingPersons = arr
+      this.applicationForm.meetingPersons = arr.join()
     }
   },
   watch:{

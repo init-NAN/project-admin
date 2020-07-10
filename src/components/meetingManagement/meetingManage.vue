@@ -40,6 +40,15 @@
       <el-table-column prop="host" label="主持人"></el-table-column>
       <el-table-column prop="meetingStatus" label="会议状态"></el-table-column>
     </el-table>
+    <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+    </el-pagination>
     <el-dialog :title="showApplytitle" :visible.sync="showApplication" width="85%">
       <el-form ref="applicationForm" :model="applicationForm" :rules="applicationFormRules" label-width="150px" label-position="right">
          <el-row type="flex" justify="space-between">
@@ -235,6 +244,9 @@ export default {
       return data;
     };
     return {
+      total: 0,
+      page: 1,
+      pageSize: 10,
       data: generateData(),
       checkedIndexs: [],
       isDisDelete:true,
@@ -383,6 +395,10 @@ export default {
     }
   },
   methods:{
+    handleSizeChange() {
+    },
+    handleCurrentChange() {
+    },
     handleSelectionChange(val) {
       this.selectionLengh = val.length
       this.multipleSelection = val

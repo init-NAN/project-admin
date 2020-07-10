@@ -388,11 +388,11 @@ let routes = [{
             component: meetingRoomApplication,
             title: '会议申请'
           },
-          {
-            path: 'meetingOverView',
-            component: meetingOverView,
-            title: '会议室看板'
-          },
+          // {
+          //   path: 'meetingOverView',
+          //   component: meetingOverView,
+          //   title: '会议室看板'
+          // },
           {
             path: 'meetingManage',
             component: meetingManage,

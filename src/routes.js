@@ -120,6 +120,11 @@ const monthlyCardManagement = () => import('./components/parkingManagement/month
 const paymentStatistics = () => import('./components/parkingManagement/paymentStatistics.vue')
 const overviewParking = ()=>import ('./components/parkingManagement/overviewParking.vue')
 
+//设备管理
+const deviceManagement =() => import('./components/deviceManagement/deviceManagement.vue')
+const purchaseRequest = () => import('./components/deviceManagement/purchaseRequest.vue')
+
+
 let routes = [{
     path: '/',
     component: Main,
@@ -436,6 +441,21 @@ let routes = [{
             path: 'paymentStatistics',
             component: paymentStatistics,
             title: '缴费统计'
+          },
+        ]
+      },
+      {
+        path: 'deviceManagement',
+        component: deviceManagement,
+        name: '',
+        redirect: '/deviceManagement/overviewDeviceManagement',
+        title: '设备管理',
+        iconCls: 'el-icon-s-order',
+        children: [
+          {
+            path: 'purchaseRequest',
+            component: purchaseRequest,
+            title: '采购申请'
           },
         ]
       }

@@ -37,9 +37,7 @@
           </el-table-column>
           <el-table-column prop="buildDate" label="创建时间"></el-table-column>
         </el-table>
-      </div>
-    </section>
-    <el-pagination
+        <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="page"
@@ -48,6 +46,9 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
     </el-pagination>
+      </div>
+    </section>
+    
   </div>
 </template>
 

@@ -115,6 +115,7 @@ const monthlyCardManagement = () => import('./components/parkingManagement/month
 const paymentStatistics = () => import('./components/parkingManagement/paymentStatistics.vue')
 const overviewParking = ()=>import ('./components/parkingManagement/overviewParking.vue')
 
+<<<<<<< HEAD
 //服务受理
 const serviceManager = () => import('./components/serviceManager/index')
 const serviceAcceptance = () => import('./components/serviceManager/serviceAcceptance')
@@ -122,6 +123,11 @@ const dataUpLoad = () => import('./components/serviceManager/dataUpLoad')
 const businessGuide = () => import('./components/serviceManager/businessGuide')
 const feedBackDetails = () => import('./components/serviceManager/feedBackDetails')
 const serviceEcharts = () => import('./components/serviceManager/serviceEcharts')
+=======
+//设备管理
+const deviceManagement =() => import('./components/deviceManagement/deviceManagement.vue')
+const purchaseRequest = () => import('./components/deviceManagement/purchaseRequest.vue')
+>>>>>>> db3ace6b1e12d9a9cfd12a9ce9cf4f876565aae8
 
 
 let routes = [{
@@ -444,6 +450,7 @@ let routes = [{
         ]
       },
       {
+<<<<<<< HEAD
         path: 'serviceManager',
         component: serviceManager,
         name: '',
@@ -471,6 +478,20 @@ let routes = [{
             component: feedBackDetails,
             title: '服务反馈'
           }
+=======
+        path: 'deviceManagement',
+        component: deviceManagement,
+        name: '',
+        redirect: '/deviceManagement/overviewDeviceManagement',
+        title: '设备管理',
+        iconCls: 'el-icon-s-order',
+        children: [
+          {
+            path: 'purchaseRequest',
+            component: purchaseRequest,
+            title: '采购申请'
+          },
+>>>>>>> db3ace6b1e12d9a9cfd12a9ce9cf4f876565aae8
         ]
       }
     ]

@@ -123,7 +123,7 @@ const overviewParking = ()=>import ('./components/parkingManagement/overviewPark
 //设备管理
 const deviceManagement =() => import('./components/deviceManagement/deviceManagement.vue')
 const purchaseRequest = () => import('./components/deviceManagement/purchaseRequest.vue')
-
+const  acceptanceApplication = () => import ('./components/deviceManagement/acceptanceApplication.vue')
 
 let routes = [{
     path: '/',
@@ -456,6 +456,11 @@ let routes = [{
             path: 'purchaseRequest',
             component: purchaseRequest,
             title: '采购申请'
+          },
+          {
+            path: 'acceptanceApplication',
+            component: acceptanceApplication ,
+            title: '验收申请'
           },
         ]
       }

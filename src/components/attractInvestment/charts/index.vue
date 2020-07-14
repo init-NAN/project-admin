@@ -91,8 +91,6 @@ export default {
         global: false // 缺省为 false
       }],
       series: [
-
-
         {
           name: '在租',
           type: 'bar',

@@ -273,7 +273,7 @@ export default {
 /* ul */
 .el-menu--collapse {
   width: 100% !important;
-  height: 100%;
+  // height: 100%;
   background: rgba(10, 13, 51, 0.7);
   border-right: none;
 }

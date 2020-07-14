@@ -1,6 +1,6 @@
 <template>
-  <div class="meeting">
-    <router-view></router-view>
+  <div class="serviceAcceptance">
+    <router-view />
   </div>
 </template>
 
@@ -11,10 +11,7 @@ export default {
 </script>
 
 <style lang="less" scope>
-.meeting {
-  .box-card {
-    margin-bottom: 20px;
-  }
+.serviceAcceptance {
   .el-table .el-button {
     color: #fff;
     background-color: transparent;
@@ -23,24 +20,30 @@ export default {
   .main-content {
     .grid-content {
       margin-bottom: 15px;
-      .buttonHead {
-        margin-bottom: 20px;
-        .left {
-          display: flex;
-          justify-content: flex-start;
-        }
-        .right {
-          display: flex;
-          justify-content: flex-end;
-          .searchInput {
-            .el-input__inner {
-              background-color: transparent;
-              border: 1px solid #9ea2c0;
+      display: flex;
+      .table {
+        width: 100%;
+        margin-left: 5px;
+        .buttonHead {
+          margin-bottom: 20px;
+          .left {
+            display: flex;
+            justify-content: flex-start;
+          }
+          .right {
+            display: flex;
+            justify-content: flex-end;
+            .searchInput {
+              .el-input__inner {
+                background-color: transparent;
+                border: 1px solid #9ea2c0;
+              }
+              width: 40%;
             }
-            width: 40%;
           }
         }
       }
+      
     }
   }
   .btn-addmore {
@@ -88,10 +91,27 @@ export default {
   .el-table td {
     border-bottom: none;
   }
+  .el-tree {
+    background-color: rgba(10, 13, 51, 0.7);
+    .el-tree-node {
+      .el-tree-node__content {
+        background-color: rgba(10, 13, 51, 0.7);
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+      &:focus > .el-tree-node__content {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
   .el-dialog {
     background-color: rgba(10, 13, 51, 0.7);
     transform-origin: 141px 134.563px;
     .el-form {
+      .el-card {
+        margin-bottom: 20px;
+      }
       .superiorOrganization {
         .el-select {
           width: 100%;
@@ -189,6 +209,47 @@ export default {
   }
   .el-select {
     width: 100%;
+  }
+  .el-tabs__item {
+    color: rgba(255, 255, 255, 1);
+  }
+  .el-tabs__item.is-active {
+    color: #4094ff;
+  }
+  @media only screen and (min-width: 768px) {
+    .main-content {
+      .grid-content {
+        .buttonHead {
+          .right {
+            .searchInput {
+              width: 40%;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 768px) {
+    .main-content {
+      .grid-content {
+        .buttonHead {
+          .right {
+            .searchInput {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+    .main-content {
+      .grid-content {
+        .buttonHead {
+          .right {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
   }
 }
 </style>

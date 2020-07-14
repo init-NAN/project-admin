@@ -737,6 +737,7 @@ export default {
       this.changeDateForm.handoverDate = "";
       let index = this.arrayIndex.length - 1;
       this.changeDateIndex = this.arrayIndex[index];
+      this.changeDateForm.handoverDate = this.tableData[this.changeDateIndex].handoverDate
       this.isShowChangeDateDialog = true;
     },
     //删除按钮

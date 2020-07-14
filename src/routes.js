@@ -79,8 +79,6 @@ const installationManagement = () => import('./components/energyManagement/insta
 const meterReading = () => import('./components/energyManagement/meterReading')
 const historicalSupplement = () => import('./components/energyManagement/historicalSupplement')
 
-
-
 //园付通
 const yuanFuTong = () => import('./components/Yuanfutong/yuanFuTong.vue')
 const businessRegistration = () => import('./components/Yuanfutong/businessRegistration.vue')
@@ -91,7 +89,6 @@ const discountConfiguration = () => import('./components/Yuanfutong/discountConf
 const accountInformation = () => import('./components/Yuanfutong/accountInformation.vue')
 const monthlyFinancialStatements = () => import('./components/Yuanfutong/monthlyFinancialStatements.vue')
 const overviewYuan = () => import('./components/Yuanfutong/overviewYuan.vue')
-
 
 //产业分析
 const industryAnalysis = () => import('./components/industryAnalysis/index')
@@ -110,8 +107,6 @@ const meetingRoomMange = () => import('./components/meetingManagement/meetingRoo
 const meetingType = () => import('./components/meetingManagement/meetingType')
 const meetingEcharts = () => import('./components/meetingManagement/meetingEcharts')
 
-
-
 //智慧停车
 const parkingManagement = () => import('./components/parkingManagement/parkingManagement.vue')
 const accessInquiry = () => import('./components/parkingManagement/accessInquiry.vue')
@@ -120,6 +115,13 @@ const monthlyCardManagement = () => import('./components/parkingManagement/month
 const paymentStatistics = () => import('./components/parkingManagement/paymentStatistics.vue')
 const overviewParking = ()=>import ('./components/parkingManagement/overviewParking.vue')
 
+//服务受理
+const serviceManager = () => import('./components/serviceManager/index')
+const serviceAcceptance = () => import('./components/serviceManager/serviceAcceptance')
+const dataUpLoad = () => import('./components/serviceManager/dataUpLoad')
+const businessGuide = () => import('./components/serviceManager/businessGuide')
+const feedBackDetails = () => import('./components/serviceManager/feedBackDetails')
+const serviceEcharts = () => import('./components/serviceManager/serviceEcharts')
 //设备管理
 const deviceManagement =() => import('./components/deviceManagement/deviceManagement.vue')
 const purchaseRequest = () => import('./components/deviceManagement/purchaseRequest.vue')
@@ -445,6 +447,36 @@ let routes = [{
         ]
       },
       {
+        path: 'serviceManager',
+        component: serviceManager,
+        name: '',
+        redirect: '/serviceManager/serviceEcharts',
+        title: '服务管理',
+        iconCls: 'el-icon-mouse',
+        children:[
+          {
+            path: 'serviceAcceptance',
+            component: serviceAcceptance,
+            title: '服务受理'
+          },
+          {
+            path: 'dataUpLoad',
+            component: dataUpLoad,
+            title: '资料上传'
+          },
+          {
+            path: 'businessGuide',
+            component: businessGuide,
+            title: '办事指南'
+          },
+          {
+            path: 'feedBackDetails',
+            component: feedBackDetails,
+            title: '服务反馈'
+          }
+        ]
+      },
+      {
         path: 'deviceManagement',
         component: deviceManagement,
         name: '',
@@ -550,6 +582,14 @@ let routes = [{
         children: [{
           path: '/parkingManagement/overviewParking',
           component: overviewParking
+        }]
+      },
+      {
+        path: '/serviceManager',
+        component: serviceManager,
+        children: [{
+          path: '/serviceManager/serviceEcharts',
+          component: serviceEcharts
         }]
       }
     ]

@@ -646,6 +646,7 @@ export default {
       this.changeDateForm.receiveDate = "";
       let index = this.arrayIndex.length - 1;
       this.changeDateIndex = this.arrayIndex[index];
+      this.changeDateForm.receiveDate = this.tableData[this.changeDateIndex].receiveDate
       this.isShowChangeDateDialog = true;
     },
     cancelChangeDate(formName) {

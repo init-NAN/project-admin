@@ -29,6 +29,32 @@ export default {
           .left {
             display: flex;
             justify-content: flex-start;
+            .state {
+              .ul-list {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                padding-left: 0;
+                li {
+                  margin-right: 20px;
+                  line-height: 38px;
+                  list-style: none;
+                  color: rgba(255, 255, 255, 0.7);
+                  cursor: pointer;
+                  padding: 0 5px;
+                  border-radius: 4px;
+                }
+                .active {
+                  color: #409eff;
+                  background-color: rgba(0, 0, 0, 0.7);
+                }
+              }
+              .stateTxt {
+                color: #ffffff;
+                line-height: 38px;
+                margin-right: 5px;
+              }
+            }
           }
           .right {
             display: flex;
@@ -46,6 +72,7 @@ export default {
       
     }
   }
+  
   .btn-addmore {
     border: none;
     background: linear-gradient(
@@ -86,7 +113,7 @@ export default {
   }
   .el-table th,
   .el-table tr {
-    background-color: rgba(0, 0, 0);
+    background-color: transparent;
   }
   .el-table td {
     border-bottom: none;

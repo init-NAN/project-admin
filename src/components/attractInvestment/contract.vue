@@ -1059,7 +1059,7 @@ export default {
       });
     },
     searchContract (val) {
-      console.log(val)
+      window.console.log(val)
     },
     //tabs切换
     toclick (tab, event) {

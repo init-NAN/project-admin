@@ -298,71 +298,143 @@
     </el-dialog>
     <el-dialog title="装修申请" :visible.sync="showZxDia" width="85%">
       <el-form ref="bxForm" :model="zxForm" :rules="bxFormRules" label-width="auto">
-        <el-row type="flex" justify="space-between">
-          <el-col :span="10">
-            <el-form-item label="申请企业">
-              <el-input v-model="zxForm.companyName" placeholder="请输入企业名称"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item label="申请时间">
-              <el-date-picker
-                v-model="zxForm.applyDate"
-                type="date"
-                placeholder="选择日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row type="flex" justify="space-between">
-          <el-col :span="10">
-            <el-form-item label="楼栋房间号">
-              <el-input v-model="zxForm.floor"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item label="装修面积(m²)">
-              <el-input v-model="zxForm.floorArea"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row type="flex" justify="space-between">
-          <el-col :span="10">
-            <el-form-item label="经办人">
-              <el-input v-model="zxForm.handlePerson"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item label="经办人电话">
-              <el-input v-model="zxForm.handlePhone"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row type="flex" justify="space-between">
-          <el-col :span="10">
-            <el-form-item label="施工单位名称">
-              <el-input v-model="zxForm.workOrgan"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item label="装修合同金额(元)">
-              <el-input v-model="zxForm.contractMoney"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row type="flex" justify="space-between">
-          <el-col :span="10">
-            <el-form-item label="装修起始时间">
-              <el-date-picker
-                v-model="zxForm.startEndDate"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <el-card>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="申请企业">
+                <el-input v-model="zxForm.companyName" placeholder="请输入企业名称"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="申请时间">
+                <el-date-picker
+                  v-model="zxForm.applyDate"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="楼栋房间号">
+                <el-input v-model="zxForm.floor"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="装修面积(m²)">
+                <el-input v-model="zxForm.floorArea"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="经办人">
+                <el-input v-model="zxForm.handlePerson"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="经办人电话">
+                <el-input v-model="zxForm.handlePhone"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="施工单位名称">
+                <el-input v-model="zxForm.workOrgan"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="装修合同金额(元)">
+                <el-input v-model="zxForm.contractMoney"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="装修起始时间">
+                <el-date-picker
+                  v-model="zxForm.startEndDate"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-card>
+        <el-card>
+          <el-button type="text" @click="add">新建</el-button>
+          <el-row>
+            <el-col :span="24">
+              <el-table
+                :data="decorationTable.data"
+                style="width: 100%;margin:auto"
+                :row-class-name="function(row){return ('row-'+ row.rowIndex % 2) ;}"
+              >
+                <el-table-column type="index"></el-table-column>
+                <el-table-column
+                  v-for="(item,index) in decorationTable.columns"
+                  :label="item.label"
+                  :prop="item.prop"
+                  :width="item.width"
+                  :key="index"
+                >
+                <template slot-scope="scope">
+                  <span v-if="scope.row.isSet">
+                    <el-input size="mini" placeholder="请输入内容" v-model="decorationTable.sel[item.prop]"></el-input>
+                  </span>
+                  <span v-else>{{scope.row[item.prop]}}</span>
+                </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-button type="text"
+                      class="table-show"
+                      @click.stop="saveRow(scope.row,scope.$index)"
+                    >保存</el-button>
+                    <el-button type="text"
+                      class="table-show"
+                      @click="editRow(scope.row,scope.$index)"
+                    >编辑</el-button>
+                    <el-button type="text"
+                      class="table-del"
+                      @click="deleteRow(scope.$index,decorationTable.data)"
+                    >删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-col>
+          </el-row>
+        </el-card>
+        <el-card>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="备注">
+                <el-input v-model="zxForm.note"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="附件">
+                <el-upload
+                  class="upload-demo"
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove" 
+                  accept=".doc, .docx"
+                  :before-remove="beforeRemove"
+                  multiple
+                  :limit="1"
+                  :on-exceed="handleExceed"
+                  :file-list="fileList">
+                  <el-button type="primary" class="btn-addmore" style="margin-left:8px;">上传附件</el-button>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-card>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button class="btn-addmore">送 办</el-button>
@@ -566,7 +638,26 @@ export default {
           contractMoney:10000
         },
         zxFormRules:{},
-        
+        //装修表(动态添加)
+        decorationTable: {
+          sel: null, //选中行
+          columns: [
+            {
+              prop: "project",
+              label: "项目",
+
+            },
+            {
+              prop: "decorateContent",
+              label: "装修内容"
+            },
+            {
+              prop: "note",
+              label: "备注"
+            }
+          ],
+          data: []
+        },
         listLoading:false,
         total: 0,
         page: 1,
@@ -628,6 +719,42 @@ export default {
           this.$message.warning('当前限制选择1个文件');
       },
       //文件上传--end
+      //新增修改删除保存（装修动态表）--start
+      add() {
+        for (let i of this.decorationTable.data) {
+          if (i.isSet) return this.$message.error("请先保存当前编辑项");
+        }
+        let j = {
+          index: "",
+          project:"",
+          decorateContent:"",
+          note:"",
+          isSet: true
+        };
+        this.decorationTable.data.push(j);
+        this.decorationTable.sel = JSON.parse(JSON.stringify(j));
+      },
+      saveRow(row, index) {
+        //保存
+        let data = JSON.parse(JSON.stringify(this.decorationTable.sel));
+        for (let k in data) {
+          row[k] = data[k];
+        }
+        row.isSet = false;
+      },
+      editRow(row) {
+        //编辑
+        for (let i of this.decorationTable.data) {
+          if (i.isSet) return this.$message.error("请先保存当前编辑项");
+        }
+        this.decorationTable.sel = row;
+        row.isSet = true;
+      },
+      deleteRow(index, rows) {
+        //删除
+        rows.splice(index, 1);
+      },
+      //新增修改删除保存（装修动态表）--end
       handleSizeChange() {
       },
       handleCurrentChange() {

@@ -113,7 +113,7 @@ export default {
   }
   .el-table th,
   .el-table tr {
-    background-color: rgba(0, 0, 0);
+    background-color: transparent;
   }
   .el-table td {
     border-bottom: none;

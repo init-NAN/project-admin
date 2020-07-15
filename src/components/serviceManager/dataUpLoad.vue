@@ -1,6 +1,6 @@
 <template>
   <div>
-    资料上传
+    上传
   </div>
 </template>
 

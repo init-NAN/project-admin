@@ -217,7 +217,7 @@
       </span>
     </el-dialog>
     <el-dialog title="物业报修" :visible.sync="showBxDia" width="85%">
-      <el-form ref="bxForm" :model="bxForm" :rules="bxFormRules" label-width="auto">
+      <el-form ref="bxForm" :model="bxForm" :rules="bxFormRules" label-width="120px" label-position="right">
         <el-row type="flex" justify="space-between">
           <el-col :span="10">
             <el-form-item label="企业名称">
@@ -297,7 +297,7 @@
       </span>
     </el-dialog>
     <el-dialog title="装修申请" :visible.sync="showZxDia" width="85%">
-      <el-form ref="bxForm" :model="zxForm" :rules="bxFormRules" label-width="auto">
+      <el-form ref="bxForm" :model="zxForm" :rules="bxFormRules" label-width="120px" label-position="right">
         <el-card>
           <el-row type="flex" justify="space-between">
             <el-col :span="10">
@@ -434,11 +434,178 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="受理人">
+                <el-select v-model="zxForm.handler" placeholder="请选择受理人">
+                  <el-option
+                    v-for="item in handlerOption"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="受理时间">
+                <el-date-picker
+                  v-model="zxForm.handleDate"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="受理意见">
+                <el-input type="textarea" v-model="zxForm.handleOpinion"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="领导审批意见">
+                <el-input type="textarea" v-model="zxForm.handleOpinion"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="紧急程度">
+                <el-select v-model="zxForm.urgent" placeholder="请选择受理紧急程度">
+                  <el-option
+                    v-for="item in urgentOption"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="办理情况">
+                <el-radio v-model="zxForm.isHandle" label="1">是</el-radio>
+                <el-radio v-model="zxForm.isHandle" label="2">否</el-radio>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10">
+              <el-form-item label="回复时间">
+                <el-date-picker
+                  v-model="zxForm.reviewDate"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="办理回复">
+                <el-input type="textarea"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-card>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button class="btn-addmore">送 办</el-button>
         <el-button @click="showZxDia = false" class="btn-addmore">返 回</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="入园申请" :visible.sync="showRyDia" width="85%">
+      <el-form ref="ryForm" :model="ryForm" :rules="ryFormRules" label-width="120px" label-position="right">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="企业名称">
+              <el-input v-model="ryForm.companyNmae"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="申请时间">
+                <el-date-picker
+                  v-model="ryForm.applyDate"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="联系人姓名">
+              <el-input v-model="ryForm.concactName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="联系人职务">
+              <el-input v-model="ryForm.concactPosition"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="联系电话">
+              <el-input v-model="ryForm.concactPhone"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="email">
+              <el-input v-model="ryForm.email"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="需求办公面积">
+              <el-input v-model="ryForm.officeArea"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="主营业务">
+              <el-input v-model="ryForm.mainBusiness"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="企业简介">
+              <el-input v-model="ryForm.briefIntroduction"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="附件">
+                <el-upload
+                  class="upload-demo"
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove" 
+                  accept=".doc, .docx"
+                  :before-remove="beforeRemove"
+                  multiple
+                  :limit="1"
+                  :on-exceed="handleExceed"
+                  :file-list="fileList">
+                  <el-button type="primary" class="btn-addmore" style="margin-left:8px;">上传附件</el-button>
+                </el-upload>
+              </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="10">
+            <el-form-item label="招商中心意见">
+              <el-input v-model="ryForm.businessOpinion"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="物业管理">
+              <el-input v-model="ryForm.propertyManager"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button class="btn-addmore">送 办</el-button>
+        <el-button @click="showRyDia = false" class="btn-addmore">返 回</el-button>
       </span>
     </el-dialog>
   </div>
@@ -628,7 +795,7 @@ export default {
         ],
         showZxDia:false,
         zxForm:{
-          companyName:'小米',
+          companyName:'移动',
           applyDate:'2020-5-20',
           floor:'明珠商城101',
           floorArea:100,
@@ -638,6 +805,34 @@ export default {
           contractMoney:10000
         },
         zxFormRules:{},
+        urgentOption:[
+          {
+            value:0,
+            label:'轻微'
+          },
+          {
+            value:1,
+            label:'一般'
+          },
+          {
+            value:2,
+            label:'紧急'
+          }
+        ],
+        handlerOption:[
+          {
+            value:0,
+            label:'张三'
+          },
+          {
+            value:1,
+            label:'李四'
+          },
+          {
+            value:2,
+            label:'王五'
+          }
+        ],
         //装修表(动态添加)
         decorationTable: {
           sel: null, //选中行
@@ -658,6 +853,21 @@ export default {
           ],
           data: []
         },
+        showRyDia:false,
+        ryForm:{
+          companyNmae:'阿里',
+          applyDate:'2020-5-20',
+          concactName:'张三'
+        },
+        ryFormRules:{},
+        serviceTable_ry:[
+          {
+            companyName:'阿里',
+            title:'入园申请',
+            handleStatus:0,//0 待受理； 1 受理中； 1 已受理；
+            buildDate:'2020-5-18 12:30'
+          }
+        ],
         listLoading:false,
         total: 0,
         page: 1,
@@ -673,7 +883,8 @@ export default {
       getItem(index) {
         this.activeClass = index
       },
-      handleNodeClick(data) {
+      handleNodeClick(data, event) {
+        console.log(event,'event')
         console.log(data)
         let label = data.label
         this.currentLabel = label
@@ -685,6 +896,8 @@ export default {
           this.serviceTable = this.serviceTable_bx
         } else if(label == '装修申请') {
           this.serviceTable = this.serviceTable_zx
+        } else if(label == '入园申请') {
+          this.serviceTable = this.serviceTable_ry
         }
       },
       //审批
@@ -698,6 +911,8 @@ export default {
           this.showBxDia = true
         } else if(this.currentLabel == '装修申请') {
           this.showZxDia = true
+        } else if(this.currentLabel == '入园申请') {
+          this.showRyDia = true
         }
       },
       handleSelectionChange(val) {

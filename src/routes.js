@@ -46,8 +46,6 @@ const ownerEcharts = () => import('./components/ownerService/ownerEcharts.vue')
 
 //物业管理
 const estateManagement = () => import('./components/estateManagement/estateManagement.vue')
-//设备档案
-const equipmentFiles = () => import('./components/estateManagement/equipmentFiles.vue')
 //保养巡检计划
 const inspectionPlan = () => import('./components/estateManagement/inspectionPlan.vue')
 //保养巡检任务
@@ -125,7 +123,11 @@ const serviceEcharts = () => import('./components/serviceManager/serviceEcharts'
 //设备管理
 const deviceManagement =() => import('./components/deviceManagement/deviceManagement.vue')
 const purchaseRequest = () => import('./components/deviceManagement/purchaseRequest.vue')
-const  acceptanceApplication = () => import ('./components/deviceManagement/acceptanceApplication.vue')
+const acceptanceApplication = () => import ('./components/deviceManagement/acceptanceApplication.vue')
+const warehousingDocuments = () => import('./components/deviceManagement/warehousingDocuments.vue')
+//设备档案
+const equipmentFiles = () => import('./components/deviceManagement/equipmentFiles.vue')
+const overviewDeviceManagement = () => import('./components/deviceManagement/overviewDeviceManagement.vue')
 
 let routes = [{
     path: '/',
@@ -215,11 +217,7 @@ let routes = [{
         name: '',
         title: '物业报修',
         iconCls: 'el-icon-video-play',
-        children: [{
-            path: 'equipmentFiles',
-            component: equipmentFiles,
-            title: '设备档案',
-          },
+        children: [
           {
             path: 'inspectionPlan',
             component: inspectionPlan,
@@ -494,6 +492,16 @@ let routes = [{
             component: acceptanceApplication ,
             title: '验收申请'
           },
+          {
+            path: 'warehousingDocuments',
+            component: warehousingDocuments ,
+            title: '入库单据'
+          },
+          {
+            path: 'equipmentFiles',
+            component: equipmentFiles,
+            title: '设备档案',
+          },
         ]
       }
     ]
@@ -590,6 +598,14 @@ let routes = [{
         children: [{
           path: '/serviceManager/serviceEcharts',
           component: serviceEcharts
+        }]
+      },
+      {
+        path:'/deviceManagement',
+        component:deviceManagement,
+        children:[{
+          path:'/deviceManagement/overviewDeviceManagement',
+          component:overviewDeviceManagement
         }]
       }
     ]

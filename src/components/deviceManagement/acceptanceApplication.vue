@@ -47,7 +47,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column fixed="right" label="操作" width="130">
+        <el-table-column label="操作" width="130">
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -81,7 +81,7 @@
       width="1200px"
     >
       <div class="add-files">
-        <el-form :model="form" :rules="rules" ref="form" label-width="auto" label-position="right">
+        <el-form :model="form" :rules="rules" ref="form" label-position="right" label-width="120px">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>设备验收表</span>
@@ -327,21 +327,7 @@ export default {
       page: 1,
       pageSize: 10,
       total: 0,
-      tableData: [
-        {
-          submissionMark: "",
-          applicationStatus: "",
-          documentCode: "",
-          purchaseDate: "",
-          acceptanceDate: "",
-          devicename: "",
-          specification: "",
-          userDepartment: "",
-          departmentPeople: "",
-          deviceTypes: "",
-          acceptanceQuantity: ""
-        }
-      ],
+      tableData: [],
       form: {
         submissionMark: "",
         applicationStatus: "",
@@ -358,7 +344,8 @@ export default {
       isAcceptance: false,
       addacceptanceTitle: "",
       activeName: "设备信息",
-      rules: {}
+      rules: {},
+      acceptanceIndex: ""
     };
   },
   methods: {
@@ -423,7 +410,7 @@ export default {
       done();
     },
     addNewAcceptance(formName) {
-      this.addacceptanceTitle = "新增采购清单";
+      this.addacceptanceTitle = "新增申请";
       this.form = {
         submissionMark: "",
         applicationStatus: "",
@@ -439,6 +426,29 @@ export default {
       };
       this.resetForm(formName);
       this.isAcceptance = true;
+    },
+    editList(index, item) {
+      this.form = { ...item };
+      this.isAcceptance = true;
+      this.addacceptanceTitle = "编辑申请";
+      this.acceptanceIndex = index;
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // alert('submit')
+          if (this.addacceptanceTitle == "新增申请") {
+            this.tableData.unshift({ ...this.form });
+            this.isAcceptance = false;
+          } else if (this.addacceptanceTitle == "编辑申请") {
+            this.tableData[this.acceptanceIndex] = { ...this.form };
+            this.isAcceptance = false;
+          }
+        } else {
+          // console.log('error submit!!');
+          return false;
+        }
+      });
     }
   }
 };
